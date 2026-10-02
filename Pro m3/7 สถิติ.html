@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกวิเคราะห์แผนภาพกล่อง - DEK MORTON STUDIO</title>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --accent: #06b6d4;
+            --accent2: #ec4899;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 16px;
+        }
+
+        .header h1 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .brand {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 10px 12px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .boxplot-wrapper {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .label-group {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-a {
+            color: var(--accent);
+        }
+
+        .badge-b {
+            color: var(--accent2);
+        }
+
+        .boxplot-container {
+            position: relative;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .box-graphics {
+            position: relative;
+            height: 40px;
+            margin: 0 40px;
+        }
+
+        .whisker {
+            position: absolute;
+            top: 19px;
+            height: 2px;
+        }
+
+        .box {
+            position: absolute;
+            top: 5px;
+            height: 28px;
+            border-radius: 4px;
+        }
+
+        .median-line {
+            position: absolute;
+            top: 5px;
+            width: 2px;
+            height: 28px;
+            background: var(--warning);
+        }
+
+        .dot-minmax {
+            position: absolute;
+            top: 16px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        .set-a .whisker {
+            background: var(--accent);
+        }
+
+        .set-a .box {
+            background: rgba(6, 182, 212, 0.2);
+            border: 2px solid var(--accent);
+        }
+
+        .set-a .dot-minmax {
+            background: var(--accent);
+        }
+
+        .set-b .whisker {
+            background: var(--accent2);
+        }
+
+        .set-b .box {
+            background: rgba(236, 72, 153, 0.2);
+            border: 2px solid var(--accent2);
+        }
+
+        .set-b .dot-minmax {
+            background: var(--accent2);
+        }
+
+        /* แกนสเกลตัวเลขด้านล่าง */
+        .axis-container {
+            position: relative;
+            height: 35px;
+            margin: 10px 40px 0 40px;
+            border-top: 2px solid #64748b;
+        }
+
+        .axis-tick {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 6px;
+            background: #64748b;
+            transform: translateX(-50%);
+        }
+
+        .axis-label {
+            position: absolute;
+            top: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transform: translateX(-50%);
+            font-weight: bold;
+        }
+
+        .question-box {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 14px;
+            color: #f8fafc;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.98rem;
+        }
+
+        .option-btn:hover {
+            background: #475569;
+        }
+
+        .option-btn.correct {
+            background: var(--success);
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: var(--danger);
+        }
+
+        .solution-box {
+            display: none;
+            background: #0f172a;
+            border: 1px solid var(--warning);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .solution-title {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .solution-step {
+            margin-bottom: 8px;
+            padding-left: 12px;
+            border-left: 3px solid var(--warning);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #0f172a;
+            display: none;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.05rem;
+            min-height: 24px;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>โปรแกรมฝึกวิเคราะห์แผนภาพกล่อง</h1>
+            <div class="brand">DEK MORTON STUDIO</div>
+        </div>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" id="mode1Btn" onclick="switchMode(1)">1. อ่านค่าองค์ประกอบ</button>
+            <button class="mode-btn" id="mode2Btn" onclick="switchMode(2)">2. คำนวณ IQR / การกระจาย</button>
+            <button class="mode-btn" id="mode3Btn" onclick="switchMode(3)">3. เปรียบเทียบ 2 แผนภาพ</button>
+        </div>
+
+        <div class="boxplot-wrapper">
+            <div class="label-group badge-a" id="labelAGroup">🟦 ชุดข้อมูล A: <span id="dataAStr"></span></div>
+            <div class="boxplot-container set-a">
+                <div class="box-graphics" id="boxGraphicsA"></div>
+            </div>
+
+            <div class="label-group badge-b" id="labelBGroup" style="margin-top: 15px; display: none;">🟪 ชุดข้อมูล B:
+                <span id="dataBStr"></span></div>
+            <div class="boxplot-container set-b" id="boxBContainer" style="display: none;">
+                <div class="box-graphics" id="boxGraphicsB"></div>
+            </div>
+
+            <!-- แกนสเกลตัวเลขระบุตำแหน่ง -->
+            <div class="axis-container" id="axisContainer"></div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="questionText">กำลังโหลดคำถาม...</div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="solution-box" id="solutionBox">
+            <div class="solution-title">💡 เฉลยวิธีคิดอย่างละเอียด:</div>
+            <div id="solutionText"></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-warning" id="btnSolution" onclick="toggleSolution()">💡 ดูวิธีคิด</button>
+            <button class="btn btn-primary" onclick="generateNewProblem()">สุ่มโจทย์ใหม่</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let statsA = {}, statsB = {};
+        let currentSolutionHTML = "";
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function calculateStats(arr) {
+            arr.sort((a, b) => a - b);
+            let n = arr.length;
+            let min = arr[0];
+            let max = arr[n - 1];
+            let median = getMedian(arr, 0, n - 1);
+
+            let midIdx = Math.floor(n / 2);
+            let lowerHalf = arr.slice(0, midIdx);
+            let upperHalf = (n % 2 === 0) ? arr.slice(midIdx) : arr.slice(midIdx + 1);
+
+            let q1 = getMedian(lowerHalf, 0, lowerHalf.length - 1);
+            let q3 = getMedian(upperHalf, 0, upperHalf.length - 1);
+            let iqr = q3 - q1;
+            let range = max - min;
+
+            return { min, q1, median, q3, max, iqr, range, arr, lowerHalf, upperHalf };
+        }
+
+        function getMedian(arr, start, end) {
+            let length = end - start + 1;
+            let mid = start + Math.floor(length / 2);
+            return (length % 2 === 0) ? (arr[mid - 1] + arr[mid]) / 2 : arr[mid];
+        }
+
+        function generateDataSet() {
+            let base = getRandomInt(10, 30);
+            let raw = [];
+            for (let i = 0; i < 9; i++) {
+                base += getRandomInt(2, 6);
+                raw.push(base);
+            }
+            return raw;
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === mode);
+            });
+
+            let showB = (mode === 3);
+            document.getElementById('labelBGroup').style.display = showB ? 'flex' : 'none';
+            document.getElementById('boxBContainer').style.display = showB ? 'block' : 'none';
+            document.getElementById('labelAGroup').innerHTML = showB ? '🟦 ชุดข้อมูล A: <span id="dataAStr"></span>' : 'ชุดข้อมูล: <span id="dataAStr"></span>';
+
+            generateNewProblem();
+        }
+
+        function generateNewProblem() {
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('solutionBox').style.display = 'none';
+            document.getElementById('btnSolution').style.display = 'none';
+
+            statsA = calculateStats(generateDataSet());
+            document.getElementById('dataAStr').innerText = statsA.arr.join(', ');
+
+            let globalMin, globalMax;
+
+            if (currentMode === 3) {
+                statsB = calculateStats(generateDataSet());
+                document.getElementById('dataBStr').innerText = statsB.arr.join(', ');
+
+                globalMin = Math.min(statsA.min, statsB.min) - 5;
+                globalMax = Math.max(statsA.max, statsB.max) + 5;
+
+                renderBoxPlot('boxGraphicsA', statsA, globalMin, globalMax);
+                renderBoxPlot('boxGraphicsB', statsB, globalMin, globalMax);
+            } else {
+                globalMin = statsA.min - 5;
+                globalMax = statsA.max + 5;
+                renderBoxPlot('boxGraphicsA', statsA, globalMin, globalMax);
+            }
+
+            renderAxis(globalMin, globalMax);
+            buildQuestionByMode();
+        }
+
+        function renderBoxPlot(elementId, stats, globalMin, globalMax) {
+            let container = document.getElementById(elementId);
+            let range = globalMax - globalMin;
+            let getPct = (val) => ((val - globalMin) / range) * 100;
+
+            let pMin = getPct(stats.min);
+            let pQ1 = getPct(stats.q1);
+            let pMed = getPct(stats.median);
+            let pQ3 = getPct(stats.q3);
+            let pMax = getPct(stats.max);
+
+            container.innerHTML = `
+            <div class="whisker" style="left: ${pMin}%; width: ${pQ1 - pMin}%;"></div>
+            <div class="whisker" style="left: ${pQ3}%; width: ${pMax - pQ3}%;"></div>
+            <div class="box" style="left: ${pQ1}%; width: ${pQ3 - pQ1}%;"></div>
+            <div class="median-line" style="left: ${pMed}%;"></div>
+            <div class="dot-minmax" style="left: ${pMin}%;"></div>
+            <div class="dot-minmax" style="left: ${pMax}%;"></div>
+        `;
+        }
+
+        // ฟังก์ชันวาดแกนสเกลตัวเลขตรงพิกัดจริง
+        function renderAxis(min, max) {
+            let axis = document.getElementById('axisContainer');
+            axis.innerHTML = '';
+            let step = Math.ceil((max - min) / 8); // แบ่งประมาณ 8 ช่องสเกล
+
+            for (let v = Math.floor(min / 5) * 5; v <= max; v += 5) {
+                if (v >= min && v <= max) {
+                    let pct = ((v - min) / (max - min)) * 100;
+                    let tick = document.createElement('div');
+                    tick.className = 'axis-tick';
+                    tick.style.left = `${pct}%`;
+
+                    let label = document.createElement('div');
+                    label.className = 'axis-label';
+                    label.style.left = `${pct}%`;
+                    label.innerText = v;
+
+                    axis.appendChild(tick);
+                    axis.appendChild(label);
+                }
+            }
+        }
+
+        function buildQuestionByMode() {
+            let qText = "";
+            let correctAnswer = "";
+            let options = [];
+
+            if (currentMode === 1) {
+                let subType = getRandomInt(1, 3);
+                if (subType === 1) {
+                    qText = `จากแผนภาพกล่อง ควอร์ไทล์ที่ 2 (มัธยฐาน หรือ Q₂) มีค่าเท่ากับเท่าใด?`;
+                    correctAnswer = `${statsA.median}`;
+                    options = [`${statsA.median}`, `${statsA.q1}`, `${statsA.q3}`, `${statsA.min}`];
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. ดูเส้นสีส้มตรงกลางกล่อง หรือเรียงข้อมูล [${statsA.arr.join(', ')}]</div>
+                    <div class="solution-step">2. ค่ากลาง (มัธยฐาน) ตรงกับสเกลตัวเลข: <b>${statsA.median}</b></div>
+                `;
+                } else if (subType === 2) {
+                    qText = `จากแผนภาพกล่อง ควอร์ไทล์ที่ 1 (Q₁) มีค่าเท่ากับเท่าใด?`;
+                    correctAnswer = `${statsA.q1}`;
+                    options = [`${statsA.q1}`, `${statsA.median}`, `${statsA.q3}`, `${statsA.min}`];
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. ดูขอบซ้ายของกล่องสี่เหลี่ยม</div>
+                    <div class="solution-step">2. ตรงกับสเกลตัวเลข Q₁ = <b>${statsA.q1}</b></div>
+                `;
+                } else {
+                    qText = `ข้อมูลที่มีค่าน้อยกว่าควอร์ไทล์ที่ 3 (Q₃) คิดเป็นประมาณกี่เปอร์เซ็นต์ของข้อมูลทั้งหมด?`;
+                    correctAnswer = "75%";
+                    options = ["25%", "50%", "75%", "100%"];
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. แผนภาพกล่องแบ่งข้อมูลออกเป็น <b>4 ส่วนเท่าๆ กัน</b> ส่วนละ 25%</div>
+                    <div class="solution-step">2. ช่วงค่าน้อยสุดถึง Q₃ รวมเป็น 3 ส่วนแรก = <b>75%</b></div>
+                `;
+                }
+
+            } else if (currentMode === 2) {
+                let subType = getRandomInt(1, 2);
+                if (subType === 1) {
+                    qText = `พิสัยระหว่างควอร์ไทล์ (Interquartile Range: IQR = Q₃ - Q₁) ของข้อมูลชุดนี้มีค่าเท่าไร?`;
+                    correctAnswer = `${statsA.iqr}`;
+                    options = [`${statsA.iqr}`, `${statsA.range}`, `${statsA.q3}`, `${statsA.median}`];
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. ดูตำแหน่ง Q₁ (ขอบซ้าย) = <b>${statsA.q1}</b></div>
+                    <div class="solution-step">2. ดูตำแหน่ง Q₃ (ขอบขวา) = <b>${statsA.q3}</b></div>
+                    <div class="solution-step">3. IQR = Q₃ - Q₁ = ${statsA.q3} - ${statsA.q1} = <b>${statsA.iqr}</b></div>
+                `;
+                } else {
+                    qText = `พิสัย (Range = ค่าสูงสุด - ค่าน้อยสุด) ของข้อมูลชุดนี้มีค่าเท่าไร?`;
+                    correctAnswer = `${statsA.range}`;
+                    options = [`${statsA.range}`, `${statsA.iqr}`, `${statsA.max}`, `${statsA.q3}`];
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. จุดMin = <b>${statsA.min}</b>, จุดMax = <b>${statsA.max}</b></div>
+                    <div class="solution-step">2. พิสัย = ${statsA.max} - ${statsA.min} = <b>${statsA.range}</b></div>
+                `;
+                }
+
+            } else {
+                let subType = getRandomInt(1, 2);
+                if (subType === 1) {
+                    qText = `จากการเปรียบเทียบแผนภาพกล่องทั้งสอง ชุดข้อมูลใดมี<b>ค่ากลาง (มัธยฐาน) สูงกว่ากัน</b> และสูงกว่าอยู่เท่าใด?`;
+                    let diff = Math.abs(statsA.median - statsB.median);
+                    if (statsA.median > statsB.median) {
+                        correctAnswer = `ชุด A สูงกว่าอยู่ ${diff}`;
+                    } else if (statsB.median > statsA.median) {
+                        correctAnswer = `ชุด B สูงกว่าอยู่ ${diff}`;
+                    } else {
+                        correctAnswer = `ทั้งสองชุดเท่ากัน`;
+                    }
+
+                    options = [
+                        `ชุด A สูงกว่าอยู่ ${diff}`,
+                        `ชุด B สูงกว่าอยู่ ${diff}`,
+                        `ทั้งสองชุดเท่ากัน`,
+                        `ชุด A สูงกว่าอยู่ ${diff + 2}`
+                    ];
+
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. เทียบมัธยฐานบนแกนสเกล: ชุด A = <b>${statsA.median}</b>, ชุด B = <b>${statsB.median}</b></div>
+                    <div class="solution-step">2. ผลต่าง = ${statsA.median > statsB.median ? `ชุด A สูงกว่าอยู่ ${statsA.median} - ${statsB.median} = <b>${diff}</b>` : statsB.median > statsA.median ? `ชุด B สูงกว่าอยู่ ${statsB.median} - ${statsA.median} = <b>${diff}</b>` : `เท่ากันที่ <b>${statsA.median}</b>`}</div>
+                `;
+                } else {
+                    qText = `ชุดข้อมูลใดมีการ<b>กระจายของข้อมูลช่วงกลาง (IQR) มากกว่ากัน</b>?`;
+                    if (statsA.iqr > statsB.iqr) {
+                        correctAnswer = `ชุด A กระจายมากกว่า (IQR = ${statsA.iqr})`;
+                    } else if (statsB.iqr > statsA.iqr) {
+                        correctAnswer = `ชุด B กระจายมากกว่า (IQR = ${statsB.iqr})`;
+                    } else {
+                        correctAnswer = `กระจายเท่ากัน (IQR = ${statsA.iqr})`;
+                    }
+
+                    options = [
+                        `ชุด A กระจายมากกว่า (IQR = ${statsA.iqr})`,
+                        `ชุด B กระจายมากกว่า (IQR = ${statsB.iqr})`,
+                        `กระจายเท่ากัน (IQR = ${statsA.iqr})`,
+                        `ไม่สามารถสรุปได้จากแผนภาพกล่อง`
+                    ];
+
+                    currentSolutionHTML = `
+                    <div class="solution-step">1. ดูความกว้างกล่องบนสเกล: ชุด A (IQR = <b>${statsA.iqr}</b>), ชุด B (IQR = <b>${statsB.iqr}</b>)</div>
+                    <div class="solution-step">2. ตอบ <b>${correctAnswer}</b></div>
+                `;
+                }
+            }
+
+            options = [...new Set(options)];
+            while (options.length < 4) {
+                let dummy = typeof statsA.median === 'number' ? statsA.median + getRandomInt(-5, 5) : "50%";
+                if (!options.includes(dummy)) options.push(`${dummy}`);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            document.getElementById('questionText').innerHTML = qText;
+            let optContainer = document.getElementById('optionsContainer');
+            optContainer.innerHTML = '';
+
+            options.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAns(btn, opt, correctAnswer);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function checkAns(button, selected, correct) {
+            let feedback = document.getElementById('feedback');
+            let allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (String(selected) === String(correct)) {
+                button.classList.add('correct');
+                feedback.style.color = 'var(--success)';
+                feedback.innerText = '🎉 ถูกต้องเก่งมาก!';
+            } else {
+                button.classList.add('incorrect');
+                feedback.style.color = 'var(--danger)';
+                feedback.innerText = `❌ ยังไม่ถูกต้อง (คำตอบที่ถูกคือ ${correct})`;
+                allBtns.forEach(b => {
+                    if (String(b.innerText) === String(correct)) b.classList.add('correct');
+                });
+            }
+
+            document.getElementById('btnSolution').style.display = 'inline-block';
+        }
+
+        function toggleSolution() {
+            let box = document.getElementById('solutionBox');
+            let solText = document.getElementById('solutionText');
+
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                solText.innerHTML = currentSolutionHTML;
+                box.style.display = 'block';
+            }
+        }
+
+        switchMode(1);
+    </script>
+
+</body>
+
+</html>

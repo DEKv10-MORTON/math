@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dek Morton Studio - Multi-step Math Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .active-step-target {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+        }
+
+        /* จัดการไม่ให้ MathJax ล้นขอบ */
+        .math-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        .mjx-chtml {
+            font-size: 110% !important;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 h-screen overflow-hidden flex flex-col">
+
+    <!-- Header Panel -->
+    <header class="bg-slate-800/90 border-b border-slate-700 px-6 py-3 flex justify-between items-center shrink-0">
+        <div class="flex items-center space-x-3">
+            <h1 class="text-xl font-bold text-indigo-400 tracking-wide">Dek Morton Studio</h1>
+            <span class="text-slate-500">|</span>
+            <span class="text-sm text-slate-300 font-medium">คอร์สคณิตศาสตร์ ม.3: แยกตัวประกอบพหุนามกำลังสาม</span>
+        </div>
+        <!-- เปลี่ยนจาก Equation Workspace v2.1 เป็น Level 1 -->
+        <span
+            class="bg-indigo-900/60 text-indigo-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-indigo-700/50 tracking-wider">
+            Level 1
+        </span>
+    </header>
+
+    <!-- Main Split Container -->
+    <div class="flex flex-1 h-[calc(100vh-57px)] overflow-hidden">
+
+        <!-- LEFT PANEL: FIXED EQUATION EDITOR -->
+        <aside
+            class="w-80 md:w-96 bg-slate-800/95 border-r border-slate-700 p-5 flex flex-col shrink-0 shadow-2xl z-10">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-base font-bold text-slate-200">Equation Editor</h2>
+                <button onclick="clearEditor()"
+                    class="text-xs text-rose-400 hover:text-rose-300 underline">ล้างช่องพิมพ์</button>
+            </div>
+
+            <!-- Text Input -->
+            <div class="mb-3">
+                <textarea id="eq-input" rows="3"
+                    class="w-full bg-slate-900 border border-indigo-500/50 rounded-xl p-3 text-lg font-mono text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                    placeholder="พิมพ์สูตรที่นี่ หรือใช้ปุ่มด้านล่าง..."></textarea>
+            </div>
+
+            <!-- Preview Box -->
+            <div
+                class="bg-slate-900/80 border border-slate-700 rounded-xl p-3 mb-4 min-h-[60px] flex items-center justify-center text-center math-container">
+                <div id="eq-preview" class="text-xl text-indigo-300 font-semibold">\(\text{พรีวิวสมการ}\)</div>
+            </div>
+
+            <!-- Keypad Buttons -->
+            <div class="flex-1 overflow-y-auto space-y-3">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">ปุ่มสัญลักษณ์พื้นฐาน</div>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="insertSymbol('+')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">+</button>
+                    <button onclick="insertSymbol('-')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">-</button>
+                    <button onclick="insertSymbol('\\times ')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">×</button>
+                    <button onclick="insertSymbol('\\div ')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">÷</button>
+                    <button onclick="insertSymbol('=')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">=</button>
+                    <button onclick="insertSymbol('x')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-indigo-300 py-2 rounded-lg text-lg font-semibold italic transition">x</button>
+                    <button onclick="insertSymbol('(')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">(</button>
+                    <button onclick="insertSymbol(')')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-lg font-bold transition">)</button>
+                </div>
+
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">ตัวยกกำลัง</div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="insertSymbol('^{2}')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-sm font-medium transition">a<sup>2</sup></button>
+                    <button onclick="insertSymbol('^{3}')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-sm font-medium transition">a<sup>3</sup></button>
+                    <button onclick="insertSymbol('^{x}')"
+                        class="bg-slate-700/60 hover:bg-slate-600 text-slate-200 py-2 rounded-lg text-sm font-medium transition">a<sup>x</sup></button>
+                </div>
+            </div>
+
+            <!-- Send Value Button -->
+            <div class="pt-3 border-t border-slate-700 mt-auto">
+                <button onclick="sendToSelectedStep()"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2">
+                    <span>ส่งค่าไปยังช่องตอบที่เลือก</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: SCROLLABLE WORKSPACE -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <!-- Left Sub-column: Problem & Steps -->
+                <div class="lg:col-span-7 space-y-6">
+
+                    <!-- Problem Card -->
+                    <div
+                        class="bg-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400">โจทย์แบบฝึกหัด
+                            </h2>
+                            <button onclick="generateRandomProblem()"
+                                class="flex items-center space-x-1.5 text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3.5 py-2 rounded-lg transition shadow-md shadow-indigo-600/20">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                    </path>
+                                </svg>
+                                <span>สุ่มโจทย์ใหม่ (ไม่จำกัด)</span>
+                            </button>
+                        </div>
+                        <div
+                            class="bg-slate-900/80 rounded-xl p-4 text-center border border-slate-700/60 math-container">
+                            <div id="problem-display" class="text-2xl md:text-3xl font-bold text-indigo-200">
+                                $$P(x) = x^3 - 5x^2 - 36x + 180$$
+                            </div>
+                        </div>
+                        <div
+                            class="mt-3 bg-amber-950/30 border border-amber-600/30 rounded-xl p-3 text-xs text-amber-200/90">
+                            💡 <strong>วิธีทำ:</strong> คลิกช่องกรอกในแต่ละ Step เพื่อเลือกเป้าหมาย แล้วใช้ Equation
+                            Editor ทางซ้ายส่งคำตอบมาวาง
+                        </div>
+                    </div>
+
+                    <!-- Steps Box -->
+                    <div class="space-y-4">
+
+                        <!-- STEP 1 -->
+                        <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 shadow-xl space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="text-sm font-semibold text-slate-200">ขั้นที่ 1:
+                                    ใส่กลุ่มจับคู่พจน์หน้า-หลัง</span>
+                            </div>
+                            <div id="target-step1" onclick="selectTarget('step1')"
+                                class="bg-slate-900 min-h-[64px] border-2 border-dashed border-slate-600 rounded-xl p-4 cursor-pointer flex items-center justify-center transition active-step-target math-container">
+                                <div id="display-step1" class="text-lg text-slate-400 font-medium text-center">
+                                    [ คลิกเพื่อเลือกช่องนี้ แล้วส่งค่าจาก Equation Editor ]
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="checkStep(1)"
+                                    class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2 rounded-lg text-xs transition">ตรวจ
+                                    Step 1</button>
+                            </div>
+                            <div id="fb-step1" class="hidden text-sm text-center py-2 rounded-lg font-medium"></div>
+                        </div>
+
+                        <!-- STEP 2 -->
+                        <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 shadow-xl space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                <span class="text-sm font-semibold text-slate-200">ขั้นที่ 2:
+                                    ดึงตัวร่วมออกมาไว้หน้าแต่ละคู่</span>
+                            </div>
+                            <div id="target-step2" onclick="selectTarget('step2')"
+                                class="bg-slate-900 min-h-[64px] border-2 border-dashed border-slate-600 rounded-xl p-4 cursor-pointer flex items-center justify-center transition math-container">
+                                <div id="display-step2" class="text-lg text-slate-400 font-medium text-center">
+                                    [ คลิกเพื่อเลือกช่องนี้ แล้วส่งค่าจาก Equation Editor ]
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="checkStep(2)"
+                                    class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2 rounded-lg text-xs transition">ตรวจ
+                                    Step 2</button>
+                            </div>
+                            <div id="fb-step2" class="hidden text-sm text-center py-2 rounded-lg font-medium"></div>
+                        </div>
+
+                        <!-- STEP 3 -->
+                        <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 shadow-xl space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                <span class="text-sm font-semibold text-slate-200">ขั้นที่ 3:
+                                    ดึงวงเล็บร่วมก้อนใหญ่</span>
+                            </div>
+                            <div id="target-step3" onclick="selectTarget('step3')"
+                                class="bg-slate-900 min-h-[64px] border-2 border-dashed border-slate-600 rounded-xl p-4 cursor-pointer flex items-center justify-center transition math-container">
+                                <div id="display-step3" class="text-lg text-slate-400 font-medium text-center">
+                                    [ คลิกเพื่อเลือกช่องนี้ แล้วส่งค่าจาก Equation Editor ]
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="checkStep(3)"
+                                    class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2 rounded-lg text-xs transition">ตรวจ
+                                    Step 3</button>
+                            </div>
+                            <div id="fb-step3" class="hidden text-sm text-center py-2 rounded-lg font-medium"></div>
+                        </div>
+
+                        <!-- STEP 4 -->
+                        <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 shadow-xl space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                <span class="text-sm font-semibold text-slate-200">ขั้นที่ 4: แยกต่อด้วยผลต่างกำลังสอง
+                                    (คำตอบสุดท้าย)</span>
+                            </div>
+                            <div id="target-step4" onclick="selectTarget('step4')"
+                                class="bg-slate-900 min-h-[64px] border-2 border-dashed border-slate-600 rounded-xl p-4 cursor-pointer flex items-center justify-center transition math-container">
+                                <div id="display-step4" class="text-lg text-slate-400 font-medium text-center">
+                                    [ คลิกเพื่อเลือกช่องนี้ แล้วส่งค่าจาก Equation Editor ]
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="checkStep(4)"
+                                    class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-5 py-2 rounded-lg text-xs transition">ตรวจคำตอบสุดท้าย</button>
+                            </div>
+                            <div id="fb-step4" class="hidden text-sm text-center py-2 rounded-lg font-medium"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right Sub-column: Toggleable Solution Drawer -->
+                <div class="lg:col-span-5">
+                    <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 shadow-xl sticky top-0 space-y-4">
+
+                        <!-- Toggle Button -->
+                        <button onclick="toggleSolution()"
+                            class="w-full flex justify-between items-center bg-slate-900 hover:bg-slate-900/80 border border-slate-700 p-3.5 rounded-xl transition text-left">
+                            <span class="text-sm font-bold text-indigo-300 flex items-center space-x-2">
+                                <span>💡 เฉลยรายละเอียด 4 ขั้นตอน</span>
+                            </span>
+                            <!-- ปรับลูกศรเริ่มต้นชี้ลง (ปิดอยู่) -->
+                            <svg id="sol-arrow"
+                                class="w-4 h-4 text-slate-400 transform transition-transform duration-300" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Solution Content (ใส่คลาส hidden ไว้แต่แรก) -->
+                        <div id="sol-drawer" class="hidden space-y-3 transition-all duration-300">
+                            <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-700/60 math-container">
+                                <span class="text-xs text-indigo-400 font-semibold">1. จับคู่พจน์หน้า-หลัง</span>
+                                <div id="sol-1" class="text-center text-slate-200 text-base font-semibold mt-1"></div>
+                            </div>
+
+                            <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-700/60 math-container">
+                                <span class="text-xs text-indigo-400 font-semibold">2. ดึงตัวร่วมแต่ละคู่</span>
+                                <div id="sol-2" class="text-center text-slate-200 text-base font-semibold mt-1"></div>
+                            </div>
+
+                            <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-700/60 math-container">
+                                <span class="text-xs text-indigo-400 font-semibold">3. ดึงวงเล็บร่วมก้อนใหญ่</span>
+                                <div id="sol-3" class="text-center text-slate-200 text-base font-semibold mt-1"></div>
+                            </div>
+
+                            <div class="bg-emerald-950/30 rounded-xl p-3 border border-emerald-600/30 math-container">
+                                <span class="text-xs text-emerald-400 font-semibold">4. แยกผลต่างกำลังสอง</span>
+                                <div id="sol-4" class="text-center text-emerald-300 text-base font-bold mt-1"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 text-center border-t border-slate-700/50">
+                            <p class="text-[11px] text-slate-500">Dek Morton Studio — Grade 9 Math System</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Script Logic -->
+    <script>
+        let selectedStep = 'step1';
+        let isSolOpen = false; // กำหนดค่าเริ่มต้นเป็นซ่อนเฉลย (false)
+        let currentProblem = {};
+        const stepValues = { step1: '', step2: '', step3: '', step4: '' };
+
+        const eqInput = document.getElementById('eq-input');
+        const eqPreview = document.getElementById('eq-preview');
+
+        // สุ่มโจทย์อัตโนมัติ
+        function generateRandomProblem() {
+            const a = Math.floor(Math.random() * 5) + 2;
+            let b = Math.floor(Math.random() * 4) + 2;
+            if (a === b) b += 1;
+
+            const bSq = b * b;
+            const abSq = a * bSq;
+
+            currentProblem = {
+                a: a,
+                b: b,
+                bSq: bSq,
+                abSq: abSq,
+                texProblem: `P(x) = x^3 - ${a}x^2 - ${bSq}x + ${abSq}`,
+                sol1: `(x^3 - ${a}x^2) - (${bSq}x - ${abSq})`,
+                sol2: `x^2(x - ${a}) - ${bSq}(x - ${a})`,
+                sol3: `(x - ${a})(x^2 - ${bSq})`,
+                sol4: `(x - ${a})(x - ${b})(x + ${b})`,
+
+                factorsStep4: [`(x-${a})`, `(x-${b})`, `(x+${b})`]
+            };
+
+            document.getElementById('problem-display').innerHTML = `$$${currentProblem.texProblem}$$`;
+
+            document.getElementById('sol-1').innerHTML = `$$${currentProblem.sol1}$$`;
+            document.getElementById('sol-2').innerHTML = `$$${currentProblem.sol2}$$`;
+            document.getElementById('sol-3').innerHTML = `$$${currentProblem.sol3}$$`;
+            document.getElementById('sol-4').innerHTML = `$$${currentProblem.sol4}$$`;
+
+            ['step1', 'step2', 'step3', 'step4'].forEach(s => {
+                stepValues[s] = '';
+                const displayEl = document.getElementById(`display-${s}`);
+                displayEl.innerHTML = '[ คลิกเพื่อเลือกช่องนี้ แล้วส่งค่าจาก Equation Editor ]';
+                displayEl.className = 'text-lg text-slate-400 font-medium text-center';
+
+                const fb = document.getElementById(`fb-${s}`);
+                fb.className = 'hidden text-sm text-center py-2 rounded-lg font-medium';
+                fb.innerText = '';
+            });
+
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function toggleSolution() {
+            const drawer = document.getElementById('sol-drawer');
+            const arrow = document.getElementById('sol-arrow');
+            isSolOpen = !isSolOpen;
+            if (isSolOpen) {
+                drawer.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                drawer.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        eqInput.addEventListener('input', updatePreview);
+
+        function updatePreview() {
+            const val = eqInput.value.trim();
+            eqPreview.innerHTML = val === '' ? '\\(\\text{พรีวิวสมการ} \\)' : `\\[ ${val} \\]`;
+            if (window.MathJax) MathJax.typesetPromise([eqPreview]);
+        }
+
+        function insertSymbol(sym) {
+            eqInput.value += sym;
+            updatePreview();
+            eqInput.focus();
+        }
+
+        function clearEditor() {
+            eqInput.value = '';
+            updatePreview();
+        }
+
+        function selectTarget(step) {
+            selectedStep = step;
+            ['step1', 'step2', 'step3', 'step4'].forEach(s => {
+                const el = document.getElementById(`target-${s}`);
+                if (s === step) el.classList.add('active-step-target');
+                else el.classList.remove('active-step-target');
+            });
+        }
+
+        function sendToSelectedStep() {
+            const rawVal = eqInput.value.trim();
+            if (!rawVal) return;
+
+            stepValues[selectedStep] = rawVal;
+            const displayEl = document.getElementById(`display-${selectedStep}`);
+            displayEl.innerHTML = `\\[ ${rawVal} \\]`;
+            displayEl.className = 'text-lg text-indigo-200 font-bold text-center';
+
+            if (window.MathJax) MathJax.typesetPromise([displayEl]);
+        }
+
+        function normalizeLaTeX(str) {
+            if (!str) return '';
+            return str.toLowerCase()
+                .replace(/\s+/g, '')
+                .replace(/[\{\}]/g, '')
+                .replace(/\\cdot|\\times/g, '')
+                .replace(/\\left|\\right/g, '')
+                .replace(/\*/g, '');
+        }
+
+        function checkStep(stepNum) {
+            const stepKey = `step${stepNum}`;
+            const userRaw = stepValues[stepKey];
+            const userNorm = normalizeLaTeX(userRaw);
+            const fb = document.getElementById(`fb-${stepKey}`);
+            fb.className = "text-sm text-center py-2 rounded-lg font-medium";
+
+            if (!userNorm) {
+                fb.classList.add('bg-amber-950/80', 'text-amber-300');
+                fb.innerText = "⚠️ กรุณาส่งค่าสมการลงในช่องนี้ก่อนตรวจครับ";
+                return;
+            }
+
+            let isCorrect = false;
+
+            if (stepNum === 1) {
+                const target = normalizeLaTeX(currentProblem.sol1);
+                isCorrect = (userNorm === target);
+            }
+            else if (stepNum === 2) {
+                const target = normalizeLaTeX(currentProblem.sol2);
+                isCorrect = (userNorm === target);
+            }
+            else if (stepNum === 3) {
+                const target1 = normalizeLaTeX(currentProblem.sol3);
+                const target2 = normalizeLaTeX(`(x^2-${currentProblem.bSq})(x-${currentProblem.a})`);
+                isCorrect = (userNorm === target1 || userNorm === target2);
+            }
+            else if (stepNum === 4) {
+                const userFactors = userNorm.match(/\([^\)]+\)/g) || [];
+                const targetFactors = currentProblem.factorsStep4.map(f => normalizeLaTeX(f));
+
+                if (userFactors.length === 3) {
+                    const sortedUser = [...userFactors].sort();
+                    const sortedTarget = [...targetFactors].sort();
+                    isCorrect = sortedUser.every((val, idx) => val === sortedTarget[idx]);
+                }
+            }
+
+            if (isCorrect) {
+                fb.classList.add('bg-emerald-950/80', 'text-emerald-300');
+                fb.innerText = `✓ ถูกต้องครับ! Step ${stepNum} ผ่านแล้ว`;
+            } else {
+                fb.classList.add('bg-rose-950/80', 'text-rose-300');
+                fb.innerText = `❌ คำตอบ Step ${stepNum} ยังไม่ถูกต้อง ลองตรวจสอบเครื่องหมายหรือตัวแปรอีกครั้งครับ`;
+            }
+        }
+
+        window.onload = function () {
+            generateRandomProblem();
+        };
+    </script>
+</body>
+
+</html>

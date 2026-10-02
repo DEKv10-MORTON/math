@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกโจทย์อัตราส่วนตรีโกณมิติ ม.3 - DEK MORTON STUDIO</title>
+    <!-- MathJax Library -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --accent: #06b6d4;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 16px;
+        }
+
+        .header h1 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .brand {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            flex: 1;
+            min-width: 130px;
+            padding: 10px 8px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .formula-box {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px dashed var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .question-box {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #f8fafc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 14px 16px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        .option-btn:hover {
+            background: #475569;
+        }
+
+        .option-btn.correct {
+            background: var(--success);
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: var(--danger);
+        }
+
+        .solution-box {
+            display: none;
+            background: #0f172a;
+            border: 1px solid var(--warning);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .solution-title {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .solution-step {
+            margin-bottom: 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--warning);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #0f172a;
+            display: none;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 28px;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>โปรแกรมฝึกโจทย์อัตราส่วนตรีโกณมิติ ม.3</h1>
+            <div class="brand">DEK MORTON STUDIO</div>
+        </div>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="switchMode(1)">1. นิยามสามเหลี่ยม</button>
+            <button class="mode-btn" onclick="switchMode(2)">2. มุมมาตรฐาน</button>
+            <button class="mode-btn" onclick="switchMode(3)">3. การประยุกต์: มุมเงย</button>
+            <button class="mode-btn" onclick="switchMode(4)">4. การประยุกต์: มุมก้ม</button>
+            <button class="mode-btn" onclick="switchMode(5)">5. เอกลักษณ์ตรีโกณ</button>
+        </div>
+
+        <div class="formula-box">
+            💡 \(\sin A = \frac{\text{ข้าม}}{\text{ฉาก}}\) &nbsp;|&nbsp; \(\cos A = \frac{\text{ชิด}}{\text{ฉาก}}\)
+            &nbsp;|&nbsp; \(\tan A = \frac{\text{ข้าม}}{\text{ชิด}} = \frac{\sin A}{\cos A}\)
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="questionText">กำลังโหลดคำถาม...</div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="solution-box" id="solutionBox">
+            <div class="solution-title">💡 เฉลยวิธีคิดอย่างละเอียด:</div>
+            <div id="solutionText"></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-warning" id="btnSolution" onclick="toggleSolution()">💡 ดูวิธีคิด</button>
+            <button class="btn btn-primary" onclick="generateNewProblem()">สุ่มโจทย์ใหม่</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentSolutionHTML = "";
+
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function makeFractionLatex(n, d) {
+            if (n === 0) return "0";
+            if (n === d) return "1";
+            let g = gcd(Math.abs(n), Math.abs(d));
+            let num = n / g;
+            let den = d / g;
+            if (den === 1) return `${num}`;
+            return `\\dfrac{${num}}{${den}}`;
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === mode);
+            });
+            generateNewProblem();
+        }
+
+        function triggerMathJax() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function generateNewProblem() {
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('solutionBox').style.display = 'none';
+            document.getElementById('btnSolution').style.display = 'none';
+
+            if (currentMode === 1) buildTriangleDefQuestion();
+            else if (currentMode === 2) buildStandardAngleQuestion();
+            else if (currentMode === 3) buildElevationQuestion();
+            else if (currentMode === 4) buildDepressionQuestion();
+            else if (currentMode === 5) buildIdentityQuestion();
+
+            triggerMathJax();
+        }
+
+        // 1. นิยามสามเหลี่ยม (ชุดสามเหลี่ยมมุมฉาก 3-4-5, 5-12-13, 7-24-25)
+        function buildTriangleDefQuestion() {
+            const triples = [
+                { a: 3, b: 4, c: 5 },
+                { a: 5, b: 12, c: 13 },
+                { a: 7, b: 24, c: 25 },
+                { a: 8, b: 15, c: 17 }
+            ];
+            let t = triples[getRandomInt(0, triples.length - 1)];
+            let targetRatio = getRandomInt(1, 3); // 1: sin, 2: cos, 3: tan
+
+            let qText = `รูปสามเหลี่ยมมุมฉาก \\( ABC \\) มีมุม \\( C \\) เป็นมุมฉาก โดยมีด้านตรงข้ามมุม \\( A \\) ยาว \\( ${t.a} \\) หน่วย, ด้านประชิดมุม \\( A \\) ยาว \\( ${t.b} \\) หน่วย และด้านตรงข้ามมุมฉากยาว \\( ${t.c} \\) หน่วย<br>จงหาค่าของ `;
+            let correctFrac = "", ratioName = "";
+
+            if (targetRatio === 1) {
+                ratioName = "\\sin A";
+                qText += `\\( \\sin A \\)`;
+                correctFrac = makeFractionLatex(t.a, t.c);
+            } else if (targetRatio === 2) {
+                ratioName = "\\cos A";
+                qText += `\\( \\cos A \\)`;
+                correctFrac = makeFractionLatex(t.b, t.c);
+            } else {
+                ratioName = "\\tan A";
+                qText += `\\( \\tan A \\)`;
+                correctFrac = makeFractionLatex(t.a, t.b);
+            }
+
+            let options = [
+                `\\(${correctFrac}\\)`,
+                `\\(${makeFractionLatex(t.b, t.c)}\\)`,
+                `\\(${makeFractionLatex(t.a, t.c)}\\)`,
+                `\\(${makeFractionLatex(t.b, t.a)}\\)`
+            ];
+            options = [...new Set(options)];
+            while (options.length < 4) {
+                options.push(`\\(${makeFractionLatex(getRandomInt(1, 5), t.c)}\\)`);
+                options = [...new Set(options)];
+            }
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. ระบุความยาวด้านของมุม \\( A \\):<br>• ด้านตรงข้ามมุม \\( A \\) (ข้าม) = \\( ${t.a} \\)<br>• ด้านประชิดมุม \\( A \\) (ชิด) = \\( ${t.b} \\)<br>• ด้านตรงข้ามมุมฉาก (ฉาก) = \\( ${t.c} \\)</div>
+            <div class="solution-step">2. แทนค่าในสูตร \\( ${ratioName} \\):<br>\\( \\sin A = \\frac{\\text{ข้าม}}{\\text{ฉาก}}, \\quad \\cos A = \\frac{\\text{ชิด}}{\\text{ฉาก}}, \\quad \\tan A = \\frac{\\text{ข้าม}}{\\text{ชิด}} \\)</div>
+            <div class="solution-step">3. ดังนั้น \\( ${ratioName} = ${correctFrac} \\)</div>
+        `;
+
+            renderQuestion(qText, options, `\\(${correctFrac}\\)`);
+        }
+
+        // 2. มุมมาตรฐาน (30, 45, 60)
+        function buildStandardAngleQuestion() {
+            const angles = [
+                { name: "30^\\circ", sin: "\\frac{1}{2}", cos: "\\frac{\\sqrt{3}}{2}", tan: "\\frac{\\sqrt{3}}{3}" },
+                { name: "45^\\circ", sin: "\\frac{\\sqrt{2}}{2}", cos: "\\frac{\\sqrt{2}}{2}", tan: "1" },
+                { name: "60^\\circ", sin: "\\frac{\\sqrt{3}}{2}", cos: "\\frac{1}{2}", tan: "\\sqrt{3}" }
+            ];
+
+            let selected = angles[getRandomInt(0, angles.length - 1)];
+            let type = getRandomInt(1, 3);
+            let qText = "", correctAns = "";
+
+            if (type === 1) {
+                qText = `ค่าของ \\( \\sin(${selected.name}) \\) เท่ากับข้อใด?`;
+                correctAns = selected.sin;
+            } else if (type === 2) {
+                qText = `ค่าของ \\( \\cos(${selected.name}) \\) เท่ากับข้อใด?`;
+                correctAns = selected.cos;
+            } else {
+                qText = `ค่าของ \\( \\tan(${selected.name}) \\) เท่ากับข้อใด?`;
+                correctAns = selected.tan;
+            }
+
+            let options = [
+                `\\(${correctAns}\\)`,
+                `\\(\\frac{1}{2}\\)`,
+                `\\(\\frac{\\sqrt{3}}{2}\\)`,
+                `\\(1\\)`
+            ];
+            options = [...new Set(options)];
+            while (options.length < 4) {
+                options.push(`\\(\\frac{\\sqrt{2}}{2}\\)`);
+                options = [...new Set(options)];
+            }
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. อัตราส่วนตรีโกณมิติมุมมาตรฐาน \\( ${selected.name} \\):</div>
+            <div class="solution-step">• \\( \\sin(${selected.name}) = ${selected.sin} \\)<br>• \\( \\cos(${selected.name}) = ${selected.cos} \\)<br>• \\( \\tan(${selected.name}) = ${selected.tan} \\)</div>
+            <div class="solution-step">2. ดังนั้น คำตอบที่ถูกต้องคือ \\( ${correctAns} \\)</div>
+        `;
+
+            renderQuestion(qText, options, `\\(${correctAns}\\)`);
+        }
+
+        // 3. การประยุกต์: มุมเงย
+        function buildElevationQuestion() {
+            let distance = getRandomInt(2, 6) * 10; // 20, 30, 40, 50, 60
+            let angleChoice = getRandomInt(1, 2); // 1: 30 deg, 2: 60 deg
+
+            let angleText = angleChoice === 1 ? "30^\\circ" : "60^\\circ";
+            let tanVal = angleChoice === 1 ? "\\frac{\\sqrt{3}}{3}" : "\\sqrt{3}";
+
+            let qText = `นักเรียนยืนห่างจากโคนเสาธงเป็นระยะทาง \\( ${distance} \\) เมตร มองขึ้นไปที่ยอดเสาธงเป็น<b>มุมเงย \\( ${angleText} \\)</b> เสาธงนี้มีความสูงกี่เมตร? (ไม่คิดความสูงของผู้มอง)`;
+
+            let heightAns = angleChoice === 1 ? `${makeFractionLatex(distance, 1)}\\frac{\\sqrt{3}}{3}` : `${distance}\\sqrt{3}`;
+            let formatAns = angleChoice === 1 ? `${Math.round(distance / 3)}\\sqrt{3}` : `${distance}\\sqrt{3}`;
+
+            let options = [
+                `\\(${formatAns}\\) เมตร`,
+                `\\(${distance}\\) เมตร`,
+                `\\(${distance / 2}\\sqrt{3}\\) เมตร`,
+                `\\(${distance * 2}\\) เมตร`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. วาดรูปสามเหลี่ยมมุมฉาก โดยมี:<br>• ด้านชิดมุม \\( ${angleText} \\) = \\( ${distance} \\) เมตร<br>• ด้านตรงข้ามมุม (ความสูงเสาธง \\( h \\)) = ?</div>
+            <div class="solution-step">2. เลือกใช้ \\( \\tan(${angleText}) = \\dfrac{\\text{ข้าม}}{\\text{ชิด}} \\):<br>\\( \\tan(${angleText}) = \\dfrac{h}{${distance}} \\)</div>
+            <div class="solution-step">3. แทนค่า \\( \\tan(${angleText}) = ${tanVal} \\):<br>\\( h = ${distance} \\times ${tanVal} = ${formatAns} \\) เมตร</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+        // 4. การประยุกต์: มุมก้ม
+        function buildDepressionQuestion() {
+            let height = getRandomInt(3, 8) * 10; // 30 - 80 m
+            let qText = `คนๆ หนึ่งยืนอยู่บนหน้าผาสูง \\( ${height} \\) เมตร มองลงมายังเรือในทะเลเป็น<b>มุมก้ม \\( 45^\\circ \\)</b> เรือลำนี้อยู่ห่างจากเชิงหน้าผากี่เมตร?`;
+
+            let options = [
+                `\\(${height}\\) เมตร`,
+                `\\(${height}\\sqrt{3}\\) เมตร`,
+                `\\(${height / 2}\\) เมตร`,
+                `\\(${height * 2}\\) เมตร`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. มุมก้มเท่ากับมุมเงยจากเรือมองกลับขึ้นมา (มุมแย้งเท่ากัน = \\( 45^\\circ \\))</div>
+            <div class="solution-step">2. จากรูปสามเหลี่ยมมุมฉาก \\( \\tan(45^\\circ) = \\dfrac{\\text{ข้าม}}{\\text{ชิด}} = \\dfrac{\\text{ความสูง}}{\\text{ระยะห่าง}} \\)</div>
+            <div class="solution-step">3. เนื่องจาก \\( \\tan(45^\\circ) = 1 \\):<br>\\( 1 = \\dfrac{${height}}{\\text{ระยะห่าง}} \\implies \\text{ระยะห่าง} = ${height} \\) เมตร</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+
+        // 5. เอกลักษณ์ตรีโกณมิติ (ปรับปรุงเพิ่มความหลากหลายและสุ่มตัวเลข)
+        function buildIdentityQuestion() {
+            const triples = [
+                { a: 3, b: 4, c: 5 },
+                { a: 5, b: 12, c: 13 },
+                { a: 7, b: 24, c: 25 },
+                { a: 8, b: 15, c: 17 }
+            ];
+
+            let t = triples[getRandomInt(0, triples.length - 1)];
+            let questionType = getRandomInt(1, 4); // สุ่มรูปแบบโจทย์ 4 แบบ
+
+            let qText = "";
+            let correctAns = "";
+            let options = [];
+
+            if (questionType === 1) {
+                // รูปแบบที่ 1: หา tan A จาก sin A และ cos A
+                let sinFrac = makeFractionLatex(t.a, t.c);
+                let cosFrac = makeFractionLatex(t.b, t.c);
+                let tanFrac = makeFractionLatex(t.a, t.b);
+
+                qText = `ถ้า \\( \\sin A = ${sinFrac} \\) และ \\( \\cos A = ${cosFrac} \\) แล้วค่าของ \\( \\tan A \\) เท่ากับข้อใด?`;
+                correctAns = `\\(${tanFrac}\\)`;
+
+                options = [
+                    `\\(${tanFrac}\\)`,
+                    `\\(${makeFractionLatex(t.b, t.a)}\\)`,
+                    `\\(${sinFrac}\\)`,
+                    `\\(${cosFrac}\\)`
+                ];
+
+                currentSolutionHTML = `
+            <div class="solution-step">1. ใช้สูตรความสัมพันธ์เอกลักษณ์ตรีโกณมิติ:<br>\\( \\tan A = \\dfrac{\\sin A}{\\cos A} \\)</div>
+            <div class="solution-step">2. แทนค่าตามที่โจทย์กำหนด:<br>\\( \\tan A = \\dfrac{${sinFrac}}{${cosFrac}} = ${tanFrac} \\)</div>
+        `;
+
+            } else if (questionType === 2) {
+                // รูปแบบที่ 2: sin^2 A + cos^2 A = 1
+                let sinFrac = makeFractionLatex(t.a, t.c);
+                let cosFrac = makeFractionLatex(t.b, t.c);
+
+                qText = `ถ้า \\( \\sin A = ${sinFrac} \\) และ \\( \\cos A = ${cosFrac} \\) แล้วค่าของ \\( \\sin^2 A + \\cos^2 A \\) เท่ากับข้อใด?`;
+                correctAns = `\\(1\\)`;
+
+                options = [
+                    `\\(1\\)`,
+                    `\\(0\\)`,
+                    `\\(${makeFractionLatex(t.a + t.b, t.c)}\\)`,
+                    `\\(${makeFractionLatex(t.a * t.b, t.c * t.c)}\\)`
+                ];
+
+                currentSolutionHTML = `
+            <div class="solution-step">1. ตามเอกลักษณ์ตรีโกณมิติพื้นฐาน สำหรับทุกมุม \\( A \\):<br>\\( \\sin^2 A + \\cos^2 A = 1 \\) เสมอ</div>
+            <div class="solution-step">2. หรือทดลองคำนวณ:<br>\\( \\left(${sinFrac}\\right)^2 + \\left(${cosFrac}\\right)^2 = \\dfrac{${t.a * t.a}}{${t.c * t.c}} + \\dfrac{${t.b * t.b}}{${t.c * t.c}} = \\dfrac{${t.a * t.a + t.b * t.b}}{${t.c * t.c}} = 1 \\)</div>
+        `;
+
+            } else if (questionType === 3) {
+                // รูปแบบที่ 3: หา sin A จาก cos A
+                let cosFrac = makeFractionLatex(t.b, t.c);
+                let sinFrac = makeFractionLatex(t.a, t.c);
+
+                qText = `ถ้ามุม \\( A \\) เป็นมุมแหลม และ \\( \\cos A = ${cosFrac} \\) แล้วค่าของ \\( \\sin A \\) เท่ากับข้อใด?`;
+                correctAns = `\\(${sinFrac}\\)`;
+
+                options = [
+                    `\\(${sinFrac}\\)`,
+                    `\\(${makeFractionLatex(t.a, t.b)}\\)`,
+                    `\\(${makeFractionLatex(t.c, t.b)}\\)`,
+                    `\\(${makeFractionLatex(t.b, t.c)}\\)`
+                ];
+
+                currentSolutionHTML = `
+            <div class="solution-step">1. จากเอกลักษณ์ \\( \\sin^2 A + \\cos^2 A = 1 \\) จะได้ \\( \\sin A = \\sqrt{1 - \\cos^2 A} \\)</div>
+            <div class="solution-step">2. แทนค่า \\( \\cos A = ${cosFrac} \\):<br>\\( \\sin A = \\sqrt{1 - \\left(${cosFrac}\\right)^2} = ${sinFrac} \\)</div>
+        `;
+
+            } else {
+                // รูปแบบที่ 4: หา cos A จาก sin A
+                let sinFrac = makeFractionLatex(t.a, t.c);
+                let cosFrac = makeFractionLatex(t.b, t.c);
+
+                qText = `ถ้ามุม \\( A \\) เป็นมุมแหลม และ \\( \\sin A = ${sinFrac} \\) แล้วค่าของ \\( \\cos A \\) เท่ากับข้อใด?`;
+                correctAns = `\\(${cosFrac}\\)`;
+
+                options = [
+                    `\\(${cosFrac}\\)`,
+                    `\\(${makeFractionLatex(t.a, t.b)}\\)`,
+                    `\\(${makeFractionLatex(t.c, t.a)}\\)`,
+                    `\\(${makeFractionLatex(t.a, t.c)}\\)`
+                ];
+
+                currentSolutionHTML = `
+            <div class="solution-step">1. จากเอกลักษณ์ \\( \\sin^2 A + \\cos^2 A = 1 \\) จะได้ \\( \\cos A = \\sqrt{1 - \\sin^2 A} \\)</div>
+            <div class="solution-step">2. แทนค่า \\( \\sin A = ${sinFrac} \\):<br>\\( \\cos A = \\sqrt{1 - \\left(${sinFrac}\\right)^2} = ${cosFrac} \\)</div>
+        `;
+            }
+
+            renderQuestion(qText, options, correctAns);
+        }
+
+        function renderQuestion(qText, options, correctOpt) {
+            document.getElementById('questionText').innerHTML = qText;
+            let optContainer = document.getElementById('optionsContainer');
+            optContainer.innerHTML = '';
+
+            let uniqueOpts = [...new Set(options)];
+            uniqueOpts.sort(() => Math.random() - 0.5);
+
+            uniqueOpts.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = opt;
+                btn.onclick = () => checkAns(btn, opt, correctOpt);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function checkAns(button, selected, correct) {
+            let feedback = document.getElementById('feedback');
+            let allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (selected === correct) {
+                button.classList.add('correct');
+                feedback.style.color = 'var(--success)';
+                feedback.innerText = '🎉 ถูกต้องเก่งมาก!';
+            } else {
+                button.classList.add('incorrect');
+                feedback.style.color = 'var(--danger)';
+                feedback.innerText = '❌ ยังไม่ถูกต้อง ดูเฉลยด้านล่างได้เลย';
+                allBtns.forEach(b => {
+                    if (b.innerHTML === correct) b.classList.add('correct');
+                });
+            }
+
+            document.getElementById('btnSolution').style.display = 'inline-block';
+        }
+
+        function toggleSolution() {
+            let box = document.getElementById('solutionBox');
+            let solText = document.getElementById('solutionText');
+
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                solText.innerHTML = currentSolutionHTML;
+                box.style.display = 'block';
+                triggerMathJax();
+            }
+        }
+
+        // เริ่มต้นทำงาน
+        switchMode(1);
+    </script>
+
+</body>
+
+</html>

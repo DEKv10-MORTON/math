@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dek Morton Studio - Level 4: Factoring Degree 4 P(x)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .active-cell {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+            background-color: #0369a1 !important;
+            color: #ffffff !important;
+        }
+
+        .correct-cell {
+            border-color: #10b981 !important;
+            background-color: #065f46 !important;
+            color: #a7f3d0 !important;
+        }
+
+        .wrong-cell {
+            border-color: #f43f5e !important;
+            background-color: #881337 !important;
+            color: #fecdd3 !important;
+        }
+
+        /* ป้องกันสมการล้นขอบจอ */
+        .math-container {
+            overflow-x: auto;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mjx-chtml {
+            font-size: 95% !important;
+            outline: none;
+        }
+
+        /* Custom styling สำหรับคีย์บอร์ดแนวตั้งกระชับ */
+        .key-btn {
+            background-color: rgba(51, 65, 85, 0.6);
+            color: #f1f5f9;
+            padding: 0.375rem 0;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: background-color 0.15s ease;
+        }
+
+        .key-btn:hover {
+            background-color: #475569;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 h-screen overflow-hidden flex flex-col">
+
+    <!-- Header Panel -->
+    <header
+        class="bg-slate-800/90 border-b border-slate-700 px-4 md:px-6 py-2.5 flex justify-between items-center shrink-0 h-[52px]">
+        <div class="flex items-center space-x-2 md:space-x-3">
+            <h1 class="text-lg md:text-xl font-bold text-sky-400 tracking-wide">Dek Morton Studio</h1>
+            <span class="text-slate-500">|</span>
+            <span class="text-xs md:text-sm text-slate-300 font-medium truncate">คอร์สคณิตศาสตร์:
+                การแยกตัวประกอบพหุนามดีกรีสี่ P(x)</span>
+        </div>
+        <span
+            class="bg-purple-900/60 text-purple-300 text-[11px] md:text-xs font-semibold px-3 py-1 rounded-full border border-purple-700/50 tracking-wider whitespace-nowrap">
+            Level 4: หารสังเคราะห์ 2 รอบ
+        </span>
+    </header>
+
+    <!-- Main Split Container -->
+    <div class="flex flex-1 h-[calc(100vh-52px)] overflow-hidden">
+
+        <!-- LEFT PANEL: EQUATION EDITOR (ปรับแก้ไม่ให้ดันปุ่มล่างล้นจอ) -->
+        <aside
+            class="w-72 md:w-80 bg-slate-800/95 border-r border-slate-700 p-3.5 flex flex-col shrink-0 shadow-2xl z-10 h-full overflow-hidden">
+
+            <div class="flex justify-between items-center mb-2 shrink-0">
+                <h2 class="text-sm font-bold text-slate-200">Equation Editor</h2>
+                <button onclick="clearEditor()"
+                    class="text-xs text-rose-400 hover:text-rose-300 underline">ล้างช่องพิมพ์</button>
+            </div>
+
+            <!-- Text Input (ลด Rows) -->
+            <div class="mb-2 shrink-0">
+                <textarea id="eq-input" rows="1"
+                    class="w-full bg-slate-900 border border-sky-500/50 rounded-lg p-2 text-sm font-mono text-sky-200 focus:outline-none focus:ring-1 focus:ring-sky-500 resize-none"
+                    placeholder="พิมพ์สูตรหรือตัวเลขที่นี่..."></textarea>
+            </div>
+
+            <!-- Preview Box (กระชับขนาด) -->
+            <div
+                class="bg-slate-900/80 border border-slate-700 rounded-lg p-2 mb-2 min-h-[42px] flex items-center justify-center text-center math-container shrink-0">
+                <div id="eq-preview" class="text-base text-sky-300 font-semibold">$\text{พรีวิวสมการ}$</div>
+            </div>
+
+            <!-- Active Target Info -->
+            <div class="bg-slate-900/60 border border-slate-700/80 rounded-lg p-2 mb-2 text-center shrink-0">
+                <span class="text-[11px] text-slate-400 block mb-0.5">เป้าหมายปัจจุบันที่กำลังป้อน:</span>
+                <span id="target-label" class="text-xs font-semibold text-sky-300">ขั้นตอนที่ 1: สุ่มหาค่า $c_1$
+                    รอบแรก</span>
+            </div>
+
+            <!-- Keypad Buttons Wrapper (ตั้งค่าให้สกรอลล์ได้เมื่อจอแคบเกินไป) -->
+            <div class="flex-1 overflow-y-auto pr-1 space-y-2.5 mb-2">
+                <div>
+                    <div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">ตัวเลข &
+                        สัญลักษณ์พื้นฐาน</div>
+                    <div class="grid grid-cols-4 gap-1.5">
+                        <button onclick="insertSymbol('7')" class="key-btn">7</button>
+                        <button onclick="insertSymbol('8')" class="key-btn">8</button>
+                        <button onclick="insertSymbol('9')" class="key-btn">9</button>
+                        <button onclick="insertSymbol('-')" class="key-btn text-amber-300">-</button>
+
+                        <button onclick="insertSymbol('4')" class="key-btn">4</button>
+                        <button onclick="insertSymbol('5')" class="key-btn">5</button>
+                        <button onclick="insertSymbol('6')" class="key-btn">6</button>
+                        <button onclick="insertSymbol('+')" class="key-btn text-amber-300">+</button>
+
+                        <button onclick="insertSymbol('1')" class="key-btn">1</button>
+                        <button onclick="insertSymbol('2')" class="key-btn">2</button>
+                        <button onclick="insertSymbol('3')" class="key-btn">3</button>
+                        <button onclick="insertSymbol('x')" class="key-btn text-sky-300 italic">x</button>
+
+                        <button onclick="insertSymbol('0')" class="key-btn">0</button>
+                        <button onclick="insertSymbol('(')" class="key-btn text-slate-200">(</button>
+                        <button onclick="insertSymbol(')')" class="key-btn text-slate-200">)</button>
+                        <button onclick="backspace()"
+                            class="bg-rose-900/50 hover:bg-rose-800 text-rose-200 py-1.5 rounded-lg text-xs font-bold transition">⌫</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">สัญลักษณ์พหุนาม
+                    </div>
+                    <div class="grid grid-cols-4 gap-1.5">
+                        <button onclick="insertSymbol('^{2}')" class="key-btn text-xs">a<sup>2</sup></button>
+                        <button onclick="insertSymbol('^{3}')" class="key-btn text-xs">a<sup>3</sup></button>
+                        <button onclick="insertSymbol('^{4}')" class="key-btn text-xs">a<sup>4</sup></button>
+                        <button onclick="insertSymbol('(x')" class="key-btn text-xs text-sky-300">(x</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Send Value Button (ยึดติดล่างสุดของ Sidebar) -->
+            <div class="pt-2 border-t border-slate-700 shrink-0">
+                <button onclick="submitCurrentAction()"
+                    class="w-full bg-sky-600 hover:bg-sky-500 text-white font-semibold py-2.5 rounded-lg text-xs transition shadow-lg shadow-sky-600/30 flex items-center justify-center space-x-1.5">
+                    <span>ตกลง / ส่งค่าไปยังขั้นตอนปัจจุบัน</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: WORKSPACE -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+                <!-- Left Sub-column: Main Workspace Steps -->
+                <div class="lg:col-span-7 space-y-5">
+
+                    <!-- Problem Card (ป้องกันโจทย์ล้นจอ) -->
+                    <div
+                        class="bg-slate-800 rounded-xl border border-slate-700 p-4 md:p-5 shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-purple-500"></div>
+                        <div class="flex justify-between items-center mb-2.5">
+                            <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                                โจทย์การแยกตัวประกอบพหุนามดีกรี 4</h2>
+                            <button onclick="generateRandomProblem()"
+                                class="flex items-center space-x-1 text-xs bg-sky-600 hover:bg-sky-500 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-md shadow-sky-600/20">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                    </path>
+                                </svg>
+                                <span>สุ่มโจทย์ใหม่</span>
+                            </button>
+                        </div>
+                        <div
+                            class="bg-slate-900/80 rounded-xl p-3 md:p-4 text-center border border-slate-700/60 math-container">
+                            <div id="problem-display" class="text-xl md:text-2xl font-bold text-amber-300"></div>
+                        </div>
+                        <div
+                            class="mt-2.5 bg-purple-950/30 border border-purple-600/30 rounded-lg p-2.5 text-xs text-purple-200/90 flex items-start space-x-2">
+                            <span class="text-sm">💡</span>
+                            <div>
+                                <strong>เป้าหมาย Level 4:</strong> ตั้งหารสังเคราะห์รอบที่ 1 $\rightarrow$ รอบที่ 2
+                                $\rightarrow$ สรุปตอบ 4 วงเล็บสมบูรณ์
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: Find c1 and Synthetic Division Round 1 -->
+                    <div id="card-step1"
+                        class="bg-slate-800 rounded-xl border border-slate-700 p-4 shadow-xl space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3
+                                class="text-xs md:text-sm font-bold text-sky-400 uppercase tracking-wider flex items-center space-x-2">
+                                <span
+                                    class="bg-sky-500 text-slate-900 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">1</span>
+                                <span>หารสังเคราะห์รอบที่ 1 (ลดดีกรี $x^4 \rightarrow x^3$)</span>
+                            </h3>
+                            <span id="badge-step1"
+                                class="text-[11px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium">กำลังดำเนินการ</span>
+                        </div>
+
+                        <p class="text-xs text-slate-300">
+                            เลือก $c_1$ จากตัวประกอบของพจน์สุดท้าย ($e =$ <span id="const-e-val">0</span>):
+                            <span id="factors-hint-1" class="font-bold text-amber-300"></span>
+                        </p>
+
+                        <!-- Input c1 -->
+                        <div class="flex items-center space-x-3 bg-slate-900 p-2.5 rounded-xl border border-slate-700">
+                            <span class="text-xs text-slate-300 font-medium whitespace-nowrap">ทดสอบค่า $c_1 =$</span>
+                            <div id="target-c1-input"
+                                class="flex-1 bg-slate-800 border-2 border-dashed border-sky-500 rounded-lg p-1.5 text-center text-lg font-bold text-sky-300 min-h-[38px] flex items-center justify-center">
+                                ?
+                            </div>
+                        </div>
+
+                        <!-- Grid Round 1 -->
+                        <div id="grid-r1-container"
+                            class="hidden bg-slate-900 p-3 rounded-xl border border-slate-700 overflow-x-auto space-y-2">
+                            <div class="min-w-[450px]">
+                                <div class="grid grid-cols-6 gap-1.5 mb-1.5 text-center items-center">
+                                    <div id="grid1-c-val"
+                                        class="bg-amber-500/20 border-2 border-amber-500 text-amber-300 font-bold text-sm p-1.5 rounded-lg">
+                                        $c_1$</div>
+                                    <div id="cell1-a4"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $a_4$</div>
+                                    <div id="cell1-a3"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $a_3$</div>
+                                    <div id="cell1-a2"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $a_2$</div>
+                                    <div id="cell1-a1"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $a_1$</div>
+                                    <div id="cell1-a0"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $a_0$</div>
+                                </div>
+                                <div class="border-b-2 border-slate-600 my-1.5"></div>
+                                <div class="grid grid-cols-6 gap-1.5 mb-1.5 text-center items-center">
+                                    <div class="text-slate-500 text-[10px]">บวก ➔</div>
+                                    <div class="text-slate-600 font-bold">-</div>
+                                    <div id="g1-m1"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-m2"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-m3"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-m4"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                </div>
+                                <div class="border-b-2 border-sky-500 my-1.5"></div>
+                                <div class="grid grid-cols-6 gap-1.5 text-center items-center">
+                                    <div class="text-[10px] text-sky-400 font-semibold">ผลลัพธ์:</div>
+                                    <div id="g1-r4"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-r3"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-r2"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-r1"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g1-rem"
+                                        class="bg-emerald-950/30 border-2 border-dashed border-emerald-600/50 text-emerald-300 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        เศษ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="step1-feedback"
+                            class="text-xs text-center py-2 rounded-lg font-medium bg-slate-900 text-slate-400">
+                            พิมพ์เลือกค่า $c_1$ แล้วกด "ตกลง" เพื่อเริ่มหารสังเคราะห์รอบแรก
+                        </div>
+
+                        <!-- STEP 1.5 BRIDGING SUMMARY CARD -->
+                        <div id="step1-summary"
+                            class="hidden bg-slate-900/90 border-2 border-emerald-500/80 rounded-xl p-3 space-y-1.5 text-center">
+                            <div class="text-[11px] text-emerald-400 font-bold uppercase tracking-wider">🎉
+                                หารสังเคราะห์รอบที่ 1 สำเร็จ! ลดดีกรีเหลือพหุนามดีกรีสาม $Q_1(x)$</div>
+                            <div id="summary-q1-text" class="text-sm font-bold text-sky-300 math-container"></div>
+                            <div id="summary-poly1-text" class="text-xs font-semibold text-amber-300 math-container">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Find c2 and Synthetic Division Round 2 -->
+                    <div id="card-step2"
+                        class="bg-slate-800 rounded-xl border border-slate-700 p-4 shadow-xl space-y-3 opacity-50 pointer-events-none transition-all">
+                        <div class="flex items-center justify-between">
+                            <h3
+                                class="text-xs md:text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
+                                <span
+                                    class="bg-emerald-500 text-slate-900 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">2</span>
+                                <span>หารสังเคราะห์รอบที่ 2 (ลดดีกรี $x^3 \rightarrow x^2$)</span>
+                            </h3>
+                            <span id="badge-step2"
+                                class="text-[11px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium">รอปลดล็อก</span>
+                        </div>
+
+                        <!-- Input c2 -->
+                        <div class="flex items-center space-x-3 bg-slate-900 p-2.5 rounded-xl border border-slate-700">
+                            <span class="text-xs text-slate-300 font-medium whitespace-nowrap">ทดสอบค่า $c_2 =$</span>
+                            <div id="target-c2-input"
+                                class="flex-1 bg-slate-800 border-2 border-dashed border-emerald-500 rounded-lg p-1.5 text-center text-lg font-bold text-emerald-300 min-h-[38px] flex items-center justify-center">
+                                ?
+                            </div>
+                        </div>
+
+                        <!-- Grid Round 2 -->
+                        <div id="grid-r2-container"
+                            class="hidden bg-slate-900 p-3 rounded-xl border border-slate-700 overflow-x-auto space-y-2">
+                            <div class="min-w-[380px]">
+                                <div class="grid grid-cols-5 gap-1.5 mb-1.5 text-center items-center">
+                                    <div id="grid2-c-val"
+                                        class="bg-amber-500/20 border-2 border-amber-500 text-amber-300 font-bold text-sm p-1.5 rounded-lg">
+                                        $c_2$</div>
+                                    <div id="cell2-b3"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $b_3$</div>
+                                    <div id="cell2-b2"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $b_2$</div>
+                                    <div id="cell2-b1"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $b_1$</div>
+                                    <div id="cell2-b0"
+                                        class="bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm p-1.5 rounded-lg">
+                                        $b_0$</div>
+                                </div>
+                                <div class="border-b-2 border-slate-600 my-1.5"></div>
+                                <div class="grid grid-cols-5 gap-1.5 mb-1.5 text-center items-center">
+                                    <div class="text-slate-500 text-[10px]">บวก ➔</div>
+                                    <div class="text-slate-600 font-bold">-</div>
+                                    <div id="g2-m1"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g2-m2"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g2-m3"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                </div>
+                                <div class="border-b-2 border-emerald-500 my-1.5"></div>
+                                <div class="grid grid-cols-5 gap-1.5 text-center items-center">
+                                    <div class="text-[10px] text-emerald-400 font-semibold">ผลลัพธ์:</div>
+                                    <div id="g2-r3"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g2-r2"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g2-r1"
+                                        class="bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        ?</div>
+                                    <div id="g2-rem"
+                                        class="bg-emerald-950/30 border-2 border-dashed border-emerald-600/50 text-emerald-300 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]">
+                                        เศษ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="step2-feedback"
+                            class="text-xs text-center py-2 rounded-lg font-medium bg-slate-900 border border-slate-700 text-slate-300">
+                            พิมพ์เลือกค่า $c_2$ จากตัวประกอบของผลหาร $Q_1(x)$
+                        </div>
+
+                        <!-- STEP 2.5 BRIDGING SUMMARY CARD -->
+                        <div id="step2-summary"
+                            class="hidden bg-slate-900/90 border-2 border-emerald-500/80 rounded-xl p-3 space-y-1.5 text-center">
+                            <div class="text-[11px] text-emerald-400 font-bold uppercase tracking-wider">🎉
+                                หารสังเคราะห์รอบที่ 2 สำเร็จ! ลดดีกรีเหลือพหุนามดีกรีสอง $Q_2(x)$</div>
+                            <div id="summary-q2-text" class="text-sm font-bold text-sky-300 math-container"></div>
+                            <div id="summary-poly2-text" class="text-xs font-semibold text-amber-300 math-container">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Final Factorization -->
+                    <div id="card-step3"
+                        class="bg-slate-800 rounded-xl border border-slate-700 p-4 shadow-xl space-y-3 opacity-50 pointer-events-none transition-all">
+                        <div class="flex items-center justify-between">
+                            <h3
+                                class="text-xs md:text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2">
+                                <span
+                                    class="bg-amber-500 text-slate-900 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">3</span>
+                                <span>สรุปการแยกตัวประกอบสมบูรณ์ 4 วงเล็บ</span>
+                            </h3>
+                            <span id="badge-step3"
+                                class="text-[11px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium">รอปลดล็อก</span>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 space-y-2">
+                            <div class="text-xs text-slate-300">
+                                <strong>คำแนะนำ:</strong> แยกตัวประกอบพหุนามดีกรีสองที่ได้ออกเป็น 2 วงเล็บสุดท้าย
+                                แล้วรวมเข้ากับ 2 วงเล็บแรกที่ตั้งรอไว้
+                            </div>
+
+                            <div class="space-y-1">
+                                <label class="text-xs text-sky-300 font-semibold">พิมพ์การแยกตัวประกอบสมบูรณ์ของ
+                                    $P(x)$:</label>
+                                <div id="target-final-input" onclick="selectFinalAnswerTarget()"
+                                    class="bg-slate-800 border-2 border-dashed border-amber-500 rounded-lg p-2 text-center text-base font-bold text-amber-300 min-h-[44px] flex items-center justify-center cursor-pointer math-container">
+                                    [ คลิกเพื่อพิมพ์คำตอบ เช่น (x+1)(x-1)(x-2)(x-3) ]
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button onclick="checkFinalAnswer()"
+                                class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition shadow-md shadow-emerald-600/20 flex items-center space-x-1">
+                                <span>ตรวจคำตอบสรุปสุดท้าย</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div id="step3-feedback" class="hidden text-xs text-center py-2 rounded-lg font-medium"></div>
+                    </div>
+
+                </div>
+
+                <!-- Right Sub-column: Solution Drawer & Guide -->
+                <div class="lg:col-span-5">
+                    <div class="bg-slate-800 rounded-xl border border-slate-700 p-4 shadow-xl sticky top-0 space-y-3">
+
+                        <!-- Toggle Button -->
+                        <button onclick="toggleSolution()"
+                            class="w-full flex justify-between items-center bg-slate-900 hover:bg-slate-900/80 border border-slate-700 p-3 rounded-lg transition text-left">
+                            <span class="text-xs md:text-sm font-bold text-sky-300 flex items-center space-x-2">
+                                <span>💡 เฉลยและขั้นตอนการคิดแบบรายละเอียด</span>
+                            </span>
+                            <svg id="sol-arrow"
+                                class="w-4 h-4 text-slate-400 transform transition-transform duration-300" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Solution Content Drawer -->
+                        <div id="sol-drawer" class="hidden space-y-2.5 transition-all duration-300">
+                            <div
+                                class="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/60 text-xs text-slate-300 space-y-0.5">
+                                <span class="text-sky-400 font-semibold block">1. คำตอบของรากพหุนาม ($c_1, c_2, c_3,
+                                    c_4$):</span>
+                                <div id="sol-c-list" class="font-mono text-amber-300"></div>
+                            </div>
+
+                            <div class="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/60 math-container">
+                                <span class="text-xs text-sky-400 font-semibold block mb-0.5">2.
+                                    ตารางหารสังเคราะห์รอบที่ 1:</span>
+                                <div id="sol-table-1" class="text-center font-mono text-slate-200 text-xs"></div>
+                                <div id="sol-q1" class="text-center text-sky-300 text-xs font-semibold mt-0.5"></div>
+                            </div>
+
+                            <div class="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/60 math-container">
+                                <span class="text-xs text-emerald-400 font-semibold block mb-0.5">3.
+                                    ตารางหารสังเคราะห์รอบที่ 2:</span>
+                                <div id="sol-table-2" class="text-center font-mono text-slate-200 text-xs"></div>
+                                <div id="sol-q2" class="text-center text-emerald-300 text-xs font-semibold mt-0.5">
+                                </div>
+                            </div>
+
+                            <div class="bg-emerald-950/30 rounded-lg p-2.5 border border-emerald-600/30 math-container">
+                                <span class="text-xs text-emerald-400 font-semibold">4. แยกตัวประกอบสมบูรณ์ 4
+                                    วงเล็บ:</span>
+                                <div id="sol-final" class="text-center text-emerald-300 text-xs font-bold mt-0.5"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 text-center border-t border-slate-700/50">
+                            <p class="text-[10px] text-slate-500">Dek Morton Studio — Grade 9 Math Curriculum (Level 4)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Script Logic -->
+    <script>
+        let isSolOpen = false;
+        let currentProblem = {};
+
+        const grid1StepSeq = ['r4', 'm1', 'r3', 'm2', 'r2', 'm3', 'r1', 'm4', 'rem'];
+        const grid2StepSeq = ['r3', 'm1', 'r2', 'm2', 'r1', 'm3', 'rem'];
+
+        let activeMainStep = 1; // 1: Round 1, 2: Round 2, 3: Final Answer
+        let activeSubStep = 'c1'; // 'c1', 'grid1', 'c2', 'grid2'
+        let activeGrid1Idx = 0;
+        let activeGrid2Idx = 0;
+
+        let selectedC1 = null;
+        let selectedC2 = null;
+        let factor1Tex = '';
+        let factor2Tex = '';
+        let userFinalAnswer = '';
+
+        const eqInput = document.getElementById('eq-input');
+        const eqPreview = document.getElementById('eq-preview');
+        const targetLabel = document.getElementById('target-label');
+
+        eqInput.addEventListener('input', updatePreview);
+
+        function renderMath(element) {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                if (element) {
+                    MathJax.typesetPromise([element]);
+                } else {
+                    MathJax.typesetPromise();
+                }
+            }
+        }
+
+        function updatePreview() {
+            const val = eqInput.value.trim();
+            eqPreview.innerHTML = val === '' ? '$\\text{พรีวิวสมการ}$' : `$$${val}$$`;
+            renderMath(eqPreview);
+        }
+
+        function insertSymbol(sym) {
+            const start = eqInput.selectionStart;
+            const end = eqInput.selectionEnd;
+            const text = eqInput.value;
+            eqInput.value = text.substring(0, start) + sym + text.substring(end);
+            eqInput.selectionStart = eqInput.selectionEnd = start + sym.length;
+            updatePreview();
+            eqInput.focus();
+        }
+
+        function backspace() {
+            const start = eqInput.selectionStart;
+            const end = eqInput.selectionEnd;
+            const text = eqInput.value;
+            if (start === end && start > 0) {
+                eqInput.value = text.substring(0, start - 1) + text.substring(end);
+                eqInput.selectionStart = eqInput.selectionEnd = start - 1;
+            } else if (start !== end) {
+                eqInput.value = text.substring(0, start) + text.substring(end);
+                eqInput.selectionStart = eqInput.selectionEnd = start;
+            }
+            updatePreview();
+            eqInput.focus();
+        }
+
+        function clearEditor() {
+            eqInput.value = '';
+            updatePreview();
+        }
+
+        function generateRandomProblem() {
+            const possibleRoots = [-4, -3, -2, -1, 1, 2, 3, 4];
+            const shuffled = possibleRoots.sort(() => 0.5 - Math.random());
+            let r1 = shuffled[0];
+            let r2 = shuffled[1];
+            let r3 = shuffled[2];
+            let r4 = shuffled[3];
+
+            const a4 = 1;
+            const a3 = -(r1 + r2 + r3 + r4);
+            const a2 = (r1 * r2 + r1 * r3 + r1 * r4 + r2 * r3 + r2 * r4 + r3 * r4);
+            const a1 = -(r1 * r2 * r3 + r1 * r2 * r4 + r1 * r3 * r4 + r2 * r3 * r4);
+            const a0 = (r1 * r2 * r3 * r4);
+
+            const validRoots = [r1, r2, r3, r4];
+
+            const factorsOfE = [];
+            const absE = Math.abs(a0);
+            for (let i = 1; i <= absE; i++) {
+                if (absE % i === 0) {
+                    factorsOfE.push(i);
+                    factorsOfE.push(-i);
+                }
+            }
+            factorsOfE.sort((a, b) => a - b);
+
+            const polyTex = `x^4 ${formatTerm(a3, 'x^3')} ${formatTerm(a2, 'x^2')} ${formatTerm(a1, 'x')} ${formatTerm(a0, '')}`;
+
+            const f1 = r1 > 0 ? `(x - ${r1})` : `(x + ${Math.abs(r1)})`;
+            const f2 = r2 > 0 ? `(x - ${r2})` : `(x + ${Math.abs(r2)})`;
+            const f3 = r3 > 0 ? `(x - ${r3})` : `(x + ${Math.abs(r3)})`;
+            const f4 = r4 > 0 ? `(x - ${r4})` : `(x + ${Math.abs(r4)})`;
+            const fullFactorsTex = `${f1}${f2}${f3}${f4}`;
+
+            currentProblem = {
+                a4, a3, a2, a1, a0,
+                r1, r2, r3, r4,
+                validRoots,
+                factorsOfE,
+                polyTex,
+                fullFactorsTex
+            };
+
+            activeMainStep = 1;
+            activeSubStep = 'c1';
+            activeGrid1Idx = 0;
+            activeGrid2Idx = 0;
+            selectedC1 = null;
+            selectedC2 = null;
+            factor1Tex = '';
+            factor2Tex = '';
+            userFinalAnswer = '';
+
+            document.getElementById('problem-display').innerHTML = `$$P(x) = ${polyTex}$$`;
+            document.getElementById('const-e-val').innerText = `$${a0}$`;
+
+            const uniqueAbs = Array.from(new Set(factorsOfE.map(Math.abs))).sort((a, b) => a - b);
+            document.getElementById('factors-hint-1').innerHTML = `$\\pm \\{ ${uniqueAbs.join(', ')} \\}$`;
+
+            document.getElementById('target-c1-input').innerText = '?';
+            document.getElementById('grid-r1-container').classList.add('hidden');
+            document.getElementById('step1-feedback').className = 'text-xs text-center py-2 rounded-lg font-medium bg-slate-900 text-slate-400';
+            document.getElementById('step1-feedback').innerHTML = 'พิมพ์เลือกค่า $c_1$ แล้วกด "ตกลง" เพื่อเริ่มหารสังเคราะห์รอบแรก';
+            document.getElementById('step1-summary').classList.add('hidden');
+
+            document.getElementById('target-c2-input').innerText = '?';
+            document.getElementById('grid-r2-container').classList.add('hidden');
+            document.getElementById('step2-feedback').className = 'text-xs text-center py-2 rounded-lg font-medium bg-slate-900 border border-slate-700 text-slate-300';
+            document.getElementById('step2-feedback').innerHTML = 'พิมพ์เลือกค่า $c_2$ จากตัวประกอบของผลหาร $Q_1(x)$';
+            document.getElementById('step2-summary').classList.add('hidden');
+
+            document.getElementById('badge-step1').className = 'text-[11px] bg-sky-900 text-sky-200 px-2 py-0.5 rounded-full font-medium';
+            document.getElementById('badge-step1').innerText = 'กำลังดำเนินการ';
+            document.getElementById('badge-step2').className = 'text-[11px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium';
+            document.getElementById('badge-step2').innerText = 'รอปลดล็อก';
+            document.getElementById('badge-step3').className = 'text-[11px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium';
+            document.getElementById('badge-step3').innerText = 'รอปลดล็อก';
+
+            document.getElementById('card-step2').classList.add('opacity-50', 'pointer-events-none');
+            document.getElementById('card-step3').classList.add('opacity-50', 'pointer-events-none');
+
+            document.getElementById('target-final-input').innerHTML = '[ คลิกเพื่อพิมพ์คำตอบ เช่น (x+1)(x-1)(x-2)(x-3) ]';
+            document.getElementById('step3-feedback').className = 'hidden text-xs text-center py-2 rounded-lg font-medium';
+
+            updateTargetLabel();
+            renderMath(document.getElementById('problem-display'));
+            renderMath(document.getElementById('card-step1'));
+        }
+
+        function formatTerm(coef, varStr, isFirst = false) {
+            if (coef === 0) return '';
+            let sign = coef > 0 ? (isFirst ? '' : '+ ') : '- ';
+            let absCoef = Math.abs(coef);
+            let coefStr = (absCoef === 1 && varStr !== '') ? '' : absCoef;
+            return `${sign}${coefStr}${varStr}`;
+        }
+
+        function updateTargetLabel() {
+            if (activeMainStep === 1) {
+                if (activeSubStep === 'c1') {
+                    targetLabel.innerHTML = 'ขั้นตอนที่ 1: สุ่มป้อนค่า $c_1$ รอบที่ 1';
+                } else {
+                    const stepKey = grid1StepSeq[activeGrid1Idx];
+                    targetLabel.innerHTML = `ขั้นตอนที่ 1: ตารางรอบ 1 ช่อง ${stepKey.toUpperCase()}`;
+                }
+            } else if (activeMainStep === 2) {
+                if (activeSubStep === 'c2') {
+                    targetLabel.innerHTML = 'ขั้นตอนที่ 2: สุ่มป้อนค่า $c_2$ รอบที่ 2';
+                } else {
+                    const stepKey = grid2StepSeq[activeGrid2Idx];
+                    targetLabel.innerHTML = `ขั้นตอนที่ 2: ตารางรอบ 2 ช่อง ${stepKey.toUpperCase()}`;
+                }
+            } else {
+                targetLabel.innerHTML = 'ขั้นตอนที่ 3: สรุปคำตอบ 4 วงเล็บ';
+            }
+            renderMath(targetLabel);
+        }
+
+        function submitCurrentAction() {
+            const rawVal = eqInput.value.trim();
+            if (rawVal === '') return;
+
+            if (activeMainStep === 1) {
+                if (activeSubStep === 'c1') handleC1Submit(rawVal);
+                else handleGrid1Submit(rawVal);
+            } else if (activeMainStep === 2) {
+                if (activeSubStep === 'c2') handleC2Submit(rawVal);
+                else handleGrid2Submit(rawVal);
+            } else if (activeMainStep === 3) {
+                handleStep3Submit(rawVal);
+            }
+        }
+
+        // STEP 1: C1 & GRID 1
+        function handleC1Submit(rawVal) {
+            const cCand = parseInt(rawVal, 10);
+            if (isNaN(cCand)) {
+                showStep1Feedback('❌ กรุณาป้อนตัวเลขจำนวนเต็มสำหรับค่า $c_1$', false);
+                return;
+            }
+
+            const { a4, a3, a2, a1, a0 } = currentProblem;
+            const pVal = a4 * Math.pow(cCand, 4) + a3 * Math.pow(cCand, 3) + a2 * Math.pow(cCand, 2) + a1 * cCand + a0;
+
+            if (pVal === 0) {
+                selectedC1 = cCand;
+                factor1Tex = cCand > 0 ? `(x - ${cCand})` : `(x + ${Math.abs(cCand)})`;
+                document.getElementById('target-c1-input').innerText = cCand;
+                showStep1Feedback(`🎉 สำเร็จ! $P(${cCand}) = 0$ ดังนั้น $${factor1Tex}$ เป็นตัวประกอบตัวแรก`, true);
+
+                setupGrid1(cCand);
+                activeSubStep = 'grid1';
+                document.getElementById('grid-r1-container').classList.remove('hidden');
+
+                setTimeout(() => {
+                    updateGrid1Focus();
+                    updateTargetLabel();
+                }, 600);
+            } else {
+                document.getElementById('target-c1-input').innerText = cCand;
+                showStep1Feedback(`❌ ยังไม่ใช่! $P(${cCand}) = ${pVal} (\\neq 0)$ ลองเลือกค่า $c_1$ ตัวใหม่`, false);
+            }
+            clearEditor();
+        }
+
+        function showStep1Feedback(msg, isSuccess) {
+            const fb = document.getElementById('step1-feedback');
+            fb.className = `text-xs text-center py-2 rounded-lg font-medium ${isSuccess ? 'bg-emerald-950/80 border border-emerald-600 text-emerald-300' : 'bg-rose-950/80 border border-rose-600 text-rose-300'}`;
+            fb.innerHTML = msg;
+            renderMath(fb);
+        }
+
+        function setupGrid1(c) {
+            const { a4, a3, a2, a1, a0 } = currentProblem;
+            const r4 = a4;
+            const m1 = c * r4;
+            const r3 = a3 + m1;
+            const m2 = c * r3;
+            const r2 = a2 + m2;
+            const m3 = c * r2;
+            const r1 = a1 + m3;
+            const m4 = c * r1;
+            const rem = a0 + m4;
+
+            currentProblem.computedGrid1 = { c, r4, m1, r3, m2, r2, m3, r1, m4, rem };
+
+            document.getElementById('grid1-c-val').innerText = `c1 = ${c}`;
+            document.getElementById('cell1-a4').innerText = a4;
+            document.getElementById('cell1-a3').innerText = a3;
+            document.getElementById('cell1-a2').innerText = a2;
+            document.getElementById('cell1-a1').innerText = a1;
+            document.getElementById('cell1-a0').innerText = a0;
+
+            ['m1', 'm2', 'm3', 'm4', 'r4', 'r3', 'r2', 'r1', 'rem'].forEach(id => {
+                const el = document.getElementById(`g1-${id}`);
+                el.innerText = '?';
+                el.className = 'bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]';
+            });
+
+            const q1Tex = `${formatTerm(r4, 'x^3', true)} ${formatTerm(r3, 'x^2')} ${formatTerm(r2, 'x')} ${formatTerm(r1, '')}`;
+            currentProblem.q1Tex = q1Tex;
+            currentProblem.q1Coefs = { b3: r4, b2: r3, b1: r2, b0: r1 };
+
+            document.getElementById('sol-c-list').innerText = `รากทั้งหมด: ${currentProblem.validRoots.join(', ')}`;
+            document.getElementById('sol-table-1').innerHTML = `
+                $$\\begin{array}{c|rrrrr}
+                ${c} & ${a4} & ${a3} & ${a2} & ${a1} & ${a0} \\\\
+                & & ${m1} & ${m2} & ${m3} & ${m4} \\\\
+                \\hline
+                & ${r4} & ${r3} & ${r2} & ${r1} & \\mathbf{0}
+                \\end{array}$$
+            `;
+            document.getElementById('sol-q1').innerHTML = `$$Q_1(x) = ${q1Tex}$$`;
+            renderMath(document.getElementById('sol-drawer'));
+        }
+
+        function updateGrid1Focus() {
+            ['m1', 'm2', 'm3', 'm4', 'r4', 'r3', 'r2', 'r1', 'rem'].forEach(id => {
+                const el = document.getElementById(`g1-${id}`);
+                if (!el.classList.contains('correct-cell')) el.classList.remove('active-cell');
+            });
+
+            const stepKey = grid1StepSeq[activeGrid1Idx];
+            const activeEl = document.getElementById(`g1-${stepKey}`);
+            activeEl.classList.add('active-cell');
+
+            const fb = document.getElementById('step1-feedback');
+            fb.className = 'text-xs text-center py-2 rounded-lg font-medium bg-sky-950/80 border border-sky-600 text-sky-200';
+            fb.innerHTML = `👉 <strong>คำชี้แนะรอบ 1:</strong> คำนวณใส่ค่าในช่อง ${stepKey.toUpperCase()}`;
+            renderMath(fb);
+        }
+
+        function handleGrid1Submit(rawVal) {
+            const stepKey = grid1StepSeq[activeGrid1Idx];
+            const targetVal = currentProblem.computedGrid1[stepKey];
+            const userNum = parseInt(rawVal, 10);
+            const gridEl = document.getElementById(`g1-${stepKey}`);
+
+            if (userNum === targetVal) {
+                gridEl.classList.remove('active-cell');
+                gridEl.classList.add('correct-cell');
+                gridEl.innerText = targetVal;
+                clearEditor();
+                activeGrid1Idx++;
+
+                if (activeGrid1Idx < grid1StepSeq.length) {
+                    updateGrid1Focus();
+                    updateTargetLabel();
+                } else {
+                    // STEP 1 FINISHED! Show Bridging Summary 1
+                    document.getElementById('step1-feedback').className = 'text-xs text-center py-2 rounded-lg font-medium bg-emerald-950/80 border border-emerald-600 text-emerald-300';
+                    document.getElementById('step1-feedback').innerText = '🎉 หารสังเคราะห์รอบที่ 1 สำเร็จ!';
+
+                    document.getElementById('badge-step1').className = 'text-[11px] bg-emerald-900 text-emerald-200 px-2 py-0.5 rounded-full font-medium';
+                    document.getElementById('badge-step1').innerText = '✓ ผ่านแล้ว';
+
+                    const sum1 = document.getElementById('step1-summary');
+                    sum1.classList.remove('hidden');
+                    document.getElementById('summary-q1-text').innerHTML = `ผลหาร $Q_1(x) = ${currentProblem.q1Tex}$`;
+                    document.getElementById('summary-poly1-text').innerHTML = `จะได้ $P(x) = \\mathbf{${factor1Tex}}(${currentProblem.q1Tex})$`;
+                    renderMath(sum1);
+
+                    // Unlock Step 2
+                    activeMainStep = 2;
+                    activeSubStep = 'c2';
+                    document.getElementById('card-step2').classList.remove('opacity-50', 'pointer-events-none');
+                    document.getElementById('badge-step2').className = 'text-[11px] bg-sky-900 text-sky-200 px-2 py-0.5 rounded-full font-medium';
+                    document.getElementById('badge-step2').innerText = 'กำลังดำเนินการ';
+                    updateTargetLabel();
+                }
+            } else {
+                gridEl.classList.add('wrong-cell');
+                setTimeout(() => gridEl.classList.remove('wrong-cell'), 1000);
+            }
+        }
+
+        // STEP 2: C2 & GRID 2
+        function handleC2Submit(rawVal) {
+            const cCand = parseInt(rawVal, 10);
+            if (isNaN(cCand)) {
+                showStep2Feedback('❌ กรุณาป้อนตัวเลขจำนวนเต็มสำหรับค่า $c_2$', false);
+                return;
+            }
+
+            const { b3, b2, b1, b0 } = currentProblem.q1Coefs;
+            const qVal = b3 * Math.pow(cCand, 3) + b2 * Math.pow(cCand, 2) + b1 * cCand + b0;
+
+            if (qVal === 0) {
+                selectedC2 = cCand;
+                factor2Tex = cCand > 0 ? `(x - ${cCand})` : `(x + ${Math.abs(cCand)})`;
+                document.getElementById('target-c2-input').innerText = cCand;
+                showStep2Feedback(`🎉 สำเร็จ! $Q_1(${cCand}) = 0$ ได้ $${factor2Tex}$ เป็นตัวประกอบตัวที่สอง`, true);
+
+                setupGrid2(cCand);
+                activeSubStep = 'grid2';
+                document.getElementById('grid-r2-container').classList.remove('hidden');
+
+                setTimeout(() => {
+                    updateGrid2Focus();
+                    updateTargetLabel();
+                }, 600);
+            } else {
+                document.getElementById('target-c2-input').innerText = cCand;
+                showStep2Feedback(`❌ ยังไม่ใช่! $Q_1(${cCand}) = ${qVal} (\\neq 0)$ ลองเลือกค่า $c_2$ ตัวใหม่`, false);
+            }
+            clearEditor();
+        }
+
+        function showStep2Feedback(msg, isSuccess) {
+            const fb = document.getElementById('step2-feedback');
+            fb.className = `text-xs text-center py-2 rounded-lg font-medium ${isSuccess ? 'bg-emerald-950/80 border border-emerald-600 text-emerald-300' : 'bg-rose-950/80 border border-rose-600 text-rose-300'}`;
+            fb.innerHTML = msg;
+            renderMath(fb);
+        }
+
+        function setupGrid2(c) {
+            const { b3, b2, b1, b0 } = currentProblem.q1Coefs;
+            const r3 = b3;
+            const m1 = c * r3;
+            const r2 = b2 + m1;
+            const m2 = c * r2;
+            const r1 = b1 + m2;
+            const m3 = c * r1;
+            const rem = b0 + m3;
+
+            currentProblem.computedGrid2 = { c, r3, m1, r2, m2, r1, m3, rem };
+
+            document.getElementById('grid2-c-val').innerText = `c2 = ${c}`;
+            document.getElementById('cell2-b3').innerText = b3;
+            document.getElementById('cell2-b2').innerText = b2;
+            document.getElementById('cell2-b1').innerText = b1;
+            document.getElementById('cell2-b0').innerText = b0;
+
+            ['m1', 'm2', 'm3', 'r3', 'r2', 'r1', 'rem'].forEach(id => {
+                const el = document.getElementById(`g2-${id}`);
+                el.innerText = '?';
+                el.className = 'bg-slate-800/50 border border-dashed border-slate-700 text-slate-400 font-bold text-base p-1.5 rounded-lg flex items-center justify-center min-h-[38px]';
+            });
+
+            const q2Tex = `${formatTerm(r3, 'x^2', true)} ${formatTerm(r2, 'x')} ${formatTerm(r1, '')}`;
+            currentProblem.q2Tex = q2Tex;
+
+            document.getElementById('sol-table-2').innerHTML = `
+                $$\\begin{array}{c|rrrr}
+                ${c} & ${b3} & ${b2} & ${b1} & ${b0} \\\\
+                & & ${m1} & ${m2} & ${m3} \\\\
+                \\hline
+                & ${r3} & ${r2} & ${r1} & \\mathbf{0}
+                \\end{array}$$
+            `;
+            document.getElementById('sol-q2').innerHTML = `$$Q_2(x) = ${q2Tex}$$`;
+            document.getElementById('sol-final').innerHTML = `$$P(x) = ${currentProblem.fullFactorsTex}$$`;
+            renderMath(document.getElementById('sol-drawer'));
+        }
+
+        function updateGrid2Focus() {
+            ['m1', 'm2', 'm3', 'r3', 'r2', 'r1', 'rem'].forEach(id => {
+                const el = document.getElementById(`g2-${id}`);
+                if (!el.classList.contains('correct-cell')) el.classList.remove('active-cell');
+            });
+
+            const stepKey = grid2StepSeq[activeGrid2Idx];
+            const activeEl = document.getElementById(`g2-${stepKey}`);
+            activeEl.classList.add('active-cell');
+
+            const fb = document.getElementById('step2-feedback');
+            fb.className = 'text-xs text-center py-2 rounded-lg font-medium bg-emerald-950/80 border border-emerald-600 text-emerald-200';
+            fb.innerHTML = `👉 <strong>คำชี้แนะรอบ 2:</strong> คำนวณใส่ค่าในช่อง ${stepKey.toUpperCase()}`;
+            renderMath(fb);
+        }
+
+        function handleGrid2Submit(rawVal) {
+            const stepKey = grid2StepSeq[activeGrid2Idx];
+            const targetVal = currentProblem.computedGrid2[stepKey];
+            const userNum = parseInt(rawVal, 10);
+            const gridEl = document.getElementById(`g2-${stepKey}`);
+
+            if (userNum === targetVal) {
+                gridEl.classList.remove('active-cell');
+                gridEl.classList.add('correct-cell');
+                gridEl.innerText = targetVal;
+                clearEditor();
+                activeGrid2Idx++;
+
+                if (activeGrid2Idx < grid2StepSeq.length) {
+                    updateGrid2Focus();
+                    updateTargetLabel();
+                } else {
+                    // STEP 2 FINISHED! Show Bridging Summary 2
+                    document.getElementById('step2-feedback').className = 'text-xs text-center py-2 rounded-lg font-medium bg-emerald-950/80 border border-emerald-600 text-emerald-300';
+                    document.getElementById('step2-feedback').innerText = '🎉 หารสังเคราะห์รอบที่ 2 สำเร็จ!';
+
+                    document.getElementById('badge-step2').className = 'text-[11px] bg-emerald-900 text-emerald-200 px-2 py-0.5 rounded-full font-medium';
+                    document.getElementById('badge-step2').innerText = '✓ ผ่านแล้ว';
+
+                    const sum2 = document.getElementById('step2-summary');
+                    sum2.classList.remove('hidden');
+                    document.getElementById('summary-q2-text').innerHTML = `ผลหารดีกรีสอง $Q_2(x) = ${currentProblem.q2Tex}$`;
+                    document.getElementById('summary-poly2-text').innerHTML = `จะได้ $P(x) = \\mathbf{${factor1Tex}${factor2Tex}}(${currentProblem.q2Tex})$`;
+                    renderMath(sum2);
+
+                    // PRE-FILL 2 FACTORS IN STEP 3
+                    const prefilled = `${factor1Tex}${factor2Tex}`;
+                    userFinalAnswer = prefilled;
+                    const targetFinal = document.getElementById('target-final-input');
+                    targetFinal.innerHTML = `$$${prefilled}(...)(...)$$`;
+                    renderMath(targetFinal);
+
+                    eqInput.value = prefilled;
+                    updatePreview();
+
+                    activeMainStep = 3;
+                    document.getElementById('card-step3').classList.remove('opacity-50', 'pointer-events-none');
+                    document.getElementById('badge-step3').className = 'text-[11px] bg-sky-900 text-sky-200 px-2 py-0.5 rounded-full font-medium';
+                    document.getElementById('badge-step3').innerText = 'กำลังดำเนินการ';
+                    updateTargetLabel();
+                }
+            } else {
+                gridEl.classList.add('wrong-cell');
+                setTimeout(() => gridEl.classList.remove('wrong-cell'), 1000);
+            }
+        }
+
+        // STEP 3: FINAL CHECK
+        function selectFinalAnswerTarget() {
+            if (activeMainStep !== 3) return;
+            targetLabel.innerHTML = 'ขั้นตอนที่ 3: สรุปคำตอบ 4 วงเล็บ';
+            renderMath(targetLabel);
+            eqInput.focus();
+        }
+
+        function handleStep3Submit(rawVal) {
+            userFinalAnswer = rawVal;
+            const targetEl = document.getElementById('target-final-input');
+            targetEl.innerHTML = `$$${rawVal}$$`;
+            renderMath(targetEl);
+            clearEditor();
+        }
+
+        function normalizeFactorsString(str) {
+            if (!str) return [];
+            const matches = str.match(/\(([^)]+)\)/g);
+            if (!matches) return [];
+
+            return matches.map(m => {
+                return m.replace(/[\(\)\s]/g, '').toLowerCase();
+            }).sort();
+        }
+
+        function checkFinalAnswer() {
+            const fb = document.getElementById('step3-feedback');
+            fb.classList.remove('hidden');
+
+            if (!userFinalAnswer) {
+                fb.className = "text-xs text-center py-2 rounded-lg font-medium bg-amber-950/80 border border-amber-600 text-amber-300";
+                fb.innerText = "⚠️ กรุณาพิมพ์คำตอบการแยกตัวประกอบในเครื่องมือก่อนตรวจคำตอบ";
+                return;
+            }
+
+            const userFactors = normalizeFactorsString(userFinalAnswer);
+            const targetFactors = normalizeFactorsString(currentProblem.fullFactorsTex);
+
+            const isCorrect = (userFactors.length === 4) &&
+                (userFactors.join(',') === targetFactors.join(','));
+
+            if (isCorrect) {
+                fb.className = "text-xs text-center py-2 rounded-lg font-medium bg-emerald-950/80 border border-emerald-600 text-emerald-300";
+                fb.innerText = "🎉 เก่งมาก! แยกตัวประกอบพหุนามดีกรี 4 สำเร็จครบถ้วนทั้ง 4 วงเล็บ!";
+                document.getElementById('badge-step3').className = 'text-[11px] bg-emerald-900 text-emerald-200 px-2 py-0.5 rounded-full font-medium';
+                document.getElementById('badge-step3').innerText = '✓ ผ่านแล้ว';
+            } else {
+                fb.className = "text-xs text-center py-2 rounded-lg font-medium bg-rose-950/80 border border-rose-600 text-rose-300";
+                fb.innerText = "❌ คำตอบยังไม่ถูกต้อง! ตรวจสอบการใส่เครื่องหมายวงเล็บ เช่น (x+1)(x-1)(x-2)(x-3)";
+            }
+        }
+
+        function toggleSolution() {
+            const drawer = document.getElementById('sol-drawer');
+            const arrow = document.getElementById('sol-arrow');
+            isSolOpen = !isSolOpen;
+            if (isSolOpen) {
+                drawer.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                drawer.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        window.onload = function () {
+            generateRandomProblem();
+        };
+    </script>
+</body>
+
+</html>

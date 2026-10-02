@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dek Morton Studio - Quadratic Equation Interactive Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Custom scrollbar styling for the inner steps container */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #070a12;
+            border-radius: 4px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        mjx-container {
+            font-size: 110% !important;
+        }
+
+        .large-math mjx-container {
+            font-size: 135% !important;
+        }
+
+        /* Custom Pure HTML/CSS Square Root Visuals */
+        .sqrt-symbol {
+            font-size: 1.8rem;
+            line-height: 1;
+            font-family: serif;
+        }
+
+        .sqrt-content {
+            border-top: 2px solid #38bdf8;
+            padding-top: 2px;
+            margin-left: -2px;
+        }
+    </style>
+</head>
+
+<body class="bg-[#0b0f19] text-slate-100 h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Header Bar -->
+    <header
+        class="bg-slate-900/90 border-b border-slate-800 px-6 py-3 flex justify-between items-center z-50 backdrop-blur shrink-0">
+        <h1 class="text-base font-bold text-sky-400">Dek Morton Studio <span
+                class="text-slate-400 font-normal text-sm">| โปรแกรมฝึกแก้สมการกำลังสอง</span></h1>
+        <button onclick="generateProblem()"
+            class="bg-sky-600 hover:bg-sky-500 text-white text-xs px-4 py-1.5 rounded-lg transition font-semibold shadow-md shadow-sky-600/20 active:scale-95">สุ่มโจทย์ใหม่</button>
+    </header>
+
+    <!-- Main Dashboard 2 Columns Layout -->
+    <main
+        class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-4 md:p-6 max-w-[1600px] w-full mx-auto overflow-hidden min-h-0">
+
+        <!-- ==================== LEFT COLUMN (FIXED PANEL) ==================== -->
+        <section class="lg:col-span-5 space-y-5 flex flex-col h-full overflow-y-auto pr-1 custom-scroll">
+
+            <!-- Problem Card -->
+            <div class="bg-slate-900/90 rounded-xl border border-slate-800 p-5 shadow-xl shrink-0">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wider uppercase">โจทย์สมการกำลังสอง</span>
+                </div>
+                <div
+                    class="bg-[#070a12] rounded-xl p-5 text-center border border-slate-800/80 shadow-inner flex justify-center items-center min-h-[90px]">
+                    <div id="problem-tex" class="text-2xl md:text-3xl font-bold text-amber-300"></div>
+                </div>
+            </div>
+
+            <!-- STEP 1 Card -->
+            <div id="step1-card"
+                class="bg-slate-900/90 rounded-xl border border-slate-800 p-5 space-y-4 shadow-xl flex-1 shrink-0">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-sky-400">ขั้นที่ 1: ระบุค่า $a, b, c$</h3>
+                    <span id="step1-badge"
+                        class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700">รอดำเนินการ</span>
+                </div>
+                <p class="text-xs text-slate-400">เทียบกับรูปแบบทั่วไป $ax^2 + bx + c = 0$:</p>
+
+                <div class="space-y-3 max-w-xs mx-auto py-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-slate-300">$a = $</span>
+                        <input id="input-a" type="number"
+                            class="w-36 bg-[#070a12] border border-slate-700 rounded-lg p-2 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-slate-300">$b = $</span>
+                        <input id="input-b" type="number"
+                            class="w-36 bg-[#070a12] border border-slate-700 rounded-lg p-2 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-slate-300">$c = $</span>
+                        <input id="input-c" type="number"
+                            class="w-36 bg-[#070a12] border border-slate-700 rounded-lg p-2 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <button id="btn-step1" onclick="checkStep1()"
+                    class="w-full bg-sky-600 hover:bg-sky-500 text-white text-xs py-2.5 rounded-lg font-semibold transition active:scale-98">ตรวจสอบค่า
+                    $a, b, c$</button>
+                <div id="step1-feedback" class="hidden text-xs text-center py-2.5 rounded-lg font-medium"></div>
+            </div>
+
+        </section>
+
+        <!-- ==================== RIGHT COLUMN (FIXED FORMULA HEADER + SCROLLABLE WORKSPACE) ==================== -->
+        <section class="lg:col-span-7 flex flex-col h-full overflow-hidden">
+
+            <!-- FIXED FORMULA REFERENCE CARD (Pinned at top of Right Column) -->
+            <div
+                class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 rounded-xl border border-amber-500/30 p-4 shadow-xl flex items-center justify-between gap-4 shrink-0 mb-4">
+                <div>
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block">สูตรการหาคำตอบ</span>
+                    <p class="text-xs text-slate-400">ใช้สำหรับแก้สมการกำลังสองตัวแปรเดียว</p>
+                </div>
+                <div
+                    class="bg-[#070a12] px-6 py-2 rounded-xl border border-amber-500/40 text-amber-300 font-bold text-xl md:text-2xl shadow-inner">
+                    $$\displaystyle x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+                </div>
+            </div>
+
+            <!-- SCROLLABLE STEPS CONTAINER (Only Step 2 and Step 3 scroll here) -->
+            <div class="flex-1 overflow-y-auto space-y-5 pr-1 custom-scroll min-h-0">
+
+                <!-- STEP 2 Card -->
+                <div id="step2-card"
+                    class="bg-slate-900/90 rounded-xl border border-slate-800 p-5 space-y-4 opacity-40 pointer-events-none transition-all shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h3 class="text-base font-bold text-emerald-400">ขั้นที่ 2: คำนวณค่า $b^2 - 4ac$</h3>
+                        <span id="step2-badge"
+                            class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700">ล็อกอยู่</span>
+                    </div>
+
+                    <p class="text-xs text-slate-400">แทนค่า $a, b, c$ ลงในสูตร:</p>
+
+                    <!-- Step 2 Part 1: Substitution -->
+                    <div class="bg-[#070a12] p-3.5 rounded-xl border border-slate-800 text-center">
+                        <div class="flex items-center justify-center gap-1 text-sm md:text-base font-bold flex-wrap">
+                            <span>$b^2 - 4ac = ($</span>
+                            <input id="step2-b1" type="number"
+                                class="w-14 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500"
+                                placeholder="b">
+                            <span>$)^2 - 4($</span>
+                            <input id="step2-a1" type="number"
+                                class="w-14 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500"
+                                placeholder="a">
+                            <span>$)($</span>
+                            <input id="step2-c1" type="number"
+                                class="w-14 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500"
+                                placeholder="c">
+                            <span>$)$</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 Part 2: Calculation -->
+                    <div class="bg-[#070a12] p-3.5 rounded-xl border border-slate-800 text-center">
+                        <div class="flex items-center justify-center gap-2 text-sm md:text-base font-bold flex-wrap">
+                            <span>$b^2 - 4ac = $</span>
+                            <input id="step2-b2" type="number"
+                                class="w-20 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500"
+                                placeholder="b²">
+                            <span>$-$</span>
+                            <span>(</span>
+                            <input id="step2-ac4" type="number"
+                                class="w-24 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500"
+                                placeholder="4ac">
+                            <span>)</span>
+                            <span>$=$</span>
+                            <input id="step2-final" type="number"
+                                class="w-24 bg-slate-900 border border-slate-700 rounded p-1 text-center text-amber-300 font-bold focus:outline-none focus:border-amber-500"
+                                placeholder="ผลลัพธ์">
+                        </div>
+                    </div>
+
+                    <!-- Step 2 Summary Option -->
+                    <div class="bg-[#070a12] p-3.5 rounded-xl border border-slate-800 space-y-2">
+                        <label class="text-xs text-slate-400 font-medium block">สรุปจำนวนคำตอบของสมการ:</label>
+                        <select id="input-type"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500 text-xs md:text-sm">
+                            <option value="">-- เลือกข้อสรุปจำนวนคำตอบ --</option>
+                            <option value="2">ค่า $b^2 - 4ac > 0$ → สรุป: สมการนี้มี 2 คำตอบ</option>
+                            <option value="1">ค่า $b^2 - 4ac = 0$ → สรุป: สมการนี้มี 1 คำตอบ</option>
+                            <option value="0">ค่า $b^2 - 4ac < 0$ → สรุป: ไม่มีคำตอบในระบบจำนวนจริง</option>
+                        </select>
+                    </div>
+
+                    <button id="btn-step2" onclick="checkStep2()"
+                        class="w-full bg-amber-600 hover:bg-amber-500 text-white text-xs py-2.5 rounded-lg font-semibold transition shadow-md shadow-amber-600/20 active:scale-98">ตรวจคำตอบขั้นที่
+                        2</button>
+                    <div id="step2-feedback" class="hidden text-xs text-center py-2.5 rounded-lg font-medium"></div>
+                </div>
+
+                <!-- STEP 3 Card -->
+                <div id="step3-card"
+                    class="bg-slate-900/90 rounded-xl border border-slate-800 p-5 space-y-5 opacity-40 pointer-events-none transition-all shadow-xl">
+
+                    <!-- Step 3 Header -->
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="text-base font-bold text-amber-400">ขั้นที่ 3: แทนค่าในสูตรหาคำตอบ $x$</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">เติมตัวเลขลงในแพตเทิร์นสูตรและคิดคำนวณแยก 2 ฝั่ง
+                            </p>
+                        </div>
+                        <span id="step3-badge"
+                            class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700 shrink-0">ล็อกอยู่</span>
+                    </div>
+
+                    <!-- PATTERN PLATES -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <!-- Root Input Plate -->
+                        <div
+                            class="bg-[#070a12] p-4 rounded-xl border border-slate-800 flex items-center justify-center gap-1.5 text-base font-bold">
+                            <span class="text-sky-400 sqrt-symbol">√</span>
+                            <div class="sqrt-content">
+                                <input id="plate-disc" type="number"
+                                    class="w-16 bg-slate-900 border border-slate-700 rounded p-1 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500 text-sm"
+                                    placeholder="b²-4ac">
+                            </div>
+                            <span class="text-slate-300 mx-1">$=$</span>
+                            <input id="plate-sqrtrsl" type="number"
+                                class="w-16 bg-slate-900 border border-slate-700 rounded p-1 text-center text-emerald-300 font-bold focus:outline-none focus:border-emerald-500 text-sm"
+                                placeholder="ถอดรูท">
+                        </div>
+
+                        <!-- Formula Fraction Plate -->
+                        <div
+                            class="bg-[#070a12] p-4 rounded-xl border border-slate-800 flex items-center justify-center gap-3 text-sm md:text-base font-bold text-sky-300">
+                            <span class="text-slate-200">$x = $</span>
+
+                            <!-- Fraction 1 -->
+                            <div class="inline-flex flex-col items-center">
+                                <div class="flex items-center gap-1.5 border-b-2 border-slate-600 pb-1 px-1">
+                                    <input id="plate-negb" type="number"
+                                        class="w-12 bg-slate-900 border border-slate-700 rounded p-1 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500 text-xs"
+                                        placeholder="-b">
+                                    <span class="text-slate-300">$\pm$</span>
+                                    <input id="plate-sqval" type="number"
+                                        class="w-12 bg-slate-900 border border-slate-700 rounded p-1 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500 text-xs"
+                                        placeholder="ถอดรูท">
+                                </div>
+                                <div class="pt-1 flex items-center gap-0.5 text-xs text-slate-300">
+                                    <span>2(</span>
+                                    <input id="plate-denom-a" type="number"
+                                        class="w-10 bg-slate-900 border border-slate-700 rounded p-1 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500 text-xs"
+                                        placeholder="a">
+                                    <span>)</span>
+                                </div>
+                            </div>
+
+                            <span class="text-slate-300">$=$</span>
+
+                            <!-- Fraction 2 (Simplified) -->
+                            <div class="inline-flex flex-col items-center">
+                                <div class="border-b-2 border-slate-600 pb-1 px-2 text-amber-300 font-bold text-sm"
+                                    id="plate-disp-top">
+                                    -b ± √
+                                </div>
+                                <div class="pt-1">
+                                    <input id="plate-denom-2a" type="number"
+                                        class="w-12 bg-slate-900 border border-slate-700 rounded p-1 text-center text-sky-300 font-bold focus:outline-none focus:border-sky-500 text-xs"
+                                        placeholder="2a">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Check Step 3 Part A Button -->
+                    <button id="btn-step3-plate" onclick="checkStep3Plate()"
+                        class="w-full bg-sky-700 hover:bg-sky-600 text-white text-xs py-2 rounded-lg font-semibold transition active:scale-98">ตรวจแพตเทิร์นสูตร</button>
+                    <div id="step3-plate-feedback" class="hidden text-xs text-center py-2 rounded-lg font-medium"></div>
+
+                    <!-- PATTERN PLATE 2: Split (+) and (-) Computation -->
+                    <div id="split-section" class="space-y-4 opacity-40 pointer-events-none transition-all">
+                        <div
+                            class="text-center font-bold text-amber-300 text-sm py-1.5 bg-slate-800/60 rounded-lg border border-slate-700/50">
+                            กระจายคิด 2 ฝั่ง ($+$ และ $-$):
+                        </div>
+
+                        <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <!-- Side 1 (+) -->
+                            <div class="bg-[#070a12] p-4 rounded-xl border border-slate-800 space-y-3">
+                                <div class="text-xs font-semibold text-emerald-400">• ฝั่งบวก ($+$):</div>
+                                <div id="side1-formula" class="py-2 text-center font-bold large-math"></div>
+                                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
+                                    <label class="text-xs text-slate-400 block">คำตอบแรก ($x_1$):</label>
+                                    <input id="input-x1" type="number" step="any"
+                                        class="w-full bg-[#070a12] border border-slate-700 rounded-lg p-2 text-center text-amber-300 font-bold focus:outline-none focus:border-amber-500"
+                                        placeholder="กรอกตัวเลขคำตอบ">
+                                </div>
+                            </div>
+
+                            <!-- Side 2 (-) -->
+                            <div id="x2-box" class="bg-[#070a12] p-4 rounded-xl border border-slate-800 space-y-3">
+                                <div class="text-xs font-semibold text-rose-400">• ฝั่งลบ ($-$):</div>
+                                <div id="side2-formula" class="py-2 text-center font-bold large-math"></div>
+                                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
+                                    <label class="text-xs text-slate-400 block">คำตอบที่สอง ($x_2$):</label>
+                                    <input id="input-x2" type="number" step="any"
+                                        class="w-full bg-[#070a12] border border-slate-700 rounded-lg p-2 text-center text-amber-300 font-bold focus:outline-none focus:border-amber-500"
+                                        placeholder="กรอกตัวเลขคำตอบ">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button id="btn-step3" onclick="checkStep3Final()"
+                            class="w-full bg-amber-600 hover:bg-amber-500 text-white text-xs py-3 rounded-lg font-semibold transition shadow-lg shadow-amber-600/20 active:scale-98">ตรวจคำตอบ
+                            $x$ ทั้งหมด</button>
+                        <div id="step3-feedback" class="hidden text-xs text-center py-2.5 rounded-lg font-medium"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        let currentEq = {};
+        let targetDisc = 0;
+        let numSolutions = 0;
+
+        function generateProblem() {
+            const a = [1, 2, 3][Math.floor(Math.random() * 3)];
+            const x1 = Math.floor(Math.random() * 9) - 4;
+            const x2 = Math.floor(Math.random() * 9) - 4;
+
+            const b = -a * (x1 + x2);
+            const c = a * x1 * x2;
+
+            currentEq = { a, b, c, x1, x2 };
+            targetDisc = (b * b) - (4 * a * c);
+
+            if (targetDisc > 0) numSolutions = 2;
+            else if (targetDisc === 0) numSolutions = 1;
+            else numSolutions = 0;
+
+            let bSign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+            let cSign = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+
+            if (b === 1) bSign = '+ ';
+            if (b === -1) bSign = '- ';
+            if (b === 0) bSign = '';
+            if (c === 0) cSign = '';
+
+            const termA = a === 1 ? '' : a;
+            const termB = (b === 0) ? '' : `${bSign}x`;
+            const termC = (c === 0) ? '' : `${cSign}`;
+
+            const tex = `${termA}x^2 ${termB} ${termC} = 0`.replace(/\s+/g, ' ').trim();
+
+            document.getElementById('problem-tex').innerHTML = `$$\\displaystyle ${tex}$$`;
+            MathJax.typesetPromise();
+
+            // Clear inputs
+            const allInputs = ['input-a', 'input-b', 'input-c', 'step2-b1', 'step2-a1', 'step2-c1', 'step2-b2', 'step2-ac4', 'step2-final', 'input-type', 'plate-disc', 'plate-sqrtrsl', 'plate-negb', 'plate-sqval', 'plate-denom-a', 'plate-denom-2a', 'input-x1', 'input-x2'];
+            allInputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            // Reset UI Cards
+            resetCard('step1-card', 'step1-badge', 'รอดำเนินการ', false);
+            resetCard('step2-card', 'step2-badge', 'ล็อกอยู่', true);
+            resetCard('step3-card', 'step3-badge', 'ล็อกอยู่', true);
+
+            document.getElementById('split-section').classList.add('opacity-40', 'pointer-events-none');
+
+            document.getElementById('step1-feedback').className = 'hidden text-xs text-center py-2.5 rounded-lg';
+            document.getElementById('step2-feedback').className = 'hidden text-xs text-center py-2.5 rounded-lg';
+            document.getElementById('step3-plate-feedback').className = 'hidden text-xs text-center py-2 rounded-lg';
+            document.getElementById('step3-feedback').className = 'hidden text-xs text-center py-2.5 rounded-lg';
+
+            document.getElementById('x2-box').style.display = 'block';
+            document.getElementById('plate-disp-top').innerText = '-b ± √';
+        }
+
+        function resetCard(cardId, badgeId, badgeText, isLocked) {
+            const card = document.getElementById(cardId);
+            const badge = document.getElementById(badgeId);
+            badge.innerText = badgeText;
+            badge.className = isLocked ? 'text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700' : 'text-xs px-2.5 py-1 rounded-md bg-sky-950 text-sky-300 border border-sky-700/50';
+
+            if (isLocked) {
+                card.classList.add('opacity-40', 'pointer-events-none');
+            } else {
+                card.classList.remove('opacity-40', 'pointer-events-none');
+            }
+        }
+
+        function checkStep1() {
+            const userA = parseInt(document.getElementById('input-a').value);
+            const userB = parseInt(document.getElementById('input-b').value) || 0;
+            const userC = parseInt(document.getElementById('input-c').value) || 0;
+
+            const fb = document.getElementById('step1-feedback');
+            fb.classList.remove('hidden');
+
+            if (userA === currentEq.a && userB === currentEq.b && userC === currentEq.c) {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 font-medium";
+                fb.innerHTML = "✓ ถูกต้อง! ทำขั้นที่ 2 ฝั่งขวาได้เลย";
+
+                document.getElementById('step1-badge').innerText = 'ผ่านแล้ว ✓';
+                document.getElementById('step1-badge').className = 'text-xs px-2.5 py-1 rounded-md bg-emerald-950 text-emerald-300 border border-emerald-700/50';
+
+                resetCard('step2-card', 'step2-badge', 'ทำขั้นนี้', false);
+            } else {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-rose-950/80 border border-rose-600/50 text-rose-300 font-medium";
+                fb.innerText = "❌ ค่า a, b หรือ c ยังไม่ถูกต้อง ตรวจสอบอีกครั้ง";
+            }
+        }
+
+        function checkStep2() {
+            const b1 = parseInt(document.getElementById('step2-b1').value) || 0;
+            const a1 = parseInt(document.getElementById('step2-a1').value);
+            const c1 = parseInt(document.getElementById('step2-c1').value) || 0;
+
+            const b2 = parseInt(document.getElementById('step2-b2').value);
+            const ac4 = parseInt(document.getElementById('step2-ac4').value);
+            const finalDisc = parseInt(document.getElementById('step2-final').value);
+            const userType = parseInt(document.getElementById('input-type').value);
+
+            const fb = document.getElementById('step2-feedback');
+            fb.classList.remove('hidden');
+
+            const expectedB2 = currentEq.b * currentEq.b;
+            const expected4ac = 4 * currentEq.a * currentEq.c;
+
+            const isFormulaCorrect = (b1 === currentEq.b && a1 === currentEq.a && c1 === currentEq.c);
+            const isCalcCorrect = (b2 === expectedB2 && ac4 === expected4ac && finalDisc === targetDisc);
+            const isSummaryCorrect = (userType === numSolutions);
+
+            if (isFormulaCorrect && isCalcCorrect && isSummaryCorrect) {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 font-medium";
+                fb.innerHTML = `✓ ถูกต้อง! ค่า $b^2 - 4ac = ${targetDisc}$`;
+
+                document.getElementById('step2-badge').innerText = 'ผ่านแล้ว ✓';
+                document.getElementById('step2-badge').className = 'text-xs px-2.5 py-1 rounded-md bg-emerald-950 text-emerald-300 border border-emerald-700/50';
+
+                if (numSolutions === 0) {
+                    fb.innerHTML = `✓ ถูกต้อง! ค่า $b^2 - 4ac = ${targetDisc}$ (ติดลบ) → ไม่มีคำตอบในระบบจำนวนจริง`;
+                    resetCard('step3-card', 'step3-badge', 'ไม่มีคำตอบ', true);
+                } else {
+                    resetCard('step3-card', 'step3-badge', 'ทำขั้นนี้', false);
+                    document.getElementById('plate-disp-top').innerText = `${-currentEq.b} ± ${Math.sqrt(targetDisc)}`;
+                }
+
+                MathJax.typesetPromise();
+            } else {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-rose-950/80 border border-rose-600/50 text-rose-300 font-medium";
+                fb.innerText = "❌ ช่องแทนค่า หรือผลคำนวณยังไม่ถูกต้อง ลองตรวจสอบอีกครั้ง";
+            }
+        }
+
+        function checkStep3Plate() {
+            const userDisc = parseInt(document.getElementById('plate-disc').value);
+            const userSqrtRsl = parseInt(document.getElementById('plate-sqrtrsl').value);
+            const userNegB = parseInt(document.getElementById('plate-negb').value);
+            const userSqval = parseInt(document.getElementById('plate-sqval').value);
+            const userDenomA = parseInt(document.getElementById('plate-denom-a').value);
+            const userDenom2a = parseInt(document.getElementById('plate-denom-2a').value);
+
+            const fb = document.getElementById('step3-plate-feedback');
+            fb.classList.remove('hidden');
+
+            const sqrtVal = Math.sqrt(targetDisc);
+            const expectedNegB = -currentEq.b;
+            const expected2a = 2 * currentEq.a;
+
+            const isPlateCorrect = (userDisc === targetDisc && userSqrtRsl === sqrtVal &&
+                userNegB === expectedNegB && userSqval === sqrtVal &&
+                userDenomA === currentEq.a && userDenom2a === expected2a);
+
+            if (isPlateCorrect) {
+                fb.className = "text-xs text-center py-2 rounded-lg bg-emerald-950/80 border border-emerald-600/50 text-emerald-300 font-medium";
+                fb.innerHTML = "✓ ตั้งสูตรถูกต้อง! คำนวณหาคำตอบ $x$ ในขั้นตอนถัดไปได้เลย";
+
+                document.getElementById('split-section').classList.remove('opacity-40', 'pointer-events-none');
+                setupSplitUI();
+            } else {
+                fb.className = "text-xs text-center py-2 rounded-lg bg-rose-950/80 border border-rose-600/50 text-rose-300 font-medium";
+                fb.innerText = "❌ ตัวเลขในแพตเทิร์นสูตรยังไม่ถูกต้อง ลองตรวจเช็กค่า -b, √ หรือตัวส่วนอีกครั้ง";
+            }
+        }
+
+        function setupSplitUI() {
+            const a = currentEq.a;
+            const negB = -currentEq.b;
+            const sqrtD = Math.sqrt(targetDisc);
+
+            document.getElementById('side1-formula').innerHTML = `$$\\displaystyle x_1 = \\frac{${negB} + ${sqrtD}}{${2 * a}}$$`;
+
+            if (numSolutions === 2) {
+                document.getElementById('x2-box').style.display = 'block';
+                document.getElementById('side2-formula').innerHTML = `$$\\displaystyle x_2 = \\frac{${negB} - ${sqrtD}}{${2 * a}}$$`;
+            } else {
+                document.getElementById('x2-box').style.display = 'none';
+            }
+            MathJax.typesetPromise();
+        }
+
+        function checkStep3Final() {
+            const userX1 = parseFloat(document.getElementById('input-x1').value);
+            const userX2 = parseFloat(document.getElementById('input-x2').value);
+
+            const fb = document.getElementById('step3-feedback');
+            fb.classList.remove('hidden');
+
+            const targetX1 = currentEq.x1;
+            const targetX2 = currentEq.x2;
+
+            let isCorrect = false;
+
+            if (numSolutions === 2) {
+                if ((userX1 === targetX1 && userX2 === targetX2) || (userX1 === targetX2 && userX2 === targetX1)) {
+                    isCorrect = true;
+                }
+            } else if (numSolutions === 1) {
+                if (userX1 === targetX1) {
+                    isCorrect = true;
+                }
+            }
+
+            if (isCorrect) {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-emerald-950/90 border border-emerald-500 text-emerald-300 font-bold";
+                fb.innerHTML = `🎉 ถูกต้องสมบูรณ์ครบทุกขั้นตอน! เก่งมากครับ`;
+                document.getElementById('step3-badge').innerText = 'เสร็จสมบูรณ์ 🎉';
+                document.getElementById('step3-badge').className = 'text-xs px-2.5 py-1 rounded-md bg-emerald-950 text-emerald-300 border border-emerald-700/50';
+            } else {
+                fb.className = "text-xs text-center py-2.5 rounded-lg bg-rose-950/80 border border-rose-600/50 text-rose-300 font-medium";
+                fb.innerText = "❌ คำตอบ x ยังไม่ถูกต้อง ลองคำนวณตัวเลขอีกครั้ง";
+            }
+        }
+
+        window.onload = generateProblem;
+    </script>
+</body>
+
+</html>

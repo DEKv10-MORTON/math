@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกโจทย์ความน่าจะเป็น ม.3 - DEK MORTON STUDIO</title>
+    <!-- MathJax Library -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --accent: #06b6d4;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 16px;
+        }
+
+        .header h1 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .brand {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            flex: 1;
+            min-width: 130px;
+            padding: 10px 8px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .formula-box {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px dashed var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #e2e8f0;
+        }
+
+        .question-box {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #f8fafc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 14px 16px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        .option-btn:hover {
+            background: #475569;
+        }
+
+        .option-btn.correct {
+            background: var(--success);
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: var(--danger);
+        }
+
+        .solution-box {
+            display: none;
+            background: #0f172a;
+            border: 1px solid var(--warning);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .solution-title {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .solution-step {
+            margin-bottom: 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--warning);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #0f172a;
+            display: none;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 28px;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>โปรแกรมฝึกโจทย์ความน่าจะเป็น ม.3</h1>
+            <div class="brand">DEK MORTON STUDIO</div>
+        </div>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="switchMode(1)">1. เหรียญ & ลูกเต๋า</button>
+            <button class="mode-btn" onclick="switchMode(2)">2. หยิบสลาก / ลูกบอล</button>
+            <button class="mode-btn" onclick="switchMode(3)">3. เลือกตัวแทน / กลุ่ม</button>
+            <button class="mode-btn" onclick="switchMode(4)">4. แผนภาพต้นไม้ / คู่</button>
+            <button class="mode-btn" onclick="switchMode(5)">5. สมบัติ P(E) + P(E')</button>
+        </div>
+
+        <div class="formula-box">
+            💡 สูตรคำนวณหลัก: \(P(E) = \dfrac{n(E)}{n(S)}\) &nbsp;|&nbsp; โดยที่ \(0 \le P(E) \le 1\)
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="questionText">กำลังโหลดคำถาม...</div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="solution-box" id="solutionBox">
+            <div class="solution-title">💡 เฉลยวิธีคิดอย่างละเอียด:</div>
+            <div id="solutionText"></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-warning" id="btnSolution" onclick="toggleSolution()">💡 ดูวิธีคิด</button>
+            <button class="btn btn-primary" onclick="generateNewProblem()">สุ่มโจทย์ใหม่</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentSolutionHTML = "";
+
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        // สร้างข้อความ LaTeX สำหรับเศษส่วนโดยใช้วิธี Escape Backslash (\\) อย่างถูกต้อง
+        function makeFractionLatex(n, d) {
+            if (n === 0) return "0";
+            if (n === d) return "1";
+            let g = gcd(n, d);
+            let num = n / g;
+            let den = d / g;
+            if (den === 1) return `${num}`;
+            return `\\dfrac{${num}}{${den}}`;
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === mode);
+            });
+            generateNewProblem();
+        }
+
+        function triggerMathJax() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function generateNewProblem() {
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('solutionBox').style.display = 'none';
+            document.getElementById('btnSolution').style.display = 'none';
+
+            if (currentMode === 1) buildDiceCoinQuestion();
+            else if (currentMode === 2) buildDrawItemQuestion();
+            else if (currentMode === 3) buildSelectionQuestion();
+            else if (currentMode === 4) buildTreeMatchingQuestion();
+            else if (currentMode === 5) buildPropertyQuestion();
+
+            triggerMathJax();
+        }
+
+        // 1. เหรียญ & ลูกเต๋า
+        function buildDiceCoinQuestion() {
+            let type = getRandomInt(1, 2);
+            let qText = "", correctFrac = "", options = [];
+
+            if (type === 1) { // ทอยลูกเต๋า 2 ลูก
+                let targetSum = getRandomInt(8, 11);
+                let total = 36;
+                let favorable = 0;
+                let pairs = [];
+
+                for (let d1 = 1; d1 <= 6; d1++) {
+                    for (let d2 = 1; d2 <= 6; d2++) {
+                        if (d1 + d2 === targetSum) {
+                            favorable++;
+                            pairs.push(`(${d1},${d2})`);
+                        }
+                    }
+                }
+
+                qText = `ทอยลูกเต๋าที่เที่ยงตรง 2 ลูกพร้อมกัน 1 ครั้ง ความน่าจะเป็นที่จะได้ผลรวมของแต้มบนลูกเต๋าทั้งสองเท่ากับ <b>${targetSum}</b> เป็นเท่าใด?`;
+                correctFrac = makeFractionLatex(favorable, total);
+
+                options = [
+                    `\\(${correctFrac}\\)`,
+                    `\\(${makeFractionLatex(favorable + 1, total)}\\)`,
+                    `\\(${makeFractionLatex(Math.max(1, favorable - 1), total)}\\)`,
+                    `\\(${makeFractionLatex(favorable, 18)}\\)`
+                ];
+
+                currentSolutionHTML = `
+                <div class="solution-step">1. หาจำนวนผลลัพธ์ทั้งหมด \\( n(S) = 6 \\times 6 = 36 \\) แบบ</div>
+                <div class="solution-step">2. หาจำนวนผลลัพธ์ที่สนใจ \\( n(E) \\) ผลรวมแต้มเท่ากับ ${targetSum} ได้แก่: ${pairs.join(', ')} รวมเป็น <b>${favorable}</b> แบบ</div>
+                <div class="solution-step">3. คำนวณ \\( P(E) = \\dfrac{n(E)}{n(S)} = \\dfrac{${favorable}}{36} = ${correctFrac} \\)</div>
+            `;
+            } else { // โยนเหรียญ 3 เหรียญ
+                qText = `โยนเหรียญที่เที่ยงตรง 3 เหรียญพร้อมกัน 1 ครั้ง ความน่าจะเป็นที่จะออก<b>หัวอย่างน้อย 2 เหรียญ</b> เป็นเท่าใด?`;
+                let total = 8;
+                let favorable = 4; // HHH, HHT, HTH, THH
+                correctFrac = makeFractionLatex(favorable, total);
+
+                options = [
+                    `\\(${correctFrac}\\)`,
+                    `\\(${makeFractionLatex(3, 8)}\\)`,
+                    `\\(${makeFractionLatex(1, 8)}\\)`,
+                    `\\(${makeFractionLatex(5, 8)}\\)`
+                ];
+
+                currentSolutionHTML = `
+                <div class="solution-step">1. หาจำนวนผลลัพธ์ทั้งหมด \\( n(S) = 2^3 = 8 \\) แบบ (HHH, HHT, HTH, HTT, THH, THT, TTH, TTT)</div>
+                <div class="solution-step">2. เหตุการณ์ออกหัวอย่างน้อย 2 เหรียญ ได้แก่ HHH, HHT, HTH, THH รวม \\( n(E) = 4 \\) แบบ</div>
+                <div class="solution-step">3. คำนวณ \\( P(E) = \\dfrac{n(E)}{n(S)} = \\dfrac{4}{8} = ${correctFrac} \\)</div>
+            `;
+            }
+            renderQuestion(qText, options, options[0]);
+        }
+
+        // 2. หยิบสลาก / ลูกบอล
+        function buildDrawItemQuestion() {
+            let red = getRandomInt(3, 6);
+            let blue = getRandomInt(2, 5);
+            let yellow = getRandomInt(2, 4);
+            let total = red + blue + yellow;
+
+            let qText = `ในถุงใบหนึ่งมีลูกบอลสีแดง ${red} ลูก, สีน้ำเงิน ${blue} ลูก และสีเหลือง ${yellow} ลูก สุ่มหยิบลูกบอลขึ้นมา 1 ลูก ความน่าจะเป็นที่จะได้<b>ลูกบอลสีน้ำเงิน</b>เป็นเท่าใด?`;
+            let correctFrac = makeFractionLatex(blue, total);
+
+            let options = [
+                `\\(${correctFrac}\\)`,
+                `\\(${makeFractionLatex(red, total)}\\)`,
+                `\\(${makeFractionLatex(yellow, total)}\\)`,
+                `\\(${makeFractionLatex(blue + 1, total)}\\)`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. หาจำนวนลูกบอลทั้งหมด \\( n(S) = ${red} + ${blue} + ${yellow} = ${total} \\) ลูก</div>
+            <div class="solution-step">2. จำนวนลูกบอลสีน้ำเงิน \\( n(E) = ${blue} \\) ลูก</div>
+            <div class="solution-step">3. คำนวณ \\( P(E) = \\dfrac{n(E)}{n(S)} = \\dfrac{${blue}}{${total}} = ${correctFrac} \\)</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+        // 3. เลือกตัวแทน / กลุ่ม
+        function buildSelectionQuestion() {
+            let male = getRandomInt(4, 7);
+            let female = getRandomInt(5, 8);
+            let total = male + female;
+
+            let qText = `ชมรมหนึ่งมีสมาชิกเป็นชาย ${male} คน และหญิง ${female} คน สุ่มเลือกตัวแทนมา 1 คน ความน่าจะเป็นที่จะได้<b>ตัวแทนเป็นนักเรียนหญิง</b>เป็นเท่าใด?`;
+            let correctFrac = makeFractionLatex(female, total);
+
+            let options = [
+                `\\(${correctFrac}\\)`,
+                `\\(${makeFractionLatex(male, total)}\\)`,
+                `\\(${makeFractionLatex(female, male)}\\)`,
+                `\\(${makeFractionLatex(1, total)}\\)`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. จำนวนคนทั้งหมด \\( n(S) = ${male} + ${female} = ${total} \\) คน</div>
+            <div class="solution-step">2. จำนวนนักเรียนหญิง \\( n(E) = ${female} \\) คน</div>
+            <div class="solution-step">3. คำนวณ \\( P(E) = \\dfrac{n(E)}{n(S)} = \\dfrac{${female}}{${total}} = ${correctFrac} \\)</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+        // 4. แผนภาพต้นไม้ / จับคู่
+        function buildTreeMatchingQuestion() {
+            let shirts = getRandomInt(3, 4);
+            let pants = getRandomInt(2, 3);
+            let total = shirts * pants;
+
+            let qText = `ก้องมีเสื้อเชิ้ตต่างกัน ${shirts} ตัว และกางเกงต่างกัน ${pants} ตัว ถ้าก้องสุ่มแต่งกาย ความน่าจะเป็นที่จะแต่งกายได้<b>ชุดที่ระบุไว้เฉพาะชุดหนึ่ง</b>เป็นเท่าใด?`;
+            let correctFrac = makeFractionLatex(1, total);
+
+            let options = [
+                `\\(${correctFrac}\\)`,
+                `\\(${makeFractionLatex(1, shirts + pants)}\\)`,
+                `\\(${makeFractionLatex(shirts, total)}\\)`,
+                `\\(${makeFractionLatex(pants, total)}\\)`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. จำนวนวิธีแต่งกายทั้งหมด \\( n(S) = ${shirts} \\times ${pants} = ${total} \\) แบบ</div>
+            <div class="solution-step">2. เจาะจงเฉพาะชุดที่ระบุ \\( n(E) = 1 \\) แบบ</div>
+            <div class="solution-step">3. คำนวณ \\( P(E) = \\dfrac{n(E)}{n(S)} = ${correctFrac} \\)</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+        // 5. สมบัติ P(E) + P(E') = 1
+        function buildPropertyQuestion() {
+            let num = getRandomInt(3, 7);
+            let den = 10;
+            let pE_frac = makeFractionLatex(num, den);
+            let pNotE_frac = makeFractionLatex(den - num, den);
+
+            let qText = `ถ้าความน่าจะเป็นที่ฝนจะตกในวันนี้ เท่ากับ \\( ${pE_frac} \\) แล้วความน่าจะเป็นที่<b>ฝนจะไม่ตก</b>ในวันนี้เท่ากับเท่าใด?`;
+
+            let options = [
+                `\\(${pNotE_frac}\\)`,
+                `\\(${pE_frac}\\)`,
+                `\\(${makeFractionLatex(1, den)}\\)`,
+                `\\(1\\)`
+            ];
+
+            currentSolutionHTML = `
+            <div class="solution-step">1. ใช้สมบัติผลรวมความน่าจะเป็น: \\( P(E) + P(E') = 1 \\)</div>
+            <div class="solution-step">2. แทนค่า \\( P(\\text{ฝนไม่ตก}) = 1 - P(\\text{ฝนตก}) = 1 - ${pE_frac} \\)</div>
+            <div class="solution-step">3. ได้คำตอบ = \\( ${pNotE_frac} \\)</div>
+        `;
+
+            renderQuestion(qText, options, options[0]);
+        }
+
+        function renderQuestion(qText, options, correctOpt) {
+            document.getElementById('questionText').innerHTML = qText;
+            let optContainer = document.getElementById('optionsContainer');
+            optContainer.innerHTML = '';
+
+            // Shuffle options
+            let uniqueOpts = [...new Set(options)];
+            uniqueOpts.sort(() => Math.random() - 0.5);
+
+            uniqueOpts.forEach(opt => {
+                let btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = opt;
+                btn.onclick = () => checkAns(btn, opt, correctOpt);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function checkAns(button, selected, correct) {
+            let feedback = document.getElementById('feedback');
+            let allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (selected === correct) {
+                button.classList.add('correct');
+                feedback.style.color = 'var(--success)';
+                feedback.innerText = '🎉 ถูกต้องเก่งมาก!';
+            } else {
+                button.classList.add('incorrect');
+                feedback.style.color = 'var(--danger)';
+                feedback.innerText = '❌ ยังไม่ถูกต้อง ดูเฉลยด้านล่างได้เลย';
+                allBtns.forEach(b => {
+                    if (b.innerHTML === correct) b.classList.add('correct');
+                });
+            }
+
+            document.getElementById('btnSolution').style.display = 'inline-block';
+        }
+
+        function toggleSolution() {
+            let box = document.getElementById('solutionBox');
+            let solText = document.getElementById('solutionText');
+
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                solText.innerHTML = currentSolutionHTML;
+                box.style.display = 'block';
+                triggerMathJax();
+            }
+        }
+
+        // เริ่มต้นทำงาน
+        switchMode(1);
+    </script>
+
+</body>
+
+</html>

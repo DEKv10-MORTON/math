@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEK MORTON STUDIO | ระบบฝึกแก้โจทย์ปัญหาระบบสมการ 2 ตัวแปร (Highlight Version)</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root {
+      --bg-main: #0B0F19;
+      --bg-card: #111827;
+      --bg-header: #1F2937;
+      --border-color: #374151;
+      --primary: #0284C7;
+      --primary-hover: #0369A1;
+      --accent-yellow: #F59E0B;
+      --accent-green: #10B981;
+      --accent-pink: #EC4899;
+      --accent-purple: #A855F7;
+      --text-main: #F9FAFB;
+      --text-muted: #9CA3AF;
+      --font-main: 'Prompt', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-main); min-height: 100vh; padding-bottom: 2rem; }
+
+    header {
+      background: rgba(17, 24, 39, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .brand-title { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .brand-highlight { color: var(--primary); }
+    .brand-sub { color: var(--text-muted); font-size: 0.85rem; font-weight: 400; }
+
+    .main-container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cat-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.85rem 0.5rem;
+      color: var(--text-muted);
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-header {
+      background-color: var(--bg-header);
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-body { padding: 1.5rem; }
+
+    /* Highlight Styles */
+    .hl-eq1 {
+      background: rgba(245, 158, 11, 0.2);
+      color: #FBBF24;
+      border-bottom: 2px solid var(--accent-yellow);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.2rem;
+      font-weight: 500;
+    }
+
+    .hl-eq2 {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border-bottom: 2px solid var(--accent-green);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.2rem;
+      font-weight: 500;
+    }
+
+    .hl-target {
+      background: rgba(236, 72, 153, 0.2);
+      color: #F472B6;
+      border-bottom: 2px dashed var(--accent-pink);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.2rem;
+      font-weight: 500;
+    }
+
+    .problem-box {
+      background: #060911;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--primary);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      font-size: 1.1rem;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    .legend-box {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      background: rgba(31, 41, 55, 0.5);
+      padding: 0.6rem 1rem;
+      border-radius: 0.4rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .variable-definition {
+      background: rgba(2, 132, 199, 0.08);
+      border: 1px dashed rgba(2, 132, 199, 0.4);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .step-box {
+      background: var(--bg-header);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .step-box.eq1-border { border-left: 4px solid var(--accent-yellow); }
+    .step-box.eq2-border { border-left: 4px solid var(--accent-green); }
+
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .equation-input-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .input-num {
+      width: 75px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 0.5rem;
+      border-radius: 0.4rem;
+      font-family: 'Fira Code', monospace;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-family: var(--font-main);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-solution {
+      background: #060911;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-green);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <span class="brand-highlight">DEK MORTON STUDIO</span>
+      <span class="brand-sub">| ระบบฝึกแก้โจทย์ปัญหาระบบสมการ 2 ตัวแปร</span>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- CATEGORY SELECTION -->
+    <div class="category-grid">
+      <button class="cat-btn active" onclick="selectCategory('ticket', this)">🎟️ 1. ตั๋วหนัง & ซื้อของ</button>
+      <button class="cat-btn" onclick="selectCategory('coin', this)">🪙 2. เหรียญ & เงินออม</button>
+      <button class="cat-btn" onclick="selectCategory('seat', this)">🪑 3. จัดเก้าอี้ & คน</button>
+      <button class="cat-btn" onclick="selectCategory('boat', this)">🚣 4. พายเรือตาม-ทวนน้ำ</button>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div id="cat-title">โจทย์ประเภท: 🎟️ ตั๋วหนัง & ซื้อของ</div>
+        <button onclick="generateProblem()" style="background:none; border:1px solid var(--border-color); color:var(--text-muted); padding:0.3rem 0.8rem; border-radius:0.3rem; cursor:pointer; font-family:var(--font-main);">🎲 สุ่มโจทย์ใหม่</button>
+      </div>
+
+      <div class="card-body">
+
+        <!-- PROBLEM STATEMENT -->
+        <div class="problem-box" id="problem-text">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- KEYWORD LEGEND -->
+        <div class="legend-box">
+          <div><span class="hl-eq1">แถบสีเหลือง</span> = ข้อความตั้งสมการที่ (1)</div>
+          <div><span class="hl-eq2">แถบสีเขียว</span> = ข้อความตั้งสมการที่ (2)</div>
+          <div><span class="hl-target">แถบสีชมพู</span> = คำถาม ($x, y$)</div>
+        </div>
+
+        <!-- VARIABLE SETTING -->
+        <div class="variable-definition" id="variable-text">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- STEP 1: EQUATION 1 -->
+        <div class="step-box eq1-border">
+          <div class="step-title" style="color:var(--accent-yellow)">📌 ขั้นตอนที่ 1: ตั้งสมการที่ (1) จากข้อความแถบสีเหลือง</div>
+          <div id="eq1-prompt" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.5rem;"></div>
+          <div class="equation-input-group" id="eq1-input-area">
+            <!-- Dynamic Input -->
+          </div>
+        </div>
+
+        <!-- STEP 2: EQUATION 2 -->
+        <div class="step-box eq2-border">
+          <div class="step-title" style="color:var(--accent-green)">📌 ขั้นตอนที่ 2: ตั้งสมการที่ (2) จากข้อความแถบสีเขียว</div>
+          <div id="eq2-prompt" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.5rem;"></div>
+          <div class="equation-input-group" id="eq2-input-area">
+            <!-- Dynamic Input -->
+          </div>
+        </div>
+
+        <button class="btn-action" style="margin-top:1rem;" onclick="checkAndSolve()">ตรวจคำตอบ & แสดงวิธีทำอย่างละเอียด ➔</button>
+
+        <!-- SOLUTION DISPLAY -->
+        <div id="solution-area" class="result-solution hidden">
+          <!-- Rendered via JS -->
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentCategory = 'ticket';
+    let currentData = {};
+
+    function selectCategory(cat, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = cat;
+
+      const titles = {
+        'ticket': 'โจทย์ประเภท: 🎟️ ตั๋วหนัง & ซื้อของ (จำนวน + ราคารวม)',
+        'coin': 'โจทย์ประเภท: 🪙 เหรียญ & เงินออม (จำนวนเหรียญ + มูลค่า)',
+        'seat': 'โจทย์ประเภท: 🪑 จัดเก้าอี้ & คน (คิดเศษเหลือ)',
+        'boat': 'โจทย์ประเภท: 🚣 พายเรือตามน้ำ & ทวนน้ำ (ความเร็ว)'
+      };
+      document.getElementById('cat-title').innerText = titles[cat];
+      generateProblem();
+    }
+
+    function generateProblem() {
+      document.getElementById('solution-area').classList.add('hidden');
+
+      if (currentCategory === 'ticket') {
+        const adultPrice = (Math.floor(Math.random() * 6) + 8) * 10; 
+        const childPrice = adultPrice / 2;
+        const x = Math.floor(Math.random() * 30) + 20; 
+        const y = Math.floor(Math.random() * 40) + 30; 
+        const totalCount = x + y;
+        const totalPrice = (x * adultPrice) + (y * childPrice);
+
+        currentData = {
+          x, y,
+          type: 'ticket',
+          text: `โรงภาพยนตร์แห่งหนึ่งขายบัตรผู้ใหญ่ใบละ <b>${adultPrice}</b> บาท และบัตรเด็กใบละ <b>${childPrice}</b> บาท <span class="hl-eq1">วันนี้ขายบัตรได้ทั้งหมด ${totalCount} ใบ</span> <span class="hl-eq2">คิดเป็นเงินรวม ${totalPrice.toLocaleString()} บาท</span> <span class="hl-target">อยากทราบว่ามีผู้ใหญ่และเด็กเข้าชมอย่างละกี่คน</span>`,
+          varText: `กำหนดตัวแปรจากสิ่งที่โจทย์ถาม (<span class="hl-target">แถบสีชมพู</span>):<br>• ให้ $x$ แทนจำนวนผู้ใหญ่ (คน)<br>• ให้ $y$ แทนจำนวนเด็ก (คน)`,
+          eq1Text: `จากแถบสีเหลือง "ขายได้รวม ${totalCount} ใบ" $\\implies$ ผู้ใหญ่ ($x$) + เด็ก ($y$) = ${totalCount}`,
+          eq2Text: `จากแถบสีเขียว "คิดเป็นเงินรวม ${totalPrice.toLocaleString()} บาท" $\\implies$ (${adultPrice} $\\times x$) + (${childPrice} $\\times y$) = ${totalPrice}`,
+          a1: 1, b1: 1, c1: totalCount,
+          a2: adultPrice, b2: childPrice, c2: totalPrice,
+          unitX: 'คน', unitY: 'คน',
+          labelX: 'ผู้ใหญ่', labelY: 'เด็ก'
+        };
+      } 
+      else if (currentCategory === 'coin') {
+        const x = Math.floor(Math.random() * 30) + 10; 
+        const y = Math.floor(Math.random() * 40) + 20; 
+        const totalCoins = x + y;
+        const totalMoney = (x * 10) + (y * 5);
+
+        currentData = {
+          x, y,
+          type: 'coin',
+          text: `ในกระปุกออมสินมีเหรียญ 10 บาท และเหรียญ 5 บาท <span class="hl-eq1">รวมกันได้ ${totalCoins} เหรียญ</span> <span class="hl-eq2">คิดเป็นเงินรวม ${totalMoney} บาท</span> <span class="hl-target">จงหาว่ามีเหรียญแต่ละชนิดอย่างละกี่เหรียญ</span>`,
+          varText: `กำหนดตัวแปรจากสิ่งที่โจทย์ถาม (<span class="hl-target">แถบสีชมพู</span>):<br>• ให้ $x$ แทนจำนวนเหรียญ 10 บาท (เหรียญ)<br>• ให้ $y$ แทนจำนวนเหรียญ 5 บาท (เหรียญ)`,
+          eq1Text: `จากแถบสีเหลือง "รวมกันได้ ${totalCoins} เหรียญ" $\\implies x + y = ${totalCoins}$`,
+          eq2Text: `จากแถบสีเขียว "คิดเป็นเงินรวม ${totalMoney} บาท" $\\implies 10x + 5y = ${totalMoney}$`,
+          a1: 1, b1: 1, c1: totalCoins,
+          a2: 10, b2: 5, c2: totalMoney,
+          unitX: 'เหรียญ', unitY: 'เหรียญ',
+          labelX: 'เหรียญ 10 บาท', labelY: 'เหรียญ 5 บาท'
+        };
+      }
+      else if (currentCategory === 'seat') {
+        const chairs = Math.floor(Math.random() * 10) + 10; 
+        const students = (chairs * 4) + 3; 
+
+        currentData = {
+          x: students, y: chairs,
+          type: 'seat',
+          text: `<span class="hl-eq1">ถ้านำนักเรียนมานั่งม้านั่ง ตัวละ 4 คน จะเหลือนักเรียน 3 คน</span> <span class="hl-eq2">แต่ถ้านั่งตัวละ 5 คน จะเหลือม้านั่งว่าง 1 ตัว</span> <span class="hl-target">จงหาจำนวนนักเรียนและจำนวนม้านั่ง</span>`,
+          varText: `กำหนดตัวแปรจากสิ่งที่โจทย์ถาม (<span class="hl-target">แถบสีชมพู</span>):<br>• ให้ $x$ แทนจำนวนนักเรียนทั้งหมด (คน)<br>• ให้ $y$ แทนจำนวนม้านั่งทั้งหมด (ตัว)`,
+          eq1Text: `จากแถบสีเหลือง $\\implies x = 4y + 3 \\implies x - 4y = 3$`,
+          eq2Text: `จากแถบสีเขียว $\\implies x = 5(y - 1) \\implies x - 5y = -5$`,
+          a1: 1, b1: -4, c1: 3,
+          a2: 1, b2: -5, c2: -5,
+          unitX: 'คน', unitY: 'ตัว',
+          labelX: 'นักเรียน', labelY: 'ม้านั่ง'
+        };
+      }
+      else if (currentCategory === 'boat') {
+        const vBoat = Math.floor(Math.random() * 6) + 12; 
+        const vCurrent = Math.floor(Math.random() * 3) + 2; 
+        const dist = 60;
+        const timeDown = dist / (vBoat + vCurrent);
+        const timeUp = dist / (vBoat - vCurrent);
+
+        currentData = {
+          x: vBoat, y: vCurrent,
+          type: 'boat',
+          text: `เรือลำหนึ่ง <span class="hl-eq1">พายตามน้ำระยะทาง ${dist} กม. ใช้เวลา ${timeDown.toFixed(1)} ชั่วโมง</span> <span class="hl-eq2">แต่ถ้าพายทวนน้ำระยะทางเท่าเดิม ใช้เวลา ${timeUp.toFixed(1)} ชั่วโมง</span> <span class="hl-target">จงหาความเร็วเรือในน้ำนิ่งและความเร็วกระแสน้ำ</span>`,
+          varText: `กำหนดตัวแปรจากสิ่งที่โจทย์ถาม (<span class="hl-target">แถบสีชมพู</span>):<br>• ให้ $x$ แทนความเร็วเรือในน้ำนิ่ง (กม./ชม.)<br>• ให้ $y$ แทนความเร็วกระแสน้ำ (กม./ชม.)`,
+          eq1Text: `จากแถบสีเหลือง (ความเร็วตามน้ำ $= x + y$) $\\implies (x + y) \\times ${timeDown.toFixed(1)} = ${dist} \\implies x + y = ${(dist/timeDown).toFixed(0)}$`,
+          eq2Text: `จากแถบสีเขียว (ความเร็วทวนน้ำ $= x - y$) $\\implies (x - y) \\times ${timeUp.toFixed(1)} = ${dist} \\implies x - y = ${(dist/timeUp).toFixed(0)}$`,
+          a1: 1, b1: 1, c1: Math.round(dist/timeDown),
+          a2: 1, b2: -1, c2: Math.round(dist/timeUp),
+          unitX: 'กม./ชม.', unitY: 'กม./ชม.',
+          labelX: 'เรือในน้ำนิ่ง', labelY: 'กระแสน้ำ'
+        };
+      }
+
+      renderUI();
+    }
+
+    function renderUI() {
+      document.getElementById('problem-text').innerHTML = currentData.text;
+      document.getElementById('variable-text').innerHTML = currentData.varText;
+
+      document.getElementById('eq1-prompt').innerHTML = currentData.eq1Text;
+      document.getElementById('eq2-prompt').innerHTML = currentData.eq2Text;
+
+      // Inputs
+      document.getElementById('eq1-input-area').innerHTML = `
+        <input type="number" id="in-a1" class="input-num" placeholder="a1"> $x$ + 
+        <input type="number" id="in-b1" class="input-num" placeholder="b1"> $y$ = 
+        <input type="number" id="in-c1" class="input-num" placeholder="c1" style="width:100px;">
+      `;
+
+      document.getElementById('eq2-input-area').innerHTML = `
+        <input type="number" id="in-a2" class="input-num" placeholder="a2"> $x$ + 
+        <input type="number" id="in-b2" class="input-num" placeholder="b2"> $y$ = 
+        <input type="number" id="in-c2" class="input-num" placeholder="c2" style="width:100px;">
+      `;
+
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    }
+
+    function checkAndSolve() {
+      const uA1 = parseFloat(document.getElementById('in-a1').value);
+      const uB1 = parseFloat(document.getElementById('in-b1').value);
+      const uC1 = parseFloat(document.getElementById('in-c1').value);
+
+      const uA2 = parseFloat(document.getElementById('in-a2').value);
+      const uB2 = parseFloat(document.getElementById('in-b2').value);
+      const uC2 = parseFloat(document.getElementById('in-c2').value);
+
+      const isEq1Correct = (uA1 === currentData.a1 && uB1 === currentData.b1 && uC1 === currentData.c1);
+      const isEq2Correct = (uA2 === currentData.a2 && uB2 === currentData.b2 && uC2 === currentData.c2);
+
+      const solBox = document.getElementById('solution-area');
+      solBox.classList.remove('hidden');
+
+      let statusHTML = '';
+      if (isEq1Correct && isEq2Correct) {
+        statusHTML = `<span style="color:var(--accent-green); font-weight:700;">🎉 ถูกต้องสมบูรณ์! คุณตั้งสมการจากข้อความไฮไลต์ได้ถูกต้อง</span>`;
+      } else {
+        statusHTML = `<span style="color:var(--accent-pink); font-weight:700;">⚠️ มีจุดที่ตั้งสมการยังไม่ถูกต้อง ลองสังเกตข้อความแถบสีเปรียบเทียบกับเฉลยด้านล่างนี้นะครับ:</span>`;
+      }
+
+      solBox.innerHTML = `
+        <div style="font-size:1.1rem; margin-bottom:1rem;">${statusHTML}</div>
+        
+        📌 <b>เฉลยระบบสมการที่ถูกต้อง:</b>
+        $$\\begin{cases} ${currentData.a1}x + (${currentData.b1})y = ${currentData.c1} & \\text{--- (1)} \\\\ ${currentData.a2}x + (${currentData.b2})y = ${currentData.c2} & \\text{--- (2)} \\end{cases}$$
+
+        💡 <b>ขั้นตอนการแก้ระบบสมการ:</b><br>
+        นำสมการ (1) และ (2) มาแก้หาค่าตัวแปร จะได้:<br>
+        • ค่า <b>$x = ${currentData.x}$</b><br>
+        • ค่า <b>$y = ${currentData.y}$</b>
+
+        <br>
+        🏆 <b>สรุปคำตอบของโจทย์:</b><br>
+        • ${currentData.labelX} ($x$) = <b>${currentData.x}</b> ${currentData.unitX}<br>
+        • ${currentData.labelY} ($y$) = <b>${currentData.y}</b> ${currentData.unitY}
+      `;
+
+      renderMathInElement(solBox, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    }
+
+    window.onload = () => {
+      generateProblem();
+    };
+  </script>
+</body>
+</html>

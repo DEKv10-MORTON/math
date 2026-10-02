@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกแก้ระบบสมการเชิงเส้น 2 ตัวแปร - DEK MORTON STUDIO</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --accent: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 16px;
+        }
+
+        .header h1 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .brand {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-diff {
+            background: #334155;
+            color: var(--text);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-diff.active {
+            background: var(--primary);
+            font-weight: bold;
+        }
+
+        .equation-box {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+        }
+
+        .input-box input {
+            width: 80px;
+            padding: 10px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: #475569;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #334155;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 28px;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            color: var(--success);
+        }
+
+        .feedback.incorrect {
+            color: var(--danger);
+        }
+
+        .solution-box {
+            display: none;
+            background: #0f172a;
+            border-left: 4px solid var(--accent);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            line-height: 1.8;
+        }
+
+        .solution-title {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>โปรแกรมฝึกแก้ระบบสมการเชิงเส้น 2 ตัวแปร</h1>
+            <div class="brand">DEK MORTON STUDIO</div>
+        </div>
+
+        <!-- เลือกระดับความยาก -->
+        <div class="difficulty-selector">
+            <button class="btn-diff active" onclick="setDifficulty(1)">ระดับ 1 (ง่าย)</button>
+            <button class="btn-diff" onclick="setDifficulty(2)">ระดับ 2 (ปานกลาง)</button>
+            <button class="btn-diff" onclick="setDifficulty(3)">ระดับ 3 (ท้าทาย)</button>
+        </div>
+
+        <!-- แสดงโจทย์สมการ -->
+        <div class="equation-box" id="equationContainer">
+            $$\begin{cases} x + y = 0 \\ x - y = 0 \end{cases}$$
+        </div>
+
+        <!-- ช่องตอบคำตอบ -->
+        <div class="input-group">
+            <div class="input-box">
+                <label for="ansX">\(x =\)</label>
+                <input type="number" id="ansX" placeholder="0">
+            </div>
+            <div class="input-box">
+                <label for="ansY">\(y =\)</label>
+                <input type="number" id="ansY" placeholder="0">
+            </div>
+        </div>
+
+        <!-- แจ้งเตือนผลลัพธ์ -->
+        <div class="feedback" id="feedback"></div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="actions">
+            <button class="btn btn-primary" onclick="checkAnswer()">ตรวจคำตอบ</button>
+            <button class="btn btn-secondary" onclick="generateProblem()">สุ่มโจทย์ใหม่</button>
+            <button class="btn btn-secondary" onclick="toggleSolution()">เฉลยวิธีทำ</button>
+        </div>
+
+        <!-- แสดงวิธีทำอย่างละเอียด -->
+        <div class="solution-box" id="solutionBox">
+            <div class="solution-title">📌 แสดงวิธีทำละเอียด:</div>
+            <div id="solutionSteps"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentDifficulty = 1;
+        let targetX = 0, targetY = 0;
+        let eq1 = {}, eq2 = {};
+
+        function getRandomInt(min, max) {
+            let val = 0;
+            while (val === 0) { // หลีกเลี่ยงค่า 0
+                val = Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            return val;
+        }
+
+        function setDifficulty(level) {
+            currentDifficulty = level;
+            document.querySelectorAll('.btn-diff').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === level);
+            });
+            generateProblem();
+        }
+
+        function generateProblem() {
+            // Clear UI
+            document.getElementById('ansX').value = '';
+            document.getElementById('ansY').value = '';
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('solutionBox').style.display = 'none';
+
+            // 1. สุ่มคำตอบที่เป็นจำนวนเต็มก่อนเสมอ (x, y อยู่ระหว่าง -10 ถึง 10)
+            targetX = getRandomInt(-10, 10);
+            targetY = getRandomInt(-10, 10);
+
+            let a1, b1, a2, b2;
+
+            if (currentDifficulty === 1) {
+                // ระดับ 1: สัมประสิทธิ์หน้า x หรือ y เป็น 1 หรือ -1
+                a1 = 1;
+                b1 = Math.random() < 0.5 ? 1 : -1;
+                a2 = 1;
+                b2 = -b1; // ตัดกันง่ายๆ
+            } else if (currentDifficulty === 2) {
+                // ระดับ 2: ต้องคูณ 1 สมการก่อน
+                a1 = 1;
+                b1 = getRandomInt(-3, 3);
+                a2 = getRandomInt(-4, 4);
+                b2 = b1 * getRandomInt(2, 3);
+            } else {
+                // ระดับ 3: สัมประสิทธิ์ทั่วไป ต้องคูณทั้งคู่
+                a1 = getRandomInt(2, 5);
+                b1 = getRandomInt(-5, 5);
+                a2 = getRandomInt(2, 5);
+                b2 = getRandomInt(-5, 5);
+                // ป้องกันสมการขนาน/ซ้ำกัน (Determinant != 0)
+                if (a1 * b2 - a2 * b1 === 0) b2 += 1;
+            }
+
+            // คำนวณค่า c1, c2 จาก targetX, targetY
+            let c1 = a1 * targetX + b1 * targetY;
+            let c2 = a2 * targetX + b2 * targetY;
+
+            eq1 = { a: a1, b: b1, c: c1 };
+            eq2 = { a: a2, b: b2, c: c2 };
+
+            renderEquations();
+        }
+
+        function formatTerm(coeff, varName, isFirst) {
+            if (coeff === 0) return '';
+            let sign = coeff > 0 ? (isFirst ? '' : ' + ') : (isFirst ? '-' : ' - ');
+            let absCoeff = Math.abs(coeff) === 1 ? '' : Math.abs(coeff);
+            return `${sign}${absCoeff}${varName}`;
+        }
+
+        function renderEquations() {
+            let eq1Str = `${formatTerm(eq1.a, 'x', true)}${formatTerm(eq1.b, 'y', false)} = ${eq1.c}`;
+            let eq2Str = `${formatTerm(eq2.a, 'x', true)}${formatTerm(eq2.b, 'y', false)} = ${eq2.c}`;
+
+            let tex = `$$\\begin{cases} ${eq1Str} & -(1) \\\\ ${eq2Str} & -(2) \\end{cases}$$`;
+
+            let container = document.getElementById('equationContainer');
+            container.innerHTML = tex;
+
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]);
+            }
+        }
+
+        function checkAnswer() {
+            let userX = parseInt(document.getElementById('ansX').value);
+            let userY = parseInt(document.getElementById('ansY').value);
+            let feedback = document.getElementById('feedback');
+
+            if (isNaN(userX) || isNaN(userY)) {
+                feedback.className = 'feedback incorrect';
+                feedback.innerText = 'กรุณากรอกคำตอบให้ครบทั้ง x และ y ครับ';
+                return;
+            }
+
+            if (userX === targetX && userY === targetY) {
+                feedback.className = 'feedback correct';
+                feedback.innerText = '🎉 เก่งมาก! ถูกต้องครับ';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerText = '❌ ยังไม่ถูกต้อง ลองคิดคำนวณอีกครั้งนะครับ';
+            }
+        }
+
+        function toggleSolution() {
+            let box = document.getElementById('solutionBox');
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                generateSolutionSteps();
+                box.style.display = 'block';
+            }
+        }
+
+        function generateSolutionSteps() {
+            let stepsHtml = '';
+
+            // กรณีที่ 1: สัมประสิทธิ์หน้า y เท่ากัน หรือ เป็นเครื่องหมายตรงข้ามกัน
+            if (Math.abs(eq1.b) === Math.abs(eq2.b)) {
+                let isOpposite = (eq1.b === -eq2.b);
+                let opSymbol = isOpposite ? '+' : '-';
+                let newA = isOpposite ? (eq1.a + eq2.a) : (eq1.a - eq2.a);
+                let newC = isOpposite ? (eq1.c + eq2.c) : (eq1.c - eq2.c);
+
+                stepsHtml = `
+            <b>ขั้นตอนการกำจัดตัวแปร \\(y\\):</b><br>
+            1. สังเกตสัมประสิทธิ์หน้า \\(y\\) ในสมการ (1) และ (2)<br>
+            2. นำสมการ (1) ${opSymbol} สมการ (2) เพื่อกำจัดตัวแปร \\(y\\):<br>
+               $$\\begin{aligned}
+               (${formatTerm(eq1.a, 'x', true)}${formatTerm(eq1.b, 'y', false)}) ${opSymbol} (${formatTerm(eq2.a, 'x', true)}${formatTerm(eq2.b, 'y', false)}) &= ${eq1.c} ${opSymbol} (${eq2.c}) \\\\
+               ${newA}x &= ${newC} \\\\
+               x &= ${targetX}
+               \\end{aligned}$$
+            3. นำค่า \\(x = ${targetX}\\) ไปแทนค่าในสมการ (1) เพื่อหาค่า \\(y\\):<br>
+               $$\\begin{aligned}
+               ${eq1.a}(${targetX}) ${formatTerm(eq1.b, 'y', false)} &= ${eq1.c} \\\\
+               ${eq1.a * targetX} ${formatTerm(eq1.b, 'y', false)} &= ${eq1.c} \\\\
+               y &= ${targetY}
+               \\end{aligned}$$
+            <hr style="border-color:#334155; margin:10px 0;">
+            ✅ <b>สรุปคำตอบ:</b> \\((x, y) = (${targetX}, ${targetY})\\)
+        `;
+            }
+            // กรณีที่ 2: ต้องคูณสมการก่อนเพื่อให้สัมประสิทธิ์เท่ากัน
+            else {
+                let mult1 = Math.abs(eq2.b);
+                let mult2 = Math.abs(eq1.b);
+
+                let newEq1_a = eq1.a * mult1, newEq1_c = eq1.c * mult1;
+                let newEq2_a = eq2.a * mult2, newEq2_c = eq2.c * mult2;
+
+                let isOpposite = (eq1.b * mult1 === -(eq2.b * mult2));
+                let opSymbol = isOpposite ? '+' : '-';
+
+                let diffA = isOpposite ? (newEq1_a + newEq2_a) : (newEq1_a - newEq2_a);
+                let diffC = isOpposite ? (newEq1_c + newEq2_c) : (newEq1_c - newEq2_c);
+
+                stepsHtml = `
+            <b>ขั้นตอนการกำจัดตัวแปร \\(y\\):</b><br>
+            1. ทำสัมประสิทธิ์หน้า \\(y\\) ให้เท่ากัน โดยนำตัวเลขคูณตลอดทั้งสมการ:<br>
+               • นำสมการ (1) \\(\\times ${mult1}\\) \\(\\implies ${formatTerm(newEq1_a, 'x', true)}${formatTerm(eq1.b * mult1, 'y', false)} = ${newEq1_c}\\) \\(\\quad -(3)\\)<br>
+               • นำสมการ (2) \\(\\times ${mult2}\\) \\(\\implies ${formatTerm(newEq2_a, 'x', true)}${formatTerm(eq2.b * mult2, 'y', false)} = ${newEq2_c}\\) \\(\\quad -(4)\\)<br><br>
+            2. นำสมการ (3) ${opSymbol} สมการ (4) เพื่อกำจัดตัวแปร \\(y\\):<br>
+               $$\\begin{aligned}
+               ${diffA}x &= ${diffC} \\\\
+               x &= ${targetX}
+               \\end{aligned}$$
+            3. นำค่า \\(x = ${targetX}\\) ไปแทนค่าในสมการ (1) เพื่อหาค่า \\(y\\):<br>
+               $$\\begin{aligned}
+               ${eq1.a}(${targetX}) ${formatTerm(eq1.b, 'y', false)} &= ${eq1.c} \\\\
+               y &= ${targetY}
+               \\end{aligned}$$
+            <hr style="border-color:#334155; margin:10px 0;">
+            ✅ <b>สรุปคำตอบ:</b> \\((x, y) = (${targetX}, ${targetY})\\)
+        `;
+            }
+
+            let box = document.getElementById('solutionSteps');
+            box.innerHTML = stepsHtml;
+
+            // Render สัญลักษณ์คณิตศาสตร์ด้วย MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([box]);
+            }
+        }
+
+        // เริ่มต้นทำงานสุ่มโจทย์แรก
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

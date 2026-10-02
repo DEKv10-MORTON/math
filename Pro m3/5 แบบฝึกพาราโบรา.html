@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - Parabola Workshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 1250px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .equation-box {
+            background: #000000;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .eq-y {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* โซนสูตรคำนวณแบบตัวโต + เศษส่วนแนวตั้ง */
+        .formula-section {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .formula-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .formula-step {
+            font-size: 16px;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .math-var {
+            color: #fff;
+            font-weight: 600;
+            font-style: italic;
+            font-size: 18px;
+        }
+
+        .math-display {
+            display: inline-flex;
+            align-items: center;
+            font-size: 20px;
+            color: #fff;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+        }
+
+        .fraction .numerator {
+            border-bottom: 2px solid #fff;
+            padding-bottom: 2px;
+            display: block;
+        }
+
+        .fraction .denominator {
+            padding-top: 2px;
+            display: block;
+        }
+
+        .input-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 8px;
+        }
+
+        input[type="number"] {
+            width: 85px;
+            height: 42px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        /* ตารางแทนค่า */
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #252525;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        td {
+            color: var(--text-sub);
+        }
+
+        tr.vertex-row {
+            background: #333333;
+            font-weight: bold;
+        }
+
+        tr.vertex-row td {
+            color: var(--accent-cyan);
+        }
+
+        /* ปุ่มกด */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid #28a745;
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid #dc3545;
+        }
+
+        /* Canvas */
+        .canvas-container {
+            width: 100%;
+            height: 460px;
+            background: #000000;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .studio-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+
+        <!-- ฝั่งซ้าย: สมการ + สูตรคำนวณ + ตาราง -->
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>แบบฝึกหัดจุดยอดพาราโบลา</h1>
+
+            <div class="equation-box">
+                <div class="eq-y" id="eq-text">y = x² - 4x + 4</div>
+            </div>
+
+            <div class="formula-section">
+                <div class="formula-title">📌 สูตรคำนวณหาจุดยอด (Vertex):</div>
+
+                <div class="formula-step">
+                    1) หาค่า <span class="math-var">x</span> ของจุดยอดจากสูตร:
+                    <div style="margin: 8px 0;">
+                        <span class="math-display">
+                            x = -
+                            <span class="fraction">
+                                <span class="numerator">b</span>
+                                <span class="denominator">2a</span>
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="math-display">
+                        x = -
+                        <span class="fraction">
+                            <span class="numerator" id="frac-b">-4</span>
+                            <span class="denominator" id="frac-a">2(1)</span>
+                        </span>
+                        <span style="margin-left: 8px;">=</span>
+                        <div class="input-group">
+                            <input type="number" id="ans-x" placeholder="ค่า x">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formula-step">
+                    2) นำค่า <span class="math-var">x</span> ไปแทนค่าในสมการเพื่อหา <span class="math-var">y</span>:
+                    <div class="math-display">
+                        y =
+                        <div class="input-group">
+                            <input type="number" id="ans-y" placeholder="ค่า y">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-check" onclick="checkVertex()">✅ ตรวจคำตอบ</button>
+                    <button class="btn-random" onclick="generateNewProblem()">🎲 สุ่มโจทย์ใหม่</button>
+                </div>
+                <div class="feedback" id="feedback-box"></div>
+            </div>
+
+            <h2>📊 ตารางแทนค่า (x, y)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>x</th>
+                            <th>วิธีคำนวณ y</th>
+                            <th>y</th>
+                            <th>จุด (x, y)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td colspan="4" style="padding: 20px; color: #666;">
+                                ตอบคำตอบจุดยอดให้ถูกต้องเพื่อปลดล็อกตารางและกราฟ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ฝั่งขวา: กราฟ Canvas -->
+        <div class="card">
+            <h2>📈 กราฟแสดงผล</h2>
+            <div class="canvas-container">
+                <canvas id="graphCanvas"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentData = {};
+        let isUnlocked = false;
+
+        function generateNewProblem() {
+            isUnlocked = false;
+            document.getElementById('feedback-box').style.display = 'none';
+            document.getElementById('ans-x').value = '';
+            document.getElementById('ans-y').value = '';
+
+            // สุ่มค่า a ให้เป็นได้ทั้ง 1 (หงาย) และ -1 (คว่ำ)[cite: 1]
+            const a = Math.random() < 0.5 ? 1 : -1;
+            const h = Math.floor(Math.random() * 5) - 2; // -2 ถึง 2[cite: 1]
+            const k = Math.floor(Math.random() * 5) - 2; // -2 ถึง 2[cite: 1]
+
+            const b = -2 * a * h;
+            const c = a * h * h + k;
+
+            currentData = { a, b, c, h, k };
+
+            // จัดการการแสดงผลสมการ[cite: 1]
+            let eqHtml = `y = ${a === -1 ? '-' : ''}x<sup>2</sup> `;
+            if (b !== 0) eqHtml += b > 0 ? `+ ${b}x ` : `- ${Math.abs(b)}x `;
+            if (c !== 0) eqHtml += c > 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+            document.getElementById('eq-text').innerHTML = eqHtml;
+
+            // แก้ไขการแสดงผลตัวแทนค่า a และ b ในเศษส่วนให้ถูกต้อง
+            document.getElementById('frac-b').innerText = b >= 0 ? `${b}` : `(${b})`;
+            document.getElementById('frac-a').innerText = `2(${a})`;
+
+            document.getElementById('table-body').innerHTML =
+                `<tr><td colspan="4" style="padding: 20px; color: #666;">ตอบคำตอบจุดยอดให้ถูกต้องเพื่อปลดล็อกตารางและกราฟ</td></tr>`;
+
+            drawEmptyGraph();
+        }
+
+        function checkVertex() {
+            const userX = parseFloat(document.getElementById('ans-x').value);
+            const userY = parseFloat(document.getElementById('ans-y').value);
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (userX === currentData.h && userY === currentData.k) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้อง!</b> จุดยอดคือ (${currentData.h}, ${currentData.k})`;
+                isUnlocked = true;
+                renderTable();
+                drawGraph();
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> ลองคำนวณใหม่อีกครั้งครับ`;
+            }
+        }
+
+        function renderTable() {
+            const { a, b, c, h } = currentData;
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            currentData.points = [];
+
+            for (let x = h - 3; x <= h + 3; x++) {
+                const y = a * x * x + b * x + c;
+                currentData.points.push({ x, y });
+
+                const row = document.createElement('tr');
+                if (x === h) row.className = 'vertex-row';
+
+                // FIX BUG: เพิ่มเครื่องหมายลบด้านหน้าเมื่อ a = -1
+                let calcStr = `${a === -1 ? '-' : ''}(${x})<sup>2</sup>`;
+                if (b !== 0) calcStr += ` ${b > 0 ? '+' : '-'} ${Math.abs(b)}(${x})`;
+                if (c !== 0) calcStr += ` ${c > 0 ? '+' : '-'} ${Math.abs(c)}`;
+
+                row.innerHTML = `
+                <td><b>${x}</b></td>
+                <td style="font-size: 13px;">${calcStr}</td>
+                <td><b>${y}</b></td>
+                <td>(${x}, ${y}) ${x === h ? '★' : ''}</td>
+            `;
+                tbody.appendChild(row);
+            }
+        }
+
+        function drawEmptyGraph() {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+            drawAxes(ctx, w, h);
+        }
+
+        function drawAxes(ctx, w, h) {
+            const scale = 25;
+            const originX = w / 2;
+            const originY = h / 2 + 40;
+
+            ctx.shadowBlur = 0; 
+            ctx.strokeStyle = '#222222';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < w; x += scale) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+            for (let y = 0; y < h; y += scale) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+
+            // แกน X
+            ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(w, originY); ctx.stroke();
+            // แกน Y
+            ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, h); ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px Kanit';
+            ctx.fillText('X', w - 20, originY - 8);
+            ctx.fillText('Y', originX + 10, 20);
+            ctx.fillText('(0,0)', originX + 5, originY + 18);
+        }
+
+        function drawGraph() {
+            if (!isUnlocked) return;
+
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const scale = 25;
+            const originX = w / 2;
+            const originY = h / 2 + 40;
+
+            ctx.clearRect(0, 0, w, h);
+            drawAxes(ctx, w, h);
+
+            // วาดเส้นกราฟพาราโบลาสีฟ้าสดใส (Electric Cyan)
+            ctx.strokeStyle = '#00d2ff';
+            ctx.shadowColor = '#00d2ff';
+            ctx.shadowBlur = 8;
+            ctx.lineWidth = 3.5;
+
+            ctx.beginPath();
+            let first = true;
+            for (let px = -w / 2; px <= w / 2; px += 2) {
+                let xVal = px / scale;
+                let yVal = currentData.a * xVal * xVal + currentData.b * xVal + currentData.c;
+                let canvasX = originX + px;
+                let canvasY = originY - (yVal * scale);
+
+                if (first) { ctx.moveTo(canvasX, canvasY); first = false; }
+                else { ctx.lineTo(canvasX, canvasY); }
+            }
+            ctx.stroke();
+
+            // รีเซ็ต Shadow เพื่อพล็อตจุด
+            ctx.shadowBlur = 0;
+
+            currentData.points.forEach(p => {
+                const cx = originX + p.x * scale;
+                const cy = originY - p.y * scale;
+
+                const isVertex = (p.x === currentData.h);
+
+                ctx.fillStyle = isVertex ? '#00d2ff' : '#88d8f0';
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, isVertex ? 7 : 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (isVertex) {
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+
+                ctx.fillStyle = isVertex ? '#00d2ff' : '#aaaaaa';
+                ctx.font = isVertex ? 'bold 13px Kanit' : '10px Kanit';
+                ctx.fillText(`(${p.x},${p.y})`, cx + 8, cy - 6);
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (isUnlocked) drawGraph();
+            else drawEmptyGraph();
+        });
+
+        generateNewProblem();
+    </script>
+
+</body>
+
+</html>

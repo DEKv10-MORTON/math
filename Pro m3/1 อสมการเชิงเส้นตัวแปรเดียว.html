@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอน & แบบฝึกหัด อสมการเชิงเส้นตัวแปรเดียว - Dek Morton Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Kanit:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- MathJax for formula rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .font-chakra {
+            font-family: 'Chakra Petch', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#030305] text-white min-h-screen flex flex-col items-center p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-4xl w-full text-center mb-8">
+        <span
+            class="text-xs font-semibold uppercase tracking-widest text-purple-400 bg-purple-950/60 px-4 py-1.5 rounded-full border border-purple-500/30">
+            คณิตศาสตร์ ม.3 • Grade 9
+        </span>
+        <h1
+            class="text-3xl md:text-5xl font-bold font-chakra mt-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300">
+            อสมการเชิงเส้นตัวแปรเดียว
+        </h1>
+        <p class="text-gray-400 text-sm mt-2">เรียนรู้หลักการ ย้ายข้าง เปลี่ยนเครื่องหมาย
+            พร้อมระบบสุ่มฝึกทำโจทย์และดูเฉลยวิธีทำ</p>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl w-full space-y-8">
+
+        <!-- STEP 1: Lesson Concept & Theory Section (สื่อการสอน) -->
+        <section class="bg-[#080811] border border-purple-900/40 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+            <div class="flex items-center gap-3 border-b border-purple-900/50 pb-4">
+                <span class="bg-purple-600 text-white font-bold px-3 py-1 rounded-xl text-sm font-chakra">STEP 1</span>
+                <h2 class="text-xl md:text-2xl font-bold font-chakra text-purple-300">📚 สรุปบทเรียน &
+                    สัญลักษณ์ที่ต้องจำ</h2>
+            </div>
+
+            <!-- Concept Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Card 1: Symbols -->
+                <div class="bg-[#0d0d1a] p-5 rounded-2xl border border-purple-500/20 space-y-3">
+                    <h3 class="text-pink-400 font-semibold text-lg flex items-center gap-2">
+                        <span>🔹</span> เครื่องหมายอสมการ & ลักษณะจุด
+                    </h3>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5">
+                            <span><b class="text-white text-base">&gt;</b> มากกว่า</span>
+                            <span class="text-pink-400 font-medium">วงกลมโปร่ง &#9675; (ไปทางขวา)</span>
+                        </li>
+                        <li class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5">
+                            <span><b class="text-white text-base">&lt;</b> น้อยกว่า</span>
+                            <span class="text-pink-400 font-medium">วงกลมโปร่ง &#9675; (ไปทางซ้าย)</span>
+                        </li>
+                        <li class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5">
+                            <span><b class="text-white text-base">&ge;</b> มากกว่าหรือเท่ากับ</span>
+                            <span class="text-purple-400 font-medium">วงกลมทึบ &#9679; (ไปทางขวา)</span>
+                        </li>
+                        <li class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5">
+                            <span><b class="text-white text-base">&le;</b> น้อยกว่าหรือเท่ากับ</span>
+                            <span class="text-purple-400 font-medium">วงกลมทึบ &#9679; (ไปทางซ้าย)</span>
+                        </li>
+                        <li class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5">
+                            <span><b class="text-white text-base">&ne;</b> ไม่เท่ากับ</span>
+                            <span class="text-pink-400 font-medium">วงกลมโปร่ง &#9675; (ไปสองข้าง)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: Rules -->
+                <div
+                    class="bg-[#0d0d1a] p-5 rounded-2xl border border-purple-500/20 space-y-3 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-amber-400 font-semibold text-lg flex items-center gap-2 mb-2">
+                            <span>⚠️</span> กฎเหล็กการกลับทิศทาง
+                        </h3>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                            การแก้แบบ \(ax + b > c\) ทำเหมือนสมการปกติ แต่ <b
+                                class="text-amber-300">"เมื่อนำตัวเลขลบไปคูณหรือหาร"</b>
+                            ต้องกลับทิศทางเครื่องหมายอสมการเสมอ!
+                        </p>
+                    </div>
+                    <div
+                        class="bg-black/60 p-3 rounded-xl border border-amber-500/30 text-xs font-mono text-amber-200 space-y-1">
+                        <div class="text-gray-400">ตัวอย่าง: \(-2x > 6\)</div>
+                        <div>\(\implies x < \frac{6}{-2}\) <span class="text-amber-400 font-sans">(กลับ > เป็น <)<
+                                    /span>
+                        </div>
+                        <div class="text-pink-400 font-bold">\(\implies x < -3\)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Examples Canvas (ตัวอย่างกราฟเส้นจำนวนสำหรับสื่อการสอน) -->
+                <div class="bg-[#0d0d1a] p-5 rounded-2xl border border-purple-500/20 space-y-3">
+                    <h3 class="text-indigo-300 font-semibold text-base flex items-center gap-2">
+                        <span>🖼️</span> เปรียบเทียบตัวอย่างกราฟเส้นจำนวน (จุดโปร่ง vs จุดทึบ):
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-black/50 p-4 rounded-xl border border-white/5">
+                        <!-- Example 1: Open Circle -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs text-pink-400 font-medium mb-1">ตัวอย่าง: \(x > 2\) (ไม่รวม 2
+                                ใช้วงกลมโปร่ง)</span>
+                            <canvas id="demo-canvas-1" width="320" height="70" class="w-full max-w-full"></canvas>
+                        </div>
+                        <!-- Example 2: Solid Circle -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs text-purple-400 font-medium mb-1">ตัวอย่าง: \(x \le 2\) (รวม 2 ด้วย
+                                ใช้วงกลมทึบ)</span>
+                            <canvas id="demo-canvas-2" width="320" height="70" class="w-full max-w-full"></canvas>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+
+        <!-- STEP 2: Interactive Practice & Quiz Generator Section -->
+        <section class="bg-[#080811] border border-purple-900/40 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6">
+            <div class="flex items-center justify-between border-b border-purple-900/50 pb-4">
+                <div class="flex items-center gap-3">
+                    <span class="bg-pink-600 text-white font-bold px-3 py-1 rounded-xl text-sm font-chakra">STEP
+                        2</span>
+                    <h2 class="text-xl md:text-2xl font-bold font-chakra text-pink-300">🎲 ตะลุยโจทย์ฝึกทำจริง</h2>
+                </div>
+                <button onclick="generateRandomQuiz()"
+                    class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl font-semibold text-sm text-white shadow-lg transition duration-200 flex items-center gap-1.5">
+                    🎲 สุ่มโจทย์ใหม่
+                </button>
+            </div>
+
+            <!-- Quiz Question Box -->
+            <div class="bg-[#0d0d1a] p-6 rounded-2xl border border-purple-500/30 text-center space-y-3">
+                <h3 class="text-sm font-medium text-gray-400">จงแก้ อสมการ ต่อไปนี้:</h3>
+                <div id="quiz-question" class="text-2xl md:text-4xl font-bold font-mono text-white py-2">
+                    <!-- Question will render here -->
+                </div>
+            </div>
+
+            <!-- User Practice Input & Solution Toggle Button -->
+            <div class="bg-black/30 p-6 rounded-2xl border border-white/5 space-y-4">
+                <h3 class="text-sm font-semibold text-purple-300">ทดลองตอบคำตอบของคุณ:</h3>
+
+                <div class="flex flex-wrap items-center justify-center gap-3 text-xl font-mono">
+                    <span class="text-pink-400 font-bold">x</span>
+
+                    <!-- Operator Selector -->
+                    <select id="user-op"
+                        class="bg-purple-950/70 border border-purple-500/50 rounded-lg px-3 py-2 text-pink-300 font-bold focus:outline-none cursor-pointer">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                        <option value=">=">&ge;</option>
+                        <option value="<=">&le;</option>
+                        <option value="!=">&ne;</option>
+                    </select>
+
+                    <!-- Value Input -->
+                    <input type="number" id="user-val" step="any" placeholder="คำตอบ"
+                        class="w-32 bg-purple-950/50 border border-purple-500/40 rounded-lg px-3 py-2 text-center text-white focus:outline-none focus:border-purple-400">
+                </div>
+
+                <!-- Show Solution Button -->
+                <div class="pt-2 text-center">
+                    <button id="toggle-btn" onclick="toggleSolution()"
+                        class="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-white shadow-md transition duration-200 flex items-center justify-center gap-2 mx-auto">
+                        <span>💡</span> เฉลยคำตอบ & แสดงวิธีทำ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Solution Output -->
+            <div id="solution-section" class="space-y-3 hidden">
+                <h3 class="text-base font-semibold text-purple-300 flex items-center gap-2">
+                    <span>📝</span> เฉลยขั้นตอนการคิดแบบละเอียด:
+                </h3>
+                <div id="solution-box"
+                    class="bg-[#0c0c18] p-5 rounded-2xl border border-purple-500/20 font-mono text-sm leading-relaxed space-y-3">
+                    <!-- Steps will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Interactive Number Line Canvas -->
+            <div id="canvas-section" class="space-y-3 hidden">
+                <h3 class="text-base font-semibold text-purple-300 flex items-center gap-2">
+                    <span>📊</span> เส้นจำนวนแสดงกลุ่มคำตอบ (Number Line):
+                </h3>
+                <div class="bg-black/60 p-4 rounded-2xl border border-white/5 flex flex-col items-center">
+                    <canvas id="number-line" width="700" height="110" class="w-full max-w-full"></canvas>
+                    <p id="canvas-desc" class="text-xs text-gray-400 mt-2 text-center"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-xs text-gray-500">
+        Presented by : Dek Morton Studio • Power of 10 Science Project
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        let currentQuiz = { a: 0, b: 0, c: 0, op: '>', targetVal: 0, finalOp: '>' };
+        let isShowingSolution = false;
+
+        // Render Demo Number Lines for Theory Section
+        function drawDemoCanvases() {
+            // Demo 1: x > 2 (Open Circle)
+            const c1 = document.getElementById('demo-canvas-1');
+            if (c1) {
+                const ctx1 = c1.getContext('2d');
+                drawSimpleLine(ctx1, c1.width, c1.height, 2, '>', false);
+            }
+
+            // Demo 2: x <= 2 (Solid Circle)
+            const c2 = document.getElementById('demo-canvas-2');
+            if (c2) {
+                const ctx2 = c2.getContext('2d');
+                drawSimpleLine(ctx2, c2.width, c2.height, 2, '<=', true);
+            }
+        }
+
+        function drawSimpleLine(ctx, w, h, targetVal, op, isSolid) {
+            ctx.clearRect(0, 0, w, h);
+            const centerY = h / 2;
+            const startX = 30;
+            const endX = w - 30;
+
+            // Base line
+            ctx.beginPath(); ctx.moveTo(startX, centerY); ctx.lineTo(endX, centerY);
+            ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 2; ctx.stroke();
+
+            // Ticks
+            const step = (endX - startX) / 4;
+            for (let i = 0; i <= 4; i++) {
+                const x = startX + i * step;
+                const val = targetVal - 2 + i;
+                ctx.beginPath(); ctx.moveTo(x, centerY - 4); ctx.lineTo(x, centerY + 4);
+                ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1.5; ctx.stroke();
+                ctx.fillStyle = (i === 2) ? '#f472b6' : '#9ca3af';
+                ctx.font = '10px Kanit'; ctx.textAlign = 'center';
+                ctx.fillText(val, x, centerY + 18);
+            }
+
+            // Target Point & Ray
+            const targetX = startX + 2 * step;
+            ctx.strokeStyle = '#ec4899'; ctx.fillStyle = '#ec4899'; ctx.lineWidth = 3;
+
+            if (op === '>') {
+                ctx.beginPath(); ctx.moveTo(targetX, centerY); ctx.lineTo(endX, centerY); ctx.stroke();
+                drawArrowHead(ctx, endX, centerY, 0, '#ec4899');
+            } else if (op === '<=') {
+                ctx.beginPath(); ctx.moveTo(targetX, centerY); ctx.lineTo(startX, centerY); ctx.stroke();
+                drawArrowHead(ctx, startX, centerY, Math.PI, '#ec4899');
+            }
+
+            ctx.beginPath(); ctx.arc(targetX, centerY, 5, 0, Math.PI * 2);
+            if (isSolid) {
+                ctx.fillStyle = '#ec4899'; ctx.fill();
+            } else {
+                ctx.fillStyle = '#0d0d1a'; ctx.fill();
+                ctx.strokeStyle = '#ec4899'; ctx.lineWidth = 2.5; ctx.stroke();
+            }
+        }
+
+        function generateRandomQuiz() {
+            let a = 0;
+            while (a === 0) {
+                a = Math.floor(Math.random() * 19) - 9;
+            }
+            const b = Math.floor(Math.random() * 21) - 10;
+            const c = Math.floor(Math.random() * 21) - 10;
+
+            const ops = ['>', '<', '>=', '<=', '!='];
+            const op = ops[Math.floor(Math.random() * ops.length)];
+
+            const cMinusB = c - b;
+            let finalOp = op;
+
+            if (a < 0 && op !== '!=') {
+                if (op === '>') finalOp = '<';
+                else if (op === '<') finalOp = '>';
+                else if (op === '>=') finalOp = '<=';
+                else if (op === '<=') finalOp = '>=';
+            }
+
+            const targetVal = parseFloat((cMinusB / a).toFixed(2));
+
+            currentQuiz = { a, b, c, op, targetVal, finalOp, cMinusB };
+
+            const bText = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+            const opTex = { '>': '>', '<': '<', '>=': '\\ge', '<=': '\\le', '!=': '\\neq' };
+
+            document.getElementById('quiz-question').innerHTML = `\\(${a}x ${bText} ${opTex[op]} ${c}\\)`;
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+
+            document.getElementById('user-val').value = '';
+            isShowingSolution = false;
+            document.getElementById('toggle-btn').innerHTML = '<span>💡</span> เฉลยคำตอบ & แสดงวิธีทำ';
+            document.getElementById('solution-section').classList.add('hidden');
+            document.getElementById('canvas-section').classList.add('hidden');
+        }
+
+        function toggleSolution() {
+            const solutionSection = document.getElementById('solution-section');
+            const canvasSection = document.getElementById('canvas-section');
+            const toggleBtn = document.getElementById('toggle-btn');
+
+            if (!isShowingSolution) {
+                showSolution();
+                drawNumberLine(currentQuiz.targetVal, currentQuiz.finalOp);
+                solutionSection.classList.remove('hidden');
+                canvasSection.classList.remove('hidden');
+                toggleBtn.innerHTML = '<span>🙈</span> ซ่อนเฉลยวิธีทำ';
+                isShowingSolution = true;
+            } else {
+                solutionSection.classList.add('hidden');
+                canvasSection.classList.add('hidden');
+                toggleBtn.innerHTML = '<span>💡</span> เฉลยคำตอบ & แสดงวิธีทำ';
+                isShowingSolution = false;
+            }
+        }
+
+        function showSolution() {
+            const { a, b, c, op, targetVal, finalOp, cMinusB } = currentQuiz;
+            const opTex = { '>': '>', '<': '<', '>=': '\\ge', '<=': '\\le', '!=': '\\neq' };
+
+            const userOp = document.getElementById('user-op').value;
+            const userVal = parseFloat(document.getElementById('user-val').value);
+            let checkResultText = '';
+
+            if (!isNaN(userVal)) {
+                const isCorrect = (userOp === finalOp) && Math.abs(userVal - targetVal) < 0.05;
+                if (isCorrect) {
+                    checkResultText = `<div class="p-3 mb-3 bg-green-950/80 border border-green-500/40 rounded-xl text-green-300 font-bold text-center">🎉 คำตอบที่คุณลองตอบถูกต้องแม่นยำ!</div>`;
+                } else {
+                    checkResultText = `<div class="p-3 mb-3 bg-amber-950/80 border border-amber-500/40 rounded-xl text-amber-300 font-bold text-center">คลาดเคลื่อนเล็กน้อย ลองเทียบกับขั้นตอนวิธีทำด้านล่างได้เลยครับ</div>`;
+                }
+            }
+
+            let html = checkResultText;
+            html += `<p class="text-purple-300"><b>โจทย์:</b> \\(${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} ${opTex[op]} ${c}\\)</p>`;
+            html += `<p><b>ขั้นที่ 1 (ย้ายข้างตัวเลขคงที่):</b></p>`;
+            html += `<p class="pl-4 text-gray-300">\\(${a}x ${opTex[op]} ${c} ${b >= 0 ? '- ' + b : '+ ' + Math.abs(b)}\\)</p>`;
+            html += `<p class="pl-4 text-gray-300">\\(${a}x ${opTex[op]} ${cMinusB}\\)</p>`;
+
+            if (a < 0 && op !== '!=') {
+                html += `<p class="text-amber-400 text-xs my-1">⚠️ <b>ข้อสังเกต:</b> เนื่องจากนำตัวเลขลบ (\\(${a}\\)) ไปหารทั้งสองข้าง ต้อง<b>กลับทิศทางเครื่องหมายอสมการ</b></p>`;
+            }
+
+            html += `<p><b>ขั้นที่ 2 (หารสัมประสิทธิ์หน้า x):</b></p>`;
+            html += `<p class="pl-4 text-pink-400 font-bold text-base mt-1">สรุปคำตอบคือ: \\(x ${opTex[finalOp]} ${targetVal}\\)</p>`;
+
+            document.getElementById('solution-box').innerHTML = html;
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function drawNumberLine(targetVal, op) {
+            const canvas = document.getElementById('number-line');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+            const centerY = h / 2 + 5;
+            const startX = 60;
+            const endX = w - 60;
+            const lineLength = endX - startX;
+
+            ctx.beginPath();
+            ctx.moveTo(startX - 20, centerY);
+            ctx.lineTo(endX + 20, centerY);
+            ctx.strokeStyle = '#6b7280';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            drawArrowHead(ctx, startX - 20, centerY, Math.PI);
+            drawArrowHead(ctx, endX + 20, centerY, 0);
+
+            const range = 4;
+            const stepPx = lineLength / (range * 2);
+
+            for (let i = -range; i <= range; i++) {
+                const val = targetVal + i;
+                const x = startX + (i + range) * stepPx;
+
+                ctx.beginPath();
+                ctx.moveTo(x, centerY - 5);
+                ctx.lineTo(x, centerY + 5);
+                ctx.strokeStyle = '#9ca3af';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = i === 0 ? '#f472b6' : '#9ca3af';
+                ctx.font = i === 0 ? 'bold 12px Kanit' : '11px Kanit';
+                ctx.textAlign = 'center';
+                ctx.fillText(Number.isInteger(val) ? val : val.toFixed(1), x, centerY + 24);
+            }
+
+            const targetX = startX + range * stepPx;
+            ctx.strokeStyle = '#ec4899';
+            ctx.fillStyle = '#ec4899';
+            ctx.lineWidth = 4;
+
+            const isSolidCircle = (op === '>=' || op === '<=');
+
+            if (op === '>' || op === '>=') {
+                ctx.beginPath(); ctx.moveTo(targetX, centerY); ctx.lineTo(endX + 15, centerY); ctx.stroke();
+                drawArrowHead(ctx, endX + 15, centerY, 0, '#ec4899');
+            } else if (op === '<' || op === '<=') {
+                ctx.beginPath(); ctx.moveTo(targetX, centerY); ctx.lineTo(startX - 15, centerY); ctx.stroke();
+                drawArrowHead(ctx, startX - 15, centerY, Math.PI, '#ec4899');
+            } else if (op === '!=') {
+                ctx.beginPath(); ctx.moveTo(targetX, centerY); ctx.lineTo(endX + 15, centerY);
+                ctx.moveTo(targetX, centerY); ctx.lineTo(startX - 15, centerY); ctx.stroke();
+                drawArrowHead(ctx, endX + 15, centerY, 0, '#ec4899');
+                drawArrowHead(ctx, startX - 15, centerY, Math.PI, '#ec4899');
+            }
+
+            ctx.beginPath();
+            ctx.arc(targetX, centerY, 6, 0, Math.PI * 2);
+            if (isSolidCircle) {
+                ctx.fillStyle = '#ec4899'; ctx.fill();
+            } else {
+                ctx.fillStyle = '#080811'; ctx.fill();
+                ctx.strokeStyle = '#ec4899'; ctx.lineWidth = 3; ctx.stroke();
+            }
+
+            const desc = document.getElementById('canvas-desc');
+            desc.innerHTML = `กราฟเส้นจำนวนแสดงกลุ่มคำตอบ <b class="text-pink-400">x ${op} ${targetVal}</b> (ใช้วงกลม ${isSolidCircle ? 'ทึบ' : 'โปร่ง'})`;
+        }
+
+        function drawArrowHead(ctx, x, y, angle, color = '#6b7280') {
+            ctx.save(); ctx.translate(x, y); ctx.rotate(angle);
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-8, -5); ctx.lineTo(-8, 5); ctx.closePath();
+            ctx.fillStyle = color; ctx.fill(); ctx.restore();
+        }
+
+        window.addEventListener('load', () => {
+            drawDemoCanvases();
+            generateRandomQuiz();
+        });
+    </script>
+</body>
+
+</html>
