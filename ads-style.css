@@ -1,0 +1,12 @@
+/* สไตล์จัดทรงกล่องโฆษณาด้านล่าง */
+.ad-container-bottom {
+    margin-top: 24px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 90px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dek Morton Studio Showcase</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Kanit:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- External CSS File -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- MathJax for formula rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Google AdSense Script -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+
+<body class="flex flex-col h-screen overflow-hidden bg-[#030305] text-white">
+
+    <!-- HEADER: ปรับตำแหน่งโลโก้ตรงแนว ม.1 และย้ายปุ่มไปชิดโฆษณาฝั่งขวา -->
+    <header
+        class="flex-none py-2 px-4 md:px-8 border-b border-purple-900/20 bg-[#030305]/90 backdrop-blur-md z-10 min-h-[80px]">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+
+            <!-- 1. โลโก้ฝั่งซ้าย (ปรับ padding-left ให้ตรงแนวกับ ม ม้า ของ ม.1) -->
+            <div class="header-formula tracking-wider flex items-center justify-start gap-2 pl-2 md:pl-3">
+                <span class="text-white font-serif">$$\sqrt[x]{DM_s}$$</span>
+                <span class="text-2xl md:text-4xl text-gray-400 font-light mx-1 md:mx-2">=</span>
+                <span class="text-xl md:text-3xl font-semibold tracking-wide text-white whitespace-nowrap">Dek Morton
+                    Studio</span>
+            </div>
+
+            <!-- 2. ฝั่งขวา: กลุ่มปุ่ม Counter + Let's play games วางเรียงข้างกัน ชิดกับ Card โฆษณา -->
+            <div class="hidden md:flex items-center justify-end gap-3 flex-1">
+
+                <!-- Visitor Counter -->
+                <div
+                    class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded-full border border-purple-900/40 flex-none">
+                    <span class="text-[10px] text-gray-400">Visitors:</span>
+                    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fdekmorton.github.io%2Fmath-portal&count_bg=%238B5CF6&title_bg=%23111827&icon=&icon_color=%23E5E7EB&title=VISITS&edge_flat=false"
+                        alt="Visitor Counter" class="h-3.5" />
+                </div>
+
+                <!-- Interactive Smiley Button -->
+                <a href="https://www.example.com" target="_blank" rel="noopener noreferrer"
+                    class="coffee-btn-wrapper flex-none" id="support-btn">
+                    <div class="coffee-btn-inner">
+                        <div class="smiley-container relative w-4 h-4 flex items-center justify-center">
+                            <!-- หน้ายิ้มตอนตื่น -->
+                            <svg id="smiley-awake" class="w-4 h-4 transition-opacity duration-300"
+                                viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="#FBBF24" stroke="#F59E0B" stroke-width="4" />
+                                <circle cx="35" cy="40" r="9" fill="#FFFFFF" />
+                                <circle cx="65" cy="40" r="9" fill="#FFFFFF" />
+                                <circle id="pupil-left" cx="35" cy="40" r="4" fill="#18181B" />
+                                <circle id="pupil-right" cx="65" cy="40" r="4" fill="#18181B" />
+                                <path d="M 28 60 Q 50 82 72 60" fill="none" stroke="#18181B" stroke-width="6"
+                                    stroke-linecap="round" />
+                            </svg>
+
+                            <!-- หน้ายิ้มตอนหลับ -->
+                            <svg id="smiley-asleep"
+                                class="w-4 h-4 absolute inset-0 opacity-0 transition-opacity duration-300"
+                                viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="#FCD34D" stroke="#F59E0B" stroke-width="4" />
+                                <path d="M 28 42 Q 35 34 42 42" fill="none" stroke="#18181B" stroke-width="5"
+                                    stroke-linecap="round" />
+                                <path d="M 58 42 Q 65 34 72 42" fill="none" stroke="#18181B" stroke-width="5"
+                                    stroke-linecap="round" />
+                                <path d="M 32 62 Q 50 75 68 62" fill="none" stroke="#18181B" stroke-width="5"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="coffee-text text-xs">"Let's play games"</span>
+                    </div>
+                </a>
+
+                <!-- 3. โฆษณา Google Ads (ชิดขวาที่สุด) -->
+                <div
+                    class="w-[234px] h-[60px] bg-white/5 rounded border border-white/5 overflow-hidden flex-none flex items-center justify-center ml-1">
+                    <ins class="adsbygoogle" style="display:inline-block;width:234px;height:60px"
+                        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1234567890"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-1 min-h-0 max-w-7xl w-full mx-auto px-4 md:px-8 py-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full max-h-full">
+
+            <!-- COLUMN 1: Grade 7 -->
+            <div class="flex flex-col h-full min-h-0 bg-black/20 rounded-2xl p-3 border border-white/5">
+                <div class="flex-none mb-3 px-2">
+                    <h2 class="text-lg font-bold text-white tracking-wide">มัธยมศึกษาปีที่ 1</h2>
+                    <p class="text-xs text-gray-400 font-medium tracking-wider">Grade 7</p>
+                </div>
+                <!-- คอนเทนเนอร์แสดงผล Card ม.1 -->
+                <div id="grade-7-container" class="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                </div>
+            </div>
+
+            <!-- COLUMN 2: Grade 8 -->
+            <div class="flex flex-col h-full min-h-0 bg-black/20 rounded-2xl p-3 border border-white/5">
+                <div class="flex-none mb-3 px-2">
+                    <h2 class="text-lg font-bold text-white tracking-wide">มัธยมศึกษาปีที่ 2</h2>
+                    <p class="text-xs text-gray-400 font-medium tracking-wider">Grade 8</p>
+                </div>
+                <!-- คอนเทนเนอร์แสดงผล Card ม.2 -->
+                <div id="grade-8-container" class="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                </div>
+            </div>
+
+            <!-- COLUMN 3: Grade 9 -->
+            <div class="flex flex-col h-full min-h-0 bg-black/20 rounded-2xl p-3 border border-white/5">
+                <div class="flex-none mb-3 px-2">
+                    <h2 class="text-lg font-bold text-white tracking-wide">มัธยมศึกษาปีที่ 3</h2>
+                    <p class="text-xs text-gray-400 font-medium tracking-wider">Grade 9</p>
+                </div>
+                <!-- คอนเทนเนอร์แสดงผล Card ม.3 -->
+                <div id="grade-9-container" class="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="flex-none py-3 px-6 border-t border-purple-900/30 bg-[#030305]/95">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 gap-3">
+
+            <!-- ฝั่งซ้าย: Presented By -->
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-gray-300">Presented By : Power of 10 Science Project. (Thanyaburi
+                    School)</span>
+            </div>
+
+            <!-- ฝั่งขวา: ช่องทางติดต่อ & โซเชียล -->
+            <div class="flex flex-wrap items-center gap-3">
+
+                <!-- ปุ่ม YouTube -->
+                <a href="#"
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 transition-all duration-200 opacity-60 cursor-not-allowed"
+                    title="Coming Soon">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path
+                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                    <span class="font-medium">YouTube</span>
+                </a>
+
+                <!-- ปุ่ม Contact Us -->
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mortontbv10@gmail.com&su=สอบถามข้อมูลเพิ่มเติมจากหน้า%20Dek%20Morton%20Studio"
+                    target="_blank" rel="noopener noreferrer"
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/30 hover:bg-purple-500/20 transition-all duration-200">
+                    <svg class="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span class="font-medium">Contact Us</span>
+                </a>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. ตัวแปรเก็บข้อมูล Card ทั้งหมด แยกตามระดับชั้น
+        const cardsData = {
+            grade7: [
+                { title: 'จำนวนเต็ม', subTitle: 'Integers', img: 'Pic m1/จำนวนเต็ม.jpg', link: 'Pro m1/1 จำนวนเต็ม (Integers).html' },
+                { title: 'เลขยกกำลัง', subTitle: 'Exponents', img: 'Pic m1/เลขยกกำลัง.jpg', link: 'Pro m1/3 เลขยกกำลัง (Exponents).html' },
+                { title: 'ทศนิยมและเศษส่วน', subTitle: 'Decimals & Fractions', img: 'Pic m1/ทศนิยมและเศษส่วน.jpg', link: 'Pro m1/4 ทศนิยมและเศษส่วน (Decimals & Fractions).html' },
+                { title: 'คำนวณ รูปเรขาคณิตสองมิติและสามมิติ', subTitle: 'Linear Equations', img: 'Pic m1/คำนวณ รูปเรขาคณิต.png', link: 'Pro m1/5 คำนวณ รูปเรขาคณิตสองมิติและสามมิติ (2D & 3D Geometry).html' },
+                { title: 'สมการเชิงเส้นตัวแปรเดียว', subTitle: '2D & 3D Geometry', img: 'Pic m1/สมการเชิงเส้น.png', link: 'Pro m1/6 สมการเชิงเส้นตัวแปรเดียว (Linear Equations).html' },
+                { title: 'อัตราส่วนและร้อยละ', subTitle: 'Ratios & Percentages', img: 'Pic m1/อัตราส่วน.png', link: 'Pro m1/7 อัตราส่วนและร้อยละ (Ratios & Percentages).html' },
+                { title: 'กราฟและความสัมพันธ์เชิงเส้น', subTitle: 'Graphs and Linear Relations', img: 'Pic m1/กราฟ.png', link: 'Pro m1/8 กราฟและความสัมพันธ์เชิงเส้น (Graphs and Linear Relations).html' },
+            ],
+            grade8: [
+                { title: 'พีธาโกลัส', subTitle: 'Pythagorean theorem', img: 'Pic/พีธาโกลัส.jpg', link: 'Pro/พีธาโกลัส.html' },
+                { title: 'จำนวนจริง ม.2', subTitle: 'Real number', img: 'Pic/จำนวนจริง ม2.png', link: 'Pro/จำนวนจริง ม2.html' },
+                { title: 'ปริซึมและทรงกระบอก', subTitle: 'Prisms and cylinders', img: 'Pic/ปริซึมและทรงกระบอก.jpg', link: 'Pro/ปริซึมและทรงกระบอก.html' },
+                { title: 'การแปลงทางเรขาคณิต', subTitle: 'Geometric transformation', img: 'Pic/การแปลงทางเรขาคณิต.jpg', link: 'Pro/การแปลงทางเรขาคณิต.html' },
+                { title: 'สมบัติของเลขยกกำลัง', subTitle: 'Properties of Exponents', img: 'Pic/สมบัติของเลขยกกำลัง.jpg', link: 'Pro/สมบัติของเลขยกกำลัง.html' },
+                { title: 'การดำเนินการของพหุนาม', subTitle: 'Operations of polynomials', img: 'Pic/การดำเนินการของพหุนาม.png', link: 'Pro/การดำเนินการของพหุนาม.html' },
+                { title: 'สถิติ 2', subTitle: 'Statistics 2', img: 'Pic/สถิติ2.png', link: 'Pro/สถิติ2.html' },
+                { title: 'ความเท่ากันทุกประการ', subTitle: 'Congruence', img: 'Pic/ความเท่ากันทุกประการ.jpg', link: 'Pro/ความเท่ากันทุกประการ.html' },
+                { title: 'เส้นขนานและมุมแย้ง', subTitle: 'Parallel lines and alternate interior angles', img: 'Pic/เส้นขนานและมุมแย้ง.jpg', link: 'Pro/เส้นขนานและมุมแย้ง.html' },
+                { title: 'การให้เหตุผลทางเรขาคณิต', subTitle: 'Geometric reasoning', img: 'Pic/การให้เหตุผลทางเรขาคณิต.png', link: 'Pro/การให้เหตุผลทางเรขาคณิต.html' },
+                { title: 'แยกตัวประกอบพหุนาม', subTitle: 'Factoring Polynomials', img: 'Pic/แยกตัวประกอบพหุนาม ม2.png', link: 'Pro/แยกตัวประกอบพหุนาม ม.2.html' },
+                { title: 'แบบสอนกระจายกำลังสองสมบูรณ์', subTitle: 'Perfect Square Trinomial', img: 'Pic/รูป โปรแกรมสอนกระจายหน้าหลังกำลัง2.png', link: 'Pro/แบบสอนกระจาย 2หน้าหลัง.html' },
+                { title: 'แบบฝึกกระจายกำลังสองสมบูรณ์', subTitle: 'Perfect Square Trinomial', img: 'Pic/รูป โปรแกรมฝึกกระจายหน้าหลังกำลัง2.png', link: 'Pro/แบบฝึกกระจาย2หน้าหลัง.html' },
+                { title: 'แบบสอนกระจายกลับมาเป็นหน้าหลังกำลัง2', subTitle: 'Perfect Square Trinomial', img: 'Pic/รูป โปรแกรมสอนกระจายกลับกำลัง2สมบูรณ์.png', link: 'Pro/แบบสอนกระจายกลับมาเป็นหน้าหลังกำลัง2.html' },
+                { title: 'แบบฝึกแยก 3พจน์ (a=1)', subTitle: 'Factoring Trinomials with (a = 1)', img: 'Pic/3พจน์ a=1.png', link: 'Pro/แบบฝึกแยก3พจ a=1.html' },
+                { title: 'แบบสอนแยก 3พจน์ (a>1)', subTitle: 'The AC Method (a>1)', img: 'Pic/แบบสอน3พจน์ a+1.png', link: 'Pro/แบบสอนแยก 3พจน์ a+1.html' },
+                { title: 'แบบฝึกหัดวิเคราะห์ Pattern พหุนาม', subTitle: 'Polynomial Pattern Recognition Practice', img: 'Pic/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม.jpg', link: 'Pro/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม.html' },
+                { title: 'แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Hard Mode)', subTitle: 'Polynomial Pattern Analysis Practice (Hard Mode)', img: 'Pic/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Hard Mode).jpg', link: 'Pro/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Hard Mode).html' },
+                { title: 'แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Super Hard Mode)', subTitle: 'Polynomial Pattern Analysis Practice (Super Hard Mode)', img: 'Pic/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Super Hard Mode).jpg', link: 'Pro/แบบฝึกหัดวิเคราะห์ Pattern พหุนาม (Super Hard Mode).html' },
+                { title: 'แบบฝึกหัดแยก 3 พจน์ (a>1)', subTitle: 'The AC Method (a>1)', img: 'Pic/แบบฝึกหัดแยก 3 พจน์ a+1.jpg', link: 'Pro/แบบฝึกหัดแยก 3 พจน์ a+1.html' },
+                { title: 'สูตรฟิสิกมอต้น', subTitle: 'Junior High School Physics Formulas', img: 'Pic/Physics.jpg', link: 'Pro/สูตรฟิสิกมอต้น.html' }
+            ],
+            grade9: [
+                { title: 'อสมการเชิงเส้นตัวแปรเดียว', subTitle: 'Linear inequality with one variable', img: 'Pic m3/1 อสมการเชิงเส้นตัวแปรเดียว.jpg', link: 'Pro m3/1 อสมการเชิงเส้นตัวแปรเดียว.html' },
+                { title: 'การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง   (Level # 1)', subTitle: 'Factoring polynomials of degree higher than two', img: 'Pic m3/2 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง.jpg', link: 'Pro m3/2 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง level1.html' },
+                { title: 'การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง   (Level # 2)', subTitle: 'Factoring polynomials of degree higher than two', img: 'Pic m3/2-1 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง.jpg', link: 'Pro m3/2-1 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง level2.html' },
+                { title: 'การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง   (Level # 3)', subTitle: 'Factoring polynomials of degree higher than two', img: 'Pic m3/2-2 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง.jpg', link: 'Pro m3/2-2 การแยกตัวประกอบของพหุนามดีกรีสูงกว่าสอง level3.html' },
+                { title: 'ผลบวกและผลต่างกำลังสาม', subTitle: 'Sum and Difference of Cubes', img: 'Pic m3/2-4 ผลบวกและผลต่างกำลังสาม.jpg', link: 'Pro m3/2-4 ผลบวกและผลต่างกำลังสาม (Sum and Difference of Cubes).html' },
+                { title: 'สมการกำลังสองตัวแปรเดียว', subTitle: 'Quadratic equation in one variable', img: 'Pic m3/3 สมการกำลังสองตัวแปรเดียว.png', link: 'Pro m3/3 สมการกำลังสองตัวแปรเดียว.html' },
+                { title: 'ความคล้าย', subTitle: 'Similarity', img: 'Pic m3/4 ความคล้าย.jpg', link: 'Pro m3/4 ความคล้าย.html' },
+                { title: 'แบบฝึกพาราโบลา', subTitle: 'Parabola', img: 'Pic m3/5 แบบฝึกพาราโบรา.jpg', link: 'Pro m3/5 แบบฝึกพาราโบรา.html' },
+                { title: 'ระบบสมการเชิงเส้นสองตัวแปร โจทย์ประยุกต์', subTitle: 'Systems of Linear Equations in Two Variables: Word Problems', img: 'Pic m3/6 ระบบสมการเชิงเส้นสองตัวแปร โจทย์ประยุกต์.jpg', link: 'Pro m3/6 ระบบสมการเชิงเส้นสองตัวแปร โจทย์ประยุกต์.html' },
+                { title: 'ระบบสมการเชิงเส้นสองตัวแปร', subTitle: 'Systems of Linear Equations in Two Variables', img: 'Pic m3/6-1โปรแกรมฝึกแก้ระบบสมการเชิงเส้น 2 ตัวแปร.jpg', link: 'Pro m3/6 ระบบสมการเชิงเส้นสองตัวแปร โจทย์ประยุกต์.html' },
+                { title: 'สถิติ 3', subTitle: 'Statistics 3', img: 'Pic m3/7 สถิติ.jpg', link: 'Pro m3/7 สถิติ.html' },
+                { title: 'ความน่าจะเป็น', subTitle: 'Probability', img: 'Pic m3/8 ความน่าจะเป็น.jpg', link: 'Pro m3/8 ความน่าจะเป็น.html' },
+                { title: 'ฝึกมองมุมตรีโกณมิติ', subTitle: 'Trigonometric Angle Practice', img: 'Pic m3/9 ฝึกมองมุมตรีโกณมิติ.png', link: 'Pro m3/9 ฝึกมองมุมตรีโกณมิติ.html' },
+                { title: 'อัตราส่วนตรีโกณมิติ', subTitle: 'sin, cos, tan', img: 'Pic m3/9-1 อัตราส่วนตรีโกณมิติ.png', link: 'Pro m3/9-1 อัตราส่วนตรีโกณมิติ.html' },
+            ]
+        };
+
+        // 2. ฟังก์ชันสร้าง HTML สำหรับ Block Card 1 ใบ
+        function createCardHTML(card) {
+            const cardInnerHTML = `
+                <div class="card-glow bg-[#080811] rounded-2xl p-3 flex flex-col gap-2">
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-900">
+                        <img src="${card.img}" alt="${card.title}"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                            onerror="handleImageError(this, '${card.title}')">
+                    </div>
+                    <div class="pt-1">
+                        <h3 class="font-bold text-base text-white leading-tight">${card.title}</h3>
+                        <p class="text-xs text-purple-300/80 font-light mt-0.5">${card.subTitle}</p>
+                    </div>
+                </div>
+            `;
+
+            if (card.link) {
+                return `<a href="${card.link}" target="_blank" class="card-link block">${cardInnerHTML}</a>`;
+            }
+            return cardInnerHTML;
+        }
+
+        // 3. ฟังก์ชัน วาด (Render) Card ทั้งหมด
+        function renderAllCards() {
+            document.getElementById('grade-7-container').innerHTML = cardsData.grade7.map(createCardHTML).join('');
+            document.getElementById('grade-8-container').innerHTML = cardsData.grade8.map(createCardHTML).join('');
+            document.getElementById('grade-9-container').innerHTML = cardsData.grade9.map(createCardHTML).join('');
+        }
+
+        // 4. ฟังก์ชันจัดการเมื่อรูปภาพเกิด Error (Fallback)
+        function handleImageError(imgElement, titleText) {
+            imgElement.onerror = null;
+            const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340">
+                    <defs>
+                        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#120c24"/>
+                            <stop offset="100%" stop-color="#080511"/>
+                        </linearGradient>
+                        <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#8b5cf6"/>
+                            <stop offset="100%" stop-color="#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#bg)"/>
+                    <circle cx="300" cy="140" r="45" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.6"/>
+                    <path d="M285 140 L315 140 M300 125 L300 155" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="40" y="240" width="520" height="2" fill="url(#accent)" opacity="0.4"/>
+                    <text x="300" y="220" font-family="sans-serif" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">
+                        ${escapeXml(titleText)}
+                    </text>
+                    <text x="300" y="280" font-family="sans-serif" font-size="13" fill="#8b5cf6" text-anchor="middle" letter-spacing="2">
+                        DEK MORTON STUDIO
+                    </text>
+                </svg>
+            `;
+            imgElement.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgContent);
+        }
+
+        function escapeXml(unsafe) {
+            return unsafe.replace(/[<>&'"]/g, function (c) {
+                switch (c) {
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '&': return '&amp;';
+                    case '\'': return '&apos;';
+                    case '"': return '&quot;';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAllCards);
+    </script>
+    <script>
+        (function () {
+            const btn = document.getElementById('support-btn');
+            const pupilLeft = document.getElementById('pupil-left');
+            const pupilRight = document.getElementById('pupil-right');
+
+            let sleepTimer = null;
+            const SLEEP_DELAY = 3000;
+
+            function wakeUp() {
+                btn.classList.remove('smiley-asleep-mode');
+                clearTimeout(sleepTimer);
+
+                sleepTimer = setTimeout(() => {
+                    btn.classList.add('smiley-asleep-mode');
+                }, SLEEP_DELAY);
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                wakeUp();
+
+                if (!pupilLeft || !pupilRight || !btn) return;
+
+                const rect = btn.getBoundingClientRect();
+                const btnCenterX = rect.left + rect.width / 2;
+                const btnCenterY = rect.top + rect.height / 2;
+
+                const deltaX = e.clientX - btnCenterX;
+                const deltaY = e.clientY - btnCenterY;
+                const angle = Math.atan2(deltaY, deltaX);
+
+                const distance = Math.min(3.5, Math.hypot(deltaX, deltaY) / 30);
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+
+                pupilLeft.setAttribute('cx', 35 + pupilX);
+                pupilLeft.setAttribute('cy', 40 + pupilY);
+                pupilRight.setAttribute('cx', 65 + pupilX);
+                pupilRight.setAttribute('cy', 40 + pupilY);
+            });
+
+            wakeUp();
+        })();
+    </script>
+</body>
+
+</html>
