@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - สถิติ (2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #ff4d4d;
+            --accent-purple: #9d4edd;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 4px;
+            background: #2a2a2a;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .problem-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 15px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .problem-detail {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Visualization Displays */
+        .plot-container {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 140px;
+        }
+
+        /* Stem and Leaf Table */
+        .stem-leaf-table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .stem-leaf-table td {
+            padding: 4px 12px;
+            font-size: 18px;
+        }
+
+        .stem-cell {
+            border-right: 2px solid var(--accent-cyan);
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-align: right;
+        }
+
+        .leaf-cell {
+            letter-spacing: 6px;
+            color: #fff;
+        }
+
+        /* Histogram Bars */
+        .histogram-flex {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            height: 120px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #555;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .bar {
+            width: 100%;
+            background: var(--accent-purple);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 0.3s;
+        }
+
+        .bar-val {
+            position: absolute;
+            top: -20px;
+            font-size: 12px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+
+        .bar-label {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"].stat-input {
+            width: 90px;
+            height: 44px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"].stat-input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>📊 สถิติ (2): แผนภาพและการนำเสนอข้อมูล</h1>
+
+            <!-- ปุ่มเลือกโหมด -->
+            <div class="mode-selector">
+                <button class="mode-btn active" id="btn-mode1" onclick="switchMode(1)">1. ค่ากลางของข้อมูล</button>
+                <button class="mode-btn" id="btn-mode2" onclick="switchMode(2)">2. แผนภาพจุด & ต้น-ใบ</button>
+                <button class="mode-btn" id="btn-mode3" onclick="switchMode(3)">3. ฮิสโทแกรม</button>
+            </div>
+
+            <!-- กล่องแสดงโจทย์ -->
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์ค่ากลางของข้อมูล</div>
+                <div class="problem-detail" id="problem-detail">กำลังโหลดโจทย์...</div>
+                <div id="visual-display"></div>
+            </div>
+
+            <!-- ส่วนกรอกคำตอบ -->
+            <div class="input-group" id="input-container"></div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <!-- Tip สรุปกฎ -->
+            <div class="tip-box">
+                <div class="tip-header">💡 สรุปความรู้เรื่องค่ากลางของข้อมูล</div>
+                <div class="tip-item">
+                    • <b>ค่าเฉลี่ยเลขคณิต (x̄):</b> <span class="highlight">ผลรวมข้อมูลทั้งหมด ÷ จำนวนข้อมูล</span>
+                </div>
+                <div class="tip-item">
+                    • <b>มัธยฐาน (Med):</b> <span class="highlight">ค่าที่อยู่ตำแหน่งตรงกลาง</span>
+                    เมื่อเรียงข้อมูลจากน้อยไปมาก (ถ้ามี 2 ค่าตรงกลาง นำมาบวกกันหาร 2)
+                </div>
+                <div class="tip-item">
+                    • <b>ฐานนิยม (Mode):</b> <span class="highlight">ข้อมูลที่มีความถี่สูงสุด</span> (ซ้ำกันมากที่สุด)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentProblem = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`btn-mode${i}`).className = mode === i ? 'mode-btn active' : 'mode-btn';
+            }
+            generateProblem();
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+
+            if (currentMode === 1) generateCentralTendency();
+            else if (currentMode === 2) generateStemLeafOrDot();
+            else generateHistogram();
+
+            document.getElementById('problem-title').innerText = currentProblem.title;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+            document.getElementById('visual-display').innerHTML = currentProblem.visualHtml || '';
+            renderInputs();
+        }
+
+        // 1. โหมดค่ากลางของข้อมูล (Mean, Median, Mode)
+        function generateCentralTendency() {
+            const count = 7;
+            let data = [];
+            const base = getRandomInt(10, 30);
+            const modeVal = base + getRandomInt(-5, 5);
+
+            data.push(modeVal, modeVal);
+            while (data.length < count) {
+                data.push(base + getRandomInt(-8, 8));
+            }
+
+            data.sort((a, b) => a - b);
+
+            const sum = data.reduce((a, b) => a + b, 0);
+            const mean = parseFloat((sum / count).toFixed(1));
+            const median = data[Math.floor(count / 2)];
+
+            let freq = {};
+            let maxFreq = 0, mode = null;
+            data.forEach(x => {
+                freq[x] = (freq[x] || 0) + 1;
+                if (freq[x] > maxFreq) { maxFreq = freq[x]; mode = x; }
+            });
+
+            currentProblem = {
+                ans: [mean, median, mode],
+                labels: ["ค่าเฉลี่ย (Mean)", "มัธยฐาน (Median)", "ฐานนิยม (Mode)"],
+                title: '📈 การหาค่ากลางของข้อมูล',
+                detail: `ชุดข้อมูล: [ ${data.join(', ')} ]`,
+                explain: `<b>วิธีคิด:</b><br>` +
+                    `1. <b>เรียงข้อมูล:</b> ${data.join(', ')}<br>` +
+                    `2. <b>ค่าเฉลี่ย:</b> ผลรวม (${sum}) ÷ ${count} = <b>${mean}</b><br>` +
+                    `3. <b>มัธยฐาน:</b> ข้อมูลตำแหน่งตรงกลาง (ตัวที่ 4) คือ <b>${median}</b><br>` +
+                    `4. <b>ฐานนิยม:</b> ข้อมูลที่ซ้ำกันมากที่สุดคือ <b>${mode}</b> (ซ้ำ ${maxFreq} ครั้ง)`
+            };
+        }
+
+        // 2. แผนภาพต้น-ใบ และ แผนภาพจุด
+        function generateStemLeafOrDot() {
+            const isStemLeaf = Math.random() > 0.5;
+
+            if (isStemLeaf) {
+                let data = [];
+                const tens = [1, 2, 3];
+                tens.forEach(t => {
+                    let leafCount = getRandomInt(2, 4);
+                    for (let i = 0; i < leafCount; i++) data.push(t * 10 + getRandomInt(0, 9));
+                });
+                data.sort((a, b) => a - b);
+
+                let stemMap = {};
+                data.forEach(val => {
+                    let s = Math.floor(val / 10);
+                    let l = val % 10;
+                    if (!stemMap[s]) stemMap[s] = [];
+                    stemMap[s].push(l);
+                });
+
+                let tableHtml = `<div class="plot-container"><table class="stem-leaf-table">`;
+                for (let s in stemMap) {
+                    tableHtml += `<tr><td class="stem-cell">${s}</td><td class="leaf-cell">${stemMap[s].join(' ')}</td></tr>`;
+                }
+                tableHtml += `</table></div>`;
+
+                const min = data[0];
+                const max = data[data.length - 1];
+                const range = max - min;
+
+                currentProblem = {
+                    ans: [data.length, max, range],
+                    labels: ["จำนวนข้อมูลทั้งหมด", "ค่าสูงสุด", "พิสัย (สูงสุด - ต่ำสุด)"],
+                    title: '🍃 การอ่านแผนภาพต้น-ใบ (Stem-and-Leaf Plot)',
+                    detail: `วิเคราะห์ข้อมูลจากแผนภาพต้น-ใบด้านล่าง:`,
+                    visualHtml: tableHtml,
+                    explain: `<b>วิธีคิด:</b><br>` +
+                        `• ข้อมูลทั้งหมด: มีใบ ${data.length} ใบ → <b>${data.length} ข้อมูล</b><br>` +
+                        `• ค่าสูงสุด: ต้นคือ ${Math.floor(max / 10)} ใบคือ ${max % 10} → <b>${max}</b><br>` +
+                        `• พิสัย: ค่าสูงสุด (${max}) - ค่าต่ำสุด (${min}) = <b>${range}</b>`
+                };
+            } else {
+                // แผนภาพจุด (ปรับปรุงระบบสุ่ม ให้ฐานนิยมมีค่าเดียวแน่นอน)
+                let values = [12, 13, 14, 15];
+                let counts = [0, 0, 0, 0];
+
+                // สุ่มเลือกตำแหน่งที่เป็นฐานนิยมล่วงหน้า
+                let maxIdx = getRandomInt(0, 3);
+                counts[maxIdx] = getRandomInt(3, 5); // ฐานนิยมจะมี 3-5 จุด
+
+                // ตัวอื่นๆ สุ่มให้มีจุดน้อยกว่าฐานนิยมแน่นอน
+                values.forEach((_, idx) => {
+                    if (idx !== maxIdx) {
+                        counts[idx] = getRandomInt(1, counts[maxIdx] - 1);
+                    }
+                });
+
+                let total = counts.reduce((a, b) => a + b, 0);
+                let modeValue = values[maxIdx];
+
+                let dotHtml = `<div class="plot-container" style="gap: 24px; align-items: flex-end;">`;
+                values.forEach((v, idx) => {
+                    let dots = '🔴<br>'.repeat(counts[idx]);
+                    dotHtml += `<div style="text-align:center;"><div style="line-height: 1.2;">${dots}</div><div style="border-top:1px solid #fff; margin-top:4px; padding-top:4px; font-weight:bold; color:var(--accent-gold);">${v}</div></div>`;
+                });
+                dotHtml += `</div>`;
+
+                currentProblem = {
+                    ans: [total, modeValue],
+                    labels: ["จำนวนข้อมูลทั้งหมด", "ฐานนิยม (ข้อมูลที่มีจุดมากสุด)"],
+                    title: '🔴 การอ่านแผนภาพจุด (Dot Plot)',
+                    detail: `วิเคราะห์ข้อมูลจากแผนภาพจุดด้านล่าง:`,
+                    visualHtml: dotHtml,
+                    explain: `<b>วิธีคิด:</b><br>` +
+                        `• นับจำนวนจุดทั้งหมด = <b>${total}</b><br>` +
+                        `• จุดสูงสุดอยู่ที่เลข <b>${modeValue}</b> (มี ${counts[maxIdx]} จุด)`
+                };
+            }
+        }
+
+        // 3. ฮิสโทแกรม
+        function generateHistogram() {
+            const ranges = ["10-19", "20-29", "30-39", "40-49"];
+            const freqs = ranges.map(() => getRandomInt(2, 8));
+            const total = freqs.reduce((a, b) => a + b, 0);
+            const maxFreqIdx = freqs.indexOf(Math.max(...freqs));
+
+            let histoHtml = `<div class="plot-container"><div class="histogram-flex" style="width: 80%;">`;
+            freqs.forEach((f, idx) => {
+                let hPx = f * 12;
+                histoHtml += `
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: ${hPx}px;">
+                        <span class="bar-val">${f}</span>
+                    </div>
+                    <span class="bar-label">${ranges[idx]}</span>
+                </div>
+            `;
+            });
+            histoHtml += `</div></div>`;
+
+            currentProblem = {
+                ans: [total, freqs[maxFreqIdx]],
+                labels: ["จำนวนข้อมูลทั้งหมด", "ความถี่สูงสุด"],
+                title: '📊 การอ่านฮิสโทแกรม (Histogram)',
+                detail: `วิเคราะห์ข้อมูลความถี่จากฮิสโทแกรมด้านล่าง:`,
+                visualHtml: histoHtml,
+                explain: `<b>วิธีคิด:</b><br>` +
+                    `• นำความถี่ของทุกช่วงมารวมกัน: ${freqs.join(' + ')} = <b>${total}</b><br>` +
+                    `• ช่วงที่มีความถี่สูงที่สุดคือช่วง <b>${ranges[maxFreqIdx]}</b> ซึ่งมีความถี่เท่ากับ <b>${freqs[maxFreqIdx]}</b>`
+            };
+        }
+
+        function renderInputs() {
+            const container = document.getElementById('input-container');
+            container.innerHTML = '';
+
+            currentProblem.labels.forEach((label, idx) => {
+                container.innerHTML += `
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span>${label}: </span>
+                    <input type="number" step="0.1" class="stat-input" id="inp-${idx}" placeholder="0">
+                </div>
+            `;
+            });
+        }
+
+        function checkAnswer() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            let userAns = [];
+            let isComplete = true;
+
+            currentProblem.ans.forEach((_, idx) => {
+                const val = parseFloat(document.getElementById(`inp-${idx}`).value);
+                if (isNaN(val)) isComplete = false;
+                userAns.push(val);
+            });
+
+            if (!isComplete) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกคำตอบให้ครบทุกช่องก่อนตรวจครับ</b>';
+                return;
+            }
+
+            const isCorrect = userAns.every((val, idx) => Math.abs(val - currentProblem.ans[idx]) < 0.15);
+
+            if (isCorrect) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ!</b><br><br>${currentProblem.explain}`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b><br><br>💡 <b>เฉลยและวิธีคิด:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

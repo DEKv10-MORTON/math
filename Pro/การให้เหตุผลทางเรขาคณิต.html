@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - การให้เหตุผลทางเรขาคณิต (Infinite Version)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .problem-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 16px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .problem-detail {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            background: #141414;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #222;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option-btn:hover {
+            background: #383838;
+            border-color: var(--accent-cyan);
+        }
+
+        .option-btn.selected {
+            background: #1a3d54;
+            border-color: var(--accent-cyan);
+            color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>🧠 การให้เหตุผลทางเรขาคณิต (สุ่มโจทย์แบบไม่จำกัด)</h1>
+
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์ทดสอบความสามารถในการพิสูจน์</div>
+                <div class="problem-detail" id="problem-detail">กำลังสร้างโจทย์...</div>
+                <div class="canvas-container">
+                    <canvas id="reasoningCanvas" width="500" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="options-grid" id="options-container"></div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <div class="tip-box">
+                <div class="tip-header">💡 สรุปหลักการอ้างเหตุผลทางเรขาคณิต</div>
+                <div class="tip-item">• <b>นิพจน์เงื่อนไข:</b> "ถ้า P แล้ว Q" (การอ้างเหตุผลต้องอ้างจากเหตุ P ไปสู่ผล Q)
+                </div>
+                <div class="tip-item">• <b>ข้อความคาดการณ์:</b> ต้องผ่านการพิสูจน์ด้วยสัจพจน์ อุปนิยาม หรือทฤษฎีบท
+                    จึงจะเป็นจริงเสมอ</div>
+                <div class="tip-item">• <b>ข้อความขัดแย้ง (Counterexample):</b>
+                    หากพบกรณีแวดล้อมแม้แต่กรณีเดียวที่ไม่เป็นจริง ข้อความนั้นจะเป็นเท็จทันที</div>
+                <!-- 📍 วางแท็กโฆษณาตรงนี้ครับ -->
+                <div class="ad-container-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProblem = {};
+        let selectedOption = null;
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // อัลกอริทึมสร้างโจทย์อัตโนมัติ
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+            selectedOption = null;
+
+            // สุ่มประเภทโจทย์จาก 6 หมวดหลัก
+            const category = getRandomInt(1, 6);
+            let detail = "";
+            let rawOptions = [];
+            let correctOptionText = "";
+            let explain = "";
+            let drawData = { cat: category };
+
+            if (category === 1) {
+                // --- 1. สุ่มรูป N-เหลี่ยม หาผลบวกมุมภายใน ---
+                const n = getRandomInt(3, 12);
+                const sum = (n - 2) * 180;
+                detail = `ข้อใดคือข้อความคาดการณ์เกี่ยวกับ <b>"ผลรวมของขนาดมุมภายในของรูป ${n}-เหลี่ยม"</b> ที่ถูกต้อง?`;
+
+                correctOptionText = `ผลรวมมุมภายใน = (${n} - 2) × 180° = ${sum}°`;
+                rawOptions = [
+                    correctOptionText,
+                    `ผลรวมมุมภายใน = ${n} × 180° = ${n * 180}°`,
+                    `ผลรวมมุมภายใน = (${n} - 1) × 180° = ${(n - 1) * 180}°`,
+                    `ผลรวมมุมภายใน = (${n} + 2) × 180° = ${(n + 2) * 180}°`
+                ];
+                explain = `<b>วิธีคิด:</b> รูป n-เหลี่ยม ใดๆ สามารถแบ่งเป็นรูปสามเหลี่ยมได้ (n - 2) รูป<br>ดังนั้น ผลรวมมุมภายใน = (n - 2) × 180° = (${n} - 2) × 180° = <b>${sum}°</b>`;
+                drawData.n = n;
+
+            } else if (category === 2) {
+                // --- 2. สุ่มเรื่องเส้นตัดขนานและมุมภายนอก/ภายใน ---
+                const angleA = getRandomInt(40, 140);
+                const angleB = 180 - angleA;
+                detail = `จากรูป เส้นตรง L1 ขนานกับ L2 (L1 // L2) ข้อใดให้เหตุผลเกี่ยวกับขนาดของ <b>มุมภายในข้างเดียวกัน</b> ได้ถูกต้อง?`;
+
+                correctOptionText = `มุมทั้งสองรวมกันได้ 180° เพราะเป็นมุมภายในบนข้างเดียวกันของเส้นตัด`;
+                rawOptions = [
+                    correctOptionText,
+                    `มุมทั้งสองมีขนาดเท่ากันเสมอ เพราะเป็นมุมแย้ง`,
+                    `มุมทั้งสองมีขนาดเท่ากันเสมอ เพราะเป็นมุมตรงข้าม`,
+                    `มุมทั้งสองรวมกันได้ 360° เพราะเป็นมุมรอบจุด`
+                ];
+                explain = `<b>วิธีคิด:</b> สมบัติพื้นฐานของเส้นขนานระบุไว้ว่า "ถ้าเส้นตรงสองเส้นขนานกันและมีเส้นตัด แล้วขนาดของมุมภายในที่อยู่บนข้างเดียวกันของเส้นตัดจะรวมกันเท่ากับ 180°"`;
+                drawData.angleA = angleA;
+
+            } else if (category === 3) {
+                // --- 3. สุ่มเรื่องสามเหลี่ยมหน้าจั่ว ---
+                const baseAngle = getRandomInt(30, 75);
+                const topAngle = 180 - (baseAngle * 2);
+                detail = `กำหนดให้ △ABC เป็นรูปสามเหลี่ยมหน้าจั่ว มีมุมยอดเท่ากับ ${topAngle}° ข้อใดคือเหตุผลที่ถูกต้องในการหาขนาดของมุมที่ฐาน?`;
+
+                correctOptionText = `มุมที่ฐานมีขนาดเท่ากัน มุมละ (180° - ${topAngle}°) ÷ 2 = ${baseAngle}°`;
+                rawOptions = [
+                    correctOptionText,
+                    `มุมที่ฐานมีขนาดเท่ากับมุมยอด คือ ${topAngle}°`,
+                    `มุมที่ฐานรวมกันได้ 90° เสมอ`,
+                    `มุมที่ฐานมีขนาดเท่ากับ 180° - ${topAngle}° = ${180 - topAngle}°`
+                ];
+                explain = `<b>วิธีคิด:</b> ทฤษฎีบทสามเหลี่ยมหน้าจั่วระบุว่า "มุมที่ฐานจะมีขนาดเท่ากันเสมอ"<br>เนื่องจากมุมภายในรวมกันได้ 180° ดังนั้น มุมที่ฐานแต่ละมุม = (180° - ${topAngle}°) ÷ 2 = <b>${baseAngle}°</b>`;
+                drawData.topAngle = topAngle;
+
+            } else if (category === 4) {
+                // --- 4. สุ่มสมบัติสี่เหลี่ยมด้านขนาน ---
+                const props = [
+                    { item: "สี่เหลี่ยมผืนผ้า", prop: "เส้นทแยงมุมยาวเท่ากันและแบ่งครึ่งซึ่งกันและกัน" },
+                    { item: "สี่เหลี่ยมขนมเปียกปูน", prop: "เส้นทแยงมุมตัดกันเป็นมุมฉากและแบ่งครึ่งซึ่งกันและกัน" },
+                    { item: "สี่เหลี่ยมรูปว่าว", prop: "เส้นทแยงมุมตัดกันเป็นมุมฉาก และมีเส้นทแยงมุมเพียงเส้นเดียวที่ถูกแบ่งครึ่ง" },
+                    { item: "สี่เหลี่ยมจัตุรัส", prop: "ด้านทั้งสี่ยาวเท่ากัน มุมทุกมุมเป็นมุมฉาก และเส้นทแยงมุมตัดกันเป็นมุมฉาก" }
+                ];
+                const p = props[getRandomInt(0, props.length - 1)];
+                detail = `ข้อใดคือข้อความคาดการณ์หรือสมบัติที่เป็นจริงเสมอสำหรับ <b>"รูป${p.item}"</b>?`;
+
+                correctOptionText = p.prop;
+                rawOptions = [
+                    correctOptionText,
+                    `ด้านตรงข้ามยาวไม่เท่ากัน`,
+                    `มุมภายในรวมกันได้ 180°`,
+                    `เส้นทแยงมุมขนานกันเสมอ`
+                ];
+                explain = `<b>วิธีคิด:</b> สมบัติทางเรขาคณิตของรูป${p.item} คือ "${p.prop}" ซึ่งสามารถพิสูจน์ได้โดยใช้ความเท่ากันทุกประการของรูปสามเหลี่ยม`;
+                drawData.shapeName = p.item;
+
+            } else if (category === 5) {
+                // --- 5. สุ่มเส้นแบ่งครึ่งและตั้งฉาก ---
+                const segLen = getRandomInt(6, 20) * 2;
+                const halfLen = segLen / 2;
+                detail = `กำหนดให้ เส้นตรง L เป็นเส้นตั้งฉากและแบ่งครึ่งส่วนของเส้นตรง AB ที่จุด M โดย AB ยาว ${segLen} หน่วย ข้อใดอ้างเหตุผลได้ถูกต้อง?`;
+
+                correctOptionText = `AM = MB = ${halfLen} หน่วย และมุมที่จุด M เป็นมุมฉาก (90°)`;
+                rawOptions = [
+                    correctOptionText,
+                    `AM = ${segLen} หน่วย และ MB = ${halfLen} หน่วย`,
+                    `เส้นตรง L ขนานกับส่วนของเส้นตรง AB`,
+                    `มุมที่จุด M มีขนาดเท่ากับ 180°`
+                ];
+                explain = `<b>วิธีคิด:</b> นิยามของ "เส้นตั้งฉากและแบ่งครึ่ง" คือ ทำมุม 90° กับเส้นตรงนั้น และแบ่งความยาวออกเป็น 2 ส่วนเท่ากันพอดี (AM = MB = ${halfLen})`;
+                drawData.segLen = segLen;
+
+            } else if (category === 6) {
+                // --- 6. สุ่มเรื่องมุมภายนอกสามเหลี่ยม ---
+                const inA = getRandomInt(30, 70);
+                const inB = getRandomInt(40, 80);
+                const extC = inA + inB;
+                detail = `จากรูปสามเหลี่ยม ข้อใดคือข้อความอ้างเหตุผลเกี่ยวกับขนาดของ <b>"มุมภายนอก"</b> (${extC}°) ได้อย่างถูกต้อง?`;
+
+                correctOptionText = `มุมภายนอกมีขนาดเท่ากับผลบวกของมุมภายในที่อยู่ตรงข้าม (${inA}° + ${inB}° = ${extC}°)`;
+                rawOptions = [
+                    correctOptionText,
+                    `มุมภายนอกมีขนาดเท่ากับมุมภายในที่อยู่ติดกัน`,
+                    `มุมภายนอกมีขนาดเท่ากับ 180° เสมอ`,
+                    `มุมภายนอกมีขนาดเป็นสองเท่าของมุมภายในทุกมุม`
+                ];
+                explain = `<b>วิธีคิด:</b> ทฤษฎีบทเรขาคณิตระบุว่า "ขนาดของมุมภายนอกของรูปสามเหลี่ยม จะเท่ากับผลบวกของขนาดของมุมภายในที่ไม่ใช่มุมประชิด (มุมตรงข้าม)"`;
+                drawData.inA = inA; drawData.inB = inB;
+            }
+
+            // สุ่มสลับตัวเลือก A, B, C, D
+            const shuffledOptions = shuffleArray([...rawOptions]);
+            const correctIdx = shuffledOptions.indexOf(correctOptionText);
+
+            currentProblem = {
+                detail: detail,
+                options: shuffledOptions,
+                correctIdx: correctIdx,
+                explain: explain,
+                drawData: drawData
+            };
+
+            document.getElementById('problem-title').innerText = `🧠 โจทย์ประเภทที่ ${category}: การอ้างเหตุผลและสมบัติเรขาคณิต`;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+            shuffledOptions.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `${String.fromCharCode(65 + idx)}. ${optText}`;
+                btn.onclick = () => selectOption(idx);
+                optsContainer.appendChild(btn);
+            });
+
+            renderCanvas();
+        }
+
+        function selectOption(idx) {
+            selectedOption = idx;
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach((b, i) => {
+                if (i === idx) b.classList.add('selected');
+                else b.classList.remove('selected');
+            });
+        }
+
+        function renderCanvas() {
+            const canvas = document.getElementById('reasoningCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const d = currentProblem.drawData;
+
+            ctx.strokeStyle = '#00d2ff';
+            ctx.lineWidth = 3;
+            ctx.fillStyle = '#ffb703';
+            ctx.font = 'bold 16px Kanit';
+
+            if (d.cat === 1) {
+                // วาดรูป N-เหลี่ยม
+                const cx = 250, cy = 100, r = 65;
+                const points = [];
+                for (let i = 0; i < d.n; i++) {
+                    const angle = (i * 2 * Math.PI / d.n) - Math.PI / 2;
+                    points.push({ x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) });
+                }
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < d.n; i++) ctx.lineTo(points[i].x, points[i].y);
+                ctx.closePath();
+                ctx.stroke();
+
+            } else if (d.cat === 2) {
+                // วาดเส้นขนาน L1 // L2
+                ctx.beginPath(); ctx.moveTo(60, 60); ctx.lineTo(440, 60); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(60, 140); ctx.lineTo(440, 140); ctx.stroke();
+                ctx.strokeStyle = '#ffb703';
+                ctx.beginPath(); ctx.moveTo(160, 20); ctx.lineTo(340, 180); ctx.stroke();
+                ctx.fillText("L1", 30, 65); ctx.fillText("L2", 30, 145);
+
+            } else if (d.cat === 3) {
+                // สามเหลี่ยมหน้าจั่ว
+                ctx.beginPath();
+                ctx.moveTo(250, 30); ctx.lineTo(150, 160); ctx.lineTo(350, 160);
+                ctx.closePath(); ctx.stroke();
+                ctx.fillText("A", 245, 20); ctx.fillText("B", 135, 175); ctx.fillText("C", 355, 175);
+
+            } else if (d.cat === 4) {
+                // รูปสี่เหลี่ยมสมบัติ
+                ctx.beginPath();
+                ctx.strokeRect(160, 50, 180, 100);
+                ctx.strokeStyle = '#ffb703'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(160, 50); ctx.lineTo(340, 150); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(340, 50); ctx.lineTo(160, 150); ctx.stroke();
+
+            } else if (d.cat === 5) {
+                // เส้นตั้งฉากแบ่งครึ่ง
+                ctx.beginPath(); ctx.moveTo(100, 120); ctx.lineTo(400, 120); ctx.stroke();
+                ctx.strokeStyle = '#ffb703';
+                ctx.beginPath(); ctx.moveTo(250, 30); ctx.lineTo(250, 170); ctx.stroke();
+                ctx.fillText("A", 80, 125); ctx.fillText("B", 410, 125); ctx.fillText("M", 255, 140); ctx.fillText("L", 255, 25);
+
+            } else if (d.cat === 6) {
+                // มุมภายนอกสามเหลี่ยม
+                ctx.beginPath();
+                ctx.moveTo(100, 140); ctx.lineTo(320, 140); ctx.lineTo(220, 40); ctx.closePath(); ctx.stroke();
+                ctx.strokeStyle = '#ffb703';
+                ctx.beginPath(); ctx.moveTo(320, 140); ctx.lineTo(420, 140); ctx.stroke(); // ต่อเส้น
+                ctx.fillText(`${d.inA}°`, 210, 70);
+                ctx.fillText(`${d.inB}°`, 130, 130);
+                ctx.fillStyle = '#ff4d4d';
+                ctx.fillText(`${d.inA + d.inB}°`, 335, 130);
+            }
+        }
+
+        function checkAnswer() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (selectedOption === null) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณาคลิกเลือกคำตอบก่อนกดตรวจครับ</b>';
+                return;
+            }
+
+            if (selectedOption === currentProblem.correctIdx) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ! เก่งมาก</b><br><br>${currentProblem.explain}`;
+            } else {
+                const correctLetter = String.fromCharCode(65 + currentProblem.correctIdx);
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b> (ข้อที่ถูกคือข้อ <b>${correctLetter}</b>)<br><br>💡 <b>เฉลยและวิธีคิด:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        // เริ่มต้นสร้างโจทย์ครั้งแรก
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

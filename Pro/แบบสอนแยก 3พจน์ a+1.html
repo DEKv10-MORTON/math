@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกแยกตัวประกอบ ม.2 (สุ่มไม่จำกัดข้อ)</title>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #8f8c8c;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card {
+            background: rgb(209, 209, 209);
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-hint {
+            background-color: #2ecc71;
+        }
+
+        .btn-hint:hover {
+            background-color: #27ae60;
+        }
+
+        .step-box {
+            background-color: #eef9f5;
+            border-left: 5px solid #2ecc71;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+            display: none;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="brand-logo">⚡ DEK MORTON STUDIO</div>
+        <h2>🎯 ฝึกแยก 3 พจน์ (AC Method)</h2>
+        <p>กดสุ่มโจทย์ใหม่ได้เรื่อยๆ แล้วกดคิดทีละสเต็ปดูครับ</p>
+
+        <div class="problem" id="problem-text">6x² + 11x - 10</div>
+
+        <button onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+        <button class="btn-hint" onclick="showNextStep()">💡 ดูเฉลยทีละสเต็ป</button>
+
+        <div id="steps-container"></div>
+    </div>
+
+    <script>
+        let currentProblem = {};
+        let currentStep = 0;
+
+        // ฟังก์ชันสร้างโจทย์อัตโนมัติ (a > 1 และแยกได้ลงตัวเสมอ)
+        function generateProblem() {
+            currentStep = 0;
+            document.getElementById('steps-container').innerHTML = '';
+
+            // สุ่มตัวตั้งต้น (m1*x + n1)(m2*x + n2)
+            const m1 = Math.floor(Math.random() * 4) + 2; // สุ่ม 2 ถึง 5
+            const m2 = Math.floor(Math.random() * 3) + 1; // สุ่ม 1 ถึง 3
+
+            let n1 = (Math.floor(Math.random() * 6) + 1) * (Math.random() < 0.5 ? 1 : -1);
+            let n2 = (Math.floor(Math.random() * 6) + 1) * (Math.random() < 0.5 ? 1 : -1);
+
+            // คำนวณค่าสัมประสิทธิ์ a, b, c
+            const a = m1 * m2;
+            const b = (m1 * n2) + (m2 * n1);
+            const c = n1 * n2;
+
+            // ป้องกันกรณี b เป็น 0 หรือดึงตัวร่วมระดับโจทย์ได้ (เช่น แม่ 2 ดึงได้ทั้งสมการ)
+            if (b === 0 || gcd(gcd(a, b), c) > 1) {
+                generateProblem(); // สุ่มใหม่
+                return;
+            }
+
+            currentProblem = { a, b, c };
+
+            // แสดงโจทย์บนหน้าจอ
+            const bSign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+            const cSign = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+            document.getElementById('problem-text').innerText = `${a}x² ${bSign}x ${cSign}`;
+        }
+
+        function gcd(a, b) {
+            return b === 0 ? Math.abs(a) : gcd(b, a % b);
+        }
+
+        function showNextStep() {
+            const { a, b, c } = currentProblem;
+            const ac = a * c;
+
+            // หาคู่เลข p และ q
+            let p = 0, q = 0;
+            for (let i = -Math.abs(ac); i <= Math.abs(ac); i++) {
+                if (i !== 0 && ac % i === 0) {
+                    let j = ac / i;
+                    if (i + j === b) {
+                        p = i;
+                        q = j;
+                        break;
+                    }
+                }
+            }
+
+            // คำนวณการดึงตัวร่วม
+            const gcd1 = gcd(a, p);
+            const factor1_a = a / gcd1;
+            const factor1_b = p / gcd1;
+
+            // บังคับให้วงเล็บหลังเท่ากับวงเล็บแรกเป๊ะๆ
+            const gcd2 = q / factor1_a;
+
+            // ฟอร์แมตเครื่องหมาย
+            const pSign = p >= 0 ? `+ ${p}` : `- ${Math.abs(p)}`;
+            const qSign = q >= 0 ? `+ ${q}` : `- ${Math.abs(q)}`;
+            const f1bSign = factor1_b >= 0 ? `+ ${factor1_b}` : `- ${Math.abs(factor1_b)}`;
+            const gcd2Sign = gcd2 >= 0 ? `+ ${gcd2}` : `- ${Math.abs(gcd2)}`;
+
+            // จัดรูปซ่อนเลข 1 หน้า x
+            const term1_a = factor1_a === 1 ? '' : factor1_a;
+            const term_gcd1 = gcd1 === 1 ? '' : gcd1;
+
+            // สัญลักษณ์วงเล็บ
+            const repeatedBracket = `(${term1_a}x ${f1bSign})`;
+            const highlightedBracket = `<span style="color: #27ae60; font-weight: bold;">${repeatedBracket}</span>`;
+            const remainingBracket = `(${term_gcd1}x ${gcd2Sign})`;
+
+            const steps = [
+                `<b>สเต็ป 1:</b> เอาเลขหน้าคูณเลขท้าย (a ✕ c)<br>👉 ${a} ✕ (${c}) = <span class="highlight">${ac}</span>`,
+                `<b>สเต็ป 2:</b> หาเลข 2 ตัวที่คูณกันได้ <span class="highlight">${ac}</span> แต่บวกกันได้ <span class="highlight">${b}</span><br>👉 คู่เลขนั้นคือ <span class="highlight">${p}</span> และ <span class="highlight">${q}</span>`,
+                `<b>สเต็ป 3:</b> แตกพจน์กลางออกเป็น 2 ก้อน<br>👉 ${a}x² <span class="highlight">${pSign}x ${qSign}x</span> ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}`,
+                `<b>สเต็ป 4:</b> จับคู่ดึงตัวร่วมหน้า-หลัง<br>👉 ${term_gcd1}x${highlightedBracket} ${gcd2Sign}${highlightedBracket}`,
+                `<b>คำตอบสุดท้าย:</b> (ดึงวงเล็บซ้ำออกมาไว้ข้างหน้า)<br>👉 <b>${highlightedBracket}<span style="color: #2c3e50;">${remainingBracket}</span></b>`
+            ];
+
+            if (currentStep < steps.length) {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'step-box';
+                stepDiv.style.display = 'block';
+                stepDiv.innerHTML = steps[currentStep];
+                document.getElementById('steps-container').appendChild(stepDiv);
+                currentStep++;
+            }
+        }
+
+        // เริ่มต้นสร้างโจทย์ทันทีเมื่อเปิดหน้าเว็บ
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - ปริซึมและทรงกระบอก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            background: #2a2a2a;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .problem-box {
+            background: #000000;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 16px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .problem-detail {
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"].num-input {
+            width: 140px;
+            height: 48px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"].num-input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>📐 แบบฝึกการหาพื้นที่ผิวและปริมาตร</h1>
+
+            <!-- ปุ่มสลับโหมด -->
+            <div class="mode-selector">
+                <button class="mode-btn active" id="btn-mode1" onclick="switchMode(1)">1. ปริซึม (Prism)</button>
+                <button class="mode-btn" id="btn-mode2" onclick="switchMode(2)">2. ทรงกระบอก (Cylinder)</button>
+            </div>
+
+            <!-- แสดงโจทย์ -->
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์ปริซึม</div>
+                <div class="problem-detail" id="problem-detail">กำลังโหลดโจทย์...</div>
+            </div>
+
+            <!-- ส่วนกรอกคำตอบ -->
+            <div class="input-group">
+                <span>คำตอบ = </span>
+                <input type="number" class="num-input" id="user-answer" step="any" placeholder="?">
+                <span id="unit-label">ตารางหน่วย</span>
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <!-- โซนสรุปสูตรสำคัญ -->
+            <div class="tip-box">
+                <div class="tip-header">💡 คลังสูตรสำคัญ (Formula Cheat Sheet)</div>
+                <div class="tip-item">
+                    🔷 <b>ปริซึม:</b><br>
+                    • ปริมาตร = <span class="highlight">พื้นที่ฐาน × ความสูง</span><br>
+                    • พื้นที่ผิวทั้งหมด = <span class="highlight">(2 × พื้นที่ฐาน) + (ความยาวเส้นรอบฐาน ×
+                        ความสูง)</span>
+                </div>
+                <div class="tip-item">
+                    🔴 <b>ทรงกระบอก (รัศมี r, สูง h):</b><br>
+                    • ปริมาตร = <span class="highlight">&pi;r²h</span><br>
+                    • พื้นที่ผิวข้าง = <span class="highlight">2&pi;rh</span><br>
+                    • พื้นที่ผิวทั้งหมด = <span class="highlight">2&pi;rh + 2&pi;r²</span> (ใช้ค่า &pi; ≈ 3.14 หรือ
+                    22/7)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1; // 1 = ปริซึม, 2 = ทรงกระบอก
+        let currentProblem = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-mode1').className = mode === 1 ? 'mode-btn active' : 'mode-btn';
+            document.getElementById('btn-mode2').className = mode === 2 ? 'mode-btn active' : 'mode-btn';
+            generateProblem();
+        }
+
+        // ฟังก์ชันสร้างโจทย์สุ่มแบบไม่จำกัด
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+            document.getElementById('user-answer').value = '';
+
+            if (currentMode === 1) {
+                generatePrismProblem();
+            } else {
+                generateCylinderProblem();
+            }
+        }
+
+        // 1. ระบบสุ่มโจทย์ปริซึม
+        function generatePrismProblem() {
+            const types = ['volume_rect', 'surface_rect', 'volume_tri'];
+            const selectedType = types[Math.floor(Math.random() * types.length)];
+
+            if (selectedType === 'volume_rect') {
+                // ปริมาตรปริซึมสี่เหลี่ยมผืนผ้า
+                const w = Math.floor(Math.random() * 8) + 3;
+                const l = Math.floor(Math.random() * 8) + 4;
+                const h = Math.floor(Math.random() * 10) + 5;
+                const ans = w * l * h;
+
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ลูกบาศก์หน่วย',
+                    title: '📦 ปริมาตรของปริซึมสี่เหลี่ยมผืนผ้า',
+                    detail: `ปริซึมฐานสี่เหลี่ยมผืนผ้ากว้าง ${w} หน่วย, ยาว ${l} หน่วย และมีความสูง ${h} หน่วย<br><b>จงหาปริมาตรของปริซึมนี้</b>`,
+                    explain: `<b>สูตร:</b> ปริมาตร = พื้นที่ฐาน × ความสูง<br>` +
+                        `<b>วิธีคิด:</b> (${w} × ${l}) × ${h} = <b>${ans}</b> ลูกบาศก์หน่วย`
+                };
+            } else if (selectedType === 'surface_rect') {
+                // พื้นที่ผิวทั้งหมดปริซึมสี่เหลี่ยมผืนผ้า
+                const w = Math.floor(Math.random() * 6) + 2;
+                const l = Math.floor(Math.random() * 6) + 3;
+                const h = Math.floor(Math.random() * 8) + 4;
+                const baseArea = w * l;
+                const perimeter = 2 * (w + l);
+                const ans = (2 * baseArea) + (perimeter * h);
+
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ตารางหน่วย',
+                    title: '📐 พื้นที่ผิวทั้งหมดของปริซึมสี่เหลี่ยม',
+                    detail: `ปริซึมฐานสี่เหลี่ยมผืนผ้ากว้าง ${w} หน่วย, ยาว ${l} หน่วย และสูง ${h} หน่วย<br><b>จงหาพื้นที่ผิวทั้งหมดของปริซึมนี้</b>`,
+                    explain: `<b>สูตร:</b> พื้นที่ผิวทั้งหมด = (2 × พื้นที่ฐาน) + (เส้นรอบฐาน × สูง)<br>` +
+                        `• พื้นที่ฐาน 2 ด้าน = 2 × (${w} × ${l}) = ${2 * baseArea}<br>` +
+                        `• พื้นที่ผิวข้าง = 2 × (${w} + ${l}) × ${h} = ${perimeter * h}<br>` +
+                        `<b>รวม:</b> ${2 * baseArea} + ${perimeter * h} = <b>${ans}</b> ตารางหน่วย`
+                };
+            } else {
+                // ปริมาตรปริซึมสามเหลี่ยมมุมฉาก
+                const b = Math.floor(Math.random() * 6) + 3;
+                const triH = Math.floor(Math.random() * 6) + 4;
+                const h = Math.floor(Math.random() * 10) + 5;
+                const baseArea = 0.5 * b * triH;
+                const ans = baseArea * h;
+
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ลูกบาศก์หน่วย',
+                    title: '🔺 ปริมาตรของปริซึมสามเหลี่ยมมุมฉาก',
+                    detail: `ปริซึมมีฐานเป็นสามเหลี่ยมมุมฉาก ความยาวฐาน ${b} หน่วย, ความสูงสามเหลี่ยม ${triH} หน่วย และปริซึมสูง ${h} หน่วย<br><b>จงหาปริมาตรของปริซึมนี้</b>`,
+                    explain: `<b>สูตร:</b> ปริมาตร = พื้นที่ฐาน × ความสูง<br>` +
+                        `• พื้นที่ฐานสามเหลี่ยม = ½ × ${b} × ${triH} = ${baseArea}<br>` +
+                        `<b>วิธีคิด:</b> ${baseArea} × ${h} = <b>${ans}</b> ลูกบาศก์หน่วย`
+                };
+            }
+
+            renderProblemUI();
+        }
+
+        // 2. ระบบสุ่มโจทย์ทรงกระบอก
+        function generateCylinderProblem() {
+            const types = ['volume', 'side_area', 'total_surface'];
+            const selectedType = types[Math.floor(Math.random() * types.length)];
+
+            // สุ่มใช้ pi = 3.14 หรือ 22/7 ให้คำนวณง่าย
+            const useFractionPi = Math.random() < 0.5;
+            let r, h, piVal, piText;
+
+            if (useFractionPi) {
+                r = (Math.floor(Math.random() * 4) + 1) * 7; // สุ่มเลขพหุคูณของ 7 เช่น 7, 14, 21
+                h = Math.floor(Math.random() * 10) + 2;
+                piVal = 22 / 7;
+                piText = "22/7";
+            } else {
+                r = Math.floor(Math.random() * 8) + 2;
+                h = Math.floor(Math.random() * 10) + 2;
+                piVal = 3.14;
+                piText = "3.14";
+            }
+
+            if (selectedType === 'volume') {
+                const ans = Math.round(piVal * r * r * h * 100) / 100;
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ลูกบาศก์หน่วย',
+                    title: '🧪 ปริมาตรของทรงกระบอก',
+                    detail: `ทรงกระบอกมีรัศมี (r) = ${r} หน่วย และความสูง (h) = ${h} หน่วย (กำหนให้ &pi; ≈ ${piText})<br><b>จงหาปริมาตรของทรงกระบอกนี้</b>`,
+                    explain: `<b>สูตร:</b> ปริมาตร = &pi;r²h<br>` +
+                        `<b>วิธีคิด:</b> ${piText} × ${r}² × ${h} = <b>${ans}</b> ลูกบาศก์หน่วย`
+                };
+            } else if (selectedType === 'side_area') {
+                const ans = Math.round(2 * piVal * r * h * 100) / 100;
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ตารางหน่วย',
+                    title: '⭕ พื้นที่ผิวข้างของทรงกระบอก',
+                    detail: `ทรงกระบอกมีรัศมี (r) = ${r} หน่วย และความสูง (h) = ${h} หน่วย (กำหนดให้ &pi; ≈ ${piText})<br><b>จงหาพื้นที่ผิวข้างของทรงกระบอกนี้</b>`,
+                    explain: `<b>สูตร:</b> พื้นที่ผิวข้าง = 2&pi;rh<br>` +
+                        `<b>วิธีคิด:</b> 2 × ${piText} × ${r} × ${h} = <b>${ans}</b> ตารางหน่วย`
+                };
+            } else {
+                const sideArea = 2 * piVal * r * h;
+                const baseAreas = 2 * (piVal * r * r);
+                const ans = Math.round((sideArea + baseAreas) * 100) / 100;
+
+                currentProblem = {
+                    ans: ans,
+                    unit: 'ตารางหน่วย',
+                    title: '🔴 พื้นที่ผิวทั้งหมดของทรงกระบอก',
+                    detail: `ทรงกระบอกมีรัศมี (r) = ${r} หน่วย และความสูง (h) = ${h} หน่วย (กำหนดให้ &pi; ≈ ${piText})<br><b>จงหาพื้นที่ผิวทั้งหมดของทรงกระบอกนี้</b>`,
+                    explain: `<b>สูตร:</b> พื้นที่ผิวทั้งหมด = 2&pi;rh + 2&pi;r²<br>` +
+                        `• พื้นที่ผิวข้าง = ${Math.round(sideArea * 100) / 100}<br>` +
+                        `• พื้นที่ฐาน 2 ด้าน = ${Math.round(baseAreas * 100) / 100}<br>` +
+                        `<b>รวม:</b> <b>${ans}</b> ตารางหน่วย`
+                };
+            }
+
+            renderProblemUI();
+        }
+
+        function renderProblemUI() {
+            document.getElementById('problem-title').innerText = currentProblem.title;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+            document.getElementById('unit-label').innerText = currentProblem.unit;
+        }
+
+        // ตรวจคำตอบ
+        function checkAnswer() {
+            const userAns = parseFloat(document.getElementById('user-answer').value);
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (isNaN(userAns)) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกตัวเลขคำตอบก่อนครับ</b>';
+                return;
+            }
+
+            // ยอมรับความคลาดเคลื่อนจากทศนิยมได้ ±0.1
+            if (Math.abs(userAns - currentProblem.ans) <= 0.1) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ!</b><br>${currentProblem.explain}`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b> (คำตอบที่คุณตอบ: ${userAns})<br>💡 <b>เฉลยและวิธีทำ:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        // เริ่มต้นสุ่มโจทย์ข้อแรก
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

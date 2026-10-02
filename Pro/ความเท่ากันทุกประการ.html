@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - ความเท่ากันทุกประการ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 4px;
+            background: #2a2a2a;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .problem-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 16px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .problem-detail {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            background: #141414;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #222;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        input.stat-input {
+            height: 44px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>🔺 ความเท่ากันทุกประการ (Congruence)</h1>
+
+            <!-- ปุ่มเลือกโหมดความสัมพันธ์ -->
+            <div class="mode-selector">
+                <button class="mode-btn active" id="btn-mode1" onclick="switchMode(1)">1. ด้าน-มุม-ด้าน
+                    (ด.ม.ด.)</button>
+                <button class="mode-btn" id="btn-mode2" onclick="switchMode(2)">2. มุม-ด้าน-มุม (ม.ด.ม.)</button>
+                <button class="mode-btn" id="btn-mode3" onclick="switchMode(3)">3. ด้าน-ด้าน-ด้าน (ด.ด.ด.)</button>
+                <button class="mode-btn" id="btn-mode4" onclick="switchMode(4)">4. ฉาก-ด้าน-ด้าน (ฉ.ด.ด.)</button>
+            </div>
+
+            <!-- กล่องแสดงโจทย์ -->
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์ความเท่ากันทุกประการ</div>
+                <div class="problem-detail" id="problem-detail">กำลังโหลดโจทย์...</div>
+                <div class="canvas-container">
+                    <canvas id="triCanvas" width="520" height="220"></canvas>
+                </div>
+            </div>
+
+            <!-- ส่วนกรอกคำตอบ -->
+            <div class="input-group" id="input-container"></div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <!-- Tip สรุปความรู้ -->
+            <div class="tip-box">
+                <div class="tip-header">💡 สรุปความสัมพันธ์ของรูปสามเหลี่ยมที่เท่ากันทุกประการ (≅)</div>
+                <div class="tip-item">
+                    • <b>ด.ม.ด.:</b> มีด้านยาวเท่ากัน 2 คู่ และ<span
+                        class="highlight">มุมระหว่างด้านทั้งสอง</span>มีขนาดเท่ากัน
+                </div>
+                <div class="tip-item">
+                    • <b>ม.ด.ม.:</b> มีมุมขนาดเท่ากัน 2 คู่ และ<span
+                        class="highlight">ด้านที่เป็นแขนร่วมของมุมทั้งสอง</span>ยาวเท่ากัน
+                </div>
+                <div class="tip-item">
+                    • <b>ด.ด.ด.:</b> มี<span class="highlight">ด้านยาวเท่ากันทั้ง 3 คู่</span>
+                </div>
+                <div class="tip-item">
+                    • <b>ฉ.ด.ด.:</b> เป็นสามเหลี่ยมมุมฉากที่มี<span class="highlight">ด้านตรงข้ามมุมฉากยาวเท่ากัน</span>
+                    และมี<span class="highlight">ด้านประกอบมุมฉากยาวเท่ากันอีก 1 คู่</span>
+                </div>
+                <!-- 📍 วางแท็กโฆษณาตรงนี้ครับ -->
+                <div class="ad-container-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentProblem = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`btn-mode${i}`).className = mode === i ? 'mode-btn active' : 'mode-btn';
+            }
+            generateProblem();
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+
+            const modeNames = ["ด้าน-มุม-ด้าน (ด.ม.ด.)", "มุม-ด้าน-มุม (ม.ด.ม.)", "ด้าน-ด้าน-ด้าน (ด.ด.ด.)", "ฉาก-ด้าน-ด้าน (ฉ.ด.ด.)"];
+            let title = `🔺 ความสัมพันธ์แบบ ${modeNames[currentMode - 1]}`;
+            let detail = "";
+            let inputHtml = "";
+            let expectedAns = "";
+            let explain = "";
+
+            // ตัวแปรข้อมูลภาพ
+            let pData = { mode: currentMode };
+
+            if (currentMode === 1) {
+                // --- 1. โหมด ด.ม.ด. (แสดง ด้าน - มุมระหว่างด้าน - ด้าน) ---
+                pData.sideAB = getRandomInt(8, 15);
+                pData.sideAC = getRandomInt(8, 15);
+                pData.angleA = getRandomInt(45, 75);
+                pData.showSideAB = true; pData.showSideAC = true; pData.showAngleA = true;
+
+                const qType = getRandomInt(1, 2);
+                if (qType === 1) {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาความยาวของด้าน <span style="color:var(--accent-gold);">DE</span>`;
+                    inputHtml = `<span>ความยาวด้าน DE = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> หน่วย</span>`;
+                    expectedAns = pData.sideAB;
+                    explain = `<b>วิธีคิด:</b><br>• เนื่องจาก △ABC ≅ △DEF แบบ <b>ด.ม.ด.</b><br>• ด้าน <b>DE</b> สมนัยกับด้าน <b>AB</b> ดังนั้น DE = <b>${pData.sideAB}</b> หน่วย`;
+                } else {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาขนาดของ <span style="color:var(--accent-gold);">มุม D (มุม EDF)</span>`;
+                    inputHtml = `<span>ขนาดของมุม D = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> องศา (°)</span>`;
+                    expectedAns = pData.angleA;
+                    explain = `<b>วิธีคิด:</b><br>• เนื่องจาก △ABC ≅ △DEF แบบ <b>ด.ม.ด.</b><br>• มุม <b>D</b> สมนัยกับมุม <b>A</b> ดังนั้น มุม D = <b>${pData.angleA}°</b>`;
+                }
+
+            } else if (currentMode === 2) {
+                // --- 2. โหมด ม.ด.ม. (แสดง มุม - ด้านร่วม - มุม) ---
+                pData.angleA = getRandomInt(40, 65);
+                pData.angleB = getRandomInt(40, 65);
+                pData.angleC = 180 - pData.angleA - pData.angleB;
+                pData.sideAB = getRandomInt(8, 15);
+                pData.showAngleA = true; pData.showAngleB = true; pData.showSideAB = true;
+
+                const qType = getRandomInt(1, 2);
+                if (qType === 1) {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาความยาวของด้าน <span style="color:var(--accent-gold);">DE</span>`;
+                    inputHtml = `<span>ความยาวด้าน DE = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> หน่วย</span>`;
+                    expectedAns = pData.sideAB;
+                    explain = `<b>วิธีคิด:</b><br>• เนื่องจาก △ABC ≅ △DEF แบบ <b>ม.ด.ม.</b><br>• ด้าน <b>DE</b> สมนัยกับด้าน <b>AB</b> ดังนั้น DE = <b>${pData.sideAB}</b> หน่วย`;
+                } else {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาขนาดของ <span style="color:var(--accent-gold);">มุม F (มุม DFE)</span>`;
+                    inputHtml = `<span>ขนาดของมุม F = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> องศา (°)</span>`;
+                    expectedAns = pData.angleC;
+                    explain = `<b>วิธีคิด:</b><br>• มุมภายในสามเหลี่ยมรวมกันได้ 180° $\rightarrow$ มุม C = 180° - ${pData.angleA}° - ${pData.angleB}° = <b>${pData.angleC}°</b><br>• เนื่องจาก △ABC ≅ △DEF มุม <b>F</b> สมนัยกับมุม <b>C</b> ดังนั้น มุม F = <b>${pData.angleC}°</b>`;
+                }
+
+            } else if (currentMode === 3) {
+                // --- 3. โหมด ด.ด.ด. (แสดงด้าน 3 ด้านเต็ม ห้ามถามองศามุม) ---
+                pData.sideAB = getRandomInt(8, 14);
+                pData.sideAC = getRandomInt(12, 18);
+                pData.sideBC = getRandomInt(9, 15);
+                pData.showSideAB = true; pData.showSideAC = true; pData.showSideBC = true;
+
+                const qType = getRandomInt(1, 2);
+                if (qType === 1) {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาความยาวของด้าน <span style="color:var(--accent-gold);">DF</span>`;
+                    inputHtml = `<span>ความยาวด้าน DF = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> หน่วย</span>`;
+                    expectedAns = pData.sideAC;
+                    explain = `<b>วิธีคิด:</b><br>• เนื่องจาก △ABC ≅ △DEF แบบ <b>ด.ด.ด.</b><br>• ด้าน <b>DF</b> สมนัยกับด้าน <b>AC</b> ดังนั้น DF = <b>${pData.sideAC}</b> หน่วย`;
+                } else {
+                    detail = `จากรูป สามเหลี่ยม ABC เท่ากันทุกประการกับสามเหลี่ยมใด? (ตอบชื่อจุดยอดเรียงตามลำดับที่สมนัยกัน เช่น DEF)`;
+                    inputHtml = `<span>△ABC ≅ △</span><input type="text" class="stat-input" style="width:120px;" id="inp-0" placeholder="DEF">`;
+                    expectedAns = "DEF";
+                    explain = `<b>วิธีคิด:</b><br>• เรียงลำดับจุดยอดที่สมนัยกันตามความยาวด้าน: A$\rightarrow$D, B$\rightarrow$E, C$\rightarrow$F<br>• เขียนสัญลักษณ์ได้เป็น: <b>△ABC ≅ △DEF</b>`;
+                }
+
+            } else if (currentMode === 4) {
+                // --- 4. โหมด ฉ.ด.ด. (สามเหลี่ยมมุมฉากถูกต้องตาม พีทาโกรัส) ---
+                const pythagorasPairs = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17]];
+                const pair = pythagorasPairs[getRandomInt(0, pythagorasPairs.length - 1)];
+
+                pData.sideAC = pair[0]; // ด้านประกอบมุมฉาก
+                pData.sideAB = pair[1]; // ด้านประกอบมุมฉาก
+                pData.sideBC = pair[2]; // ด้านตรงข้ามมุมฉาก (ยาวสุด)
+                pData.angleA = 90;
+                pData.angleB = Math.round(Math.asin(pair[0] / pair[2]) * 180 / Math.PI);
+                pData.angleC = 90 - pData.angleB;
+
+                pData.showAngleA = true; pData.showSideAC = true; pData.showSideBC = true; pData.showAngleB = true;
+
+                const qType = getRandomInt(1, 2);
+                if (qType === 1) {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาความยาวด้านตรงข้ามมุมฉาก <span style="color:var(--accent-gold);">EF</span>`;
+                    inputHtml = `<span>ความยาวด้าน EF = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> หน่วย</span>`;
+                    expectedAns = pData.sideBC;
+                    explain = `<b>วิธีคิด:</b><br>• ด้านตรงข้ามมุมฉาก <b>EF</b> สมนัยกับด้าน <b>BC</b><br>• ดังนั้น EF = <b>${pData.sideBC}</b> หน่วย`;
+                } else {
+                    detail = `กำหนดให้ △ABC ≅ △DEF จากรูป จงหาขนาดของ <span style="color:var(--accent-gold);">มุม F (มุม DFE)</span>`;
+                    inputHtml = `<span>ขนาดของมุม F = </span><input type="number" class="stat-input" style="width:100px;" id="inp-0" placeholder="0"><span> องศา (°)</span>`;
+                    expectedAns = pData.angleC;
+                    explain = `<b>วิธีคิด:</b><br>• มุมภายในของสามเหลี่ยมมุมฉากรวมกันได้ 180° $\rightarrow$ มุม C = 90° - ${pData.angleB}° = <b>${pData.angleC}°</b><br>• มุม <b>F</b> สมนัยกับมุม <b>C</b> ดังนั้น มุม F = <b>${pData.angleC}°</b>`;
+                }
+            }
+
+            currentProblem = {
+                pData: pData,
+                ans: expectedAns,
+                title: title,
+                detail: detail,
+                inputHtml: inputHtml,
+                explain: explain
+            };
+
+            document.getElementById('problem-title').innerText = currentProblem.title;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+            document.getElementById('input-container').innerHTML = currentProblem.inputHtml;
+
+            renderCanvas();
+        }
+
+        function renderCanvas() {
+            const canvas = document.getElementById('triCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawSingleTriangle(ctx, 40, 160, "A", "B", "C", currentProblem.pData, false);
+            drawSingleTriangle(ctx, 300, 160, "D", "E", "F", currentProblem.pData, true);
+        }
+
+        function drawSingleTriangle(ctx, offsetX, offsetY, p1, p2, p3, d, isReflect) {
+            const x1 = offsetX, y1 = offsetY;
+            const x2 = offsetX + 150, y2 = offsetY;
+            const x3 = offsetX + (d.mode === 4 ? 0 : 50), y3 = offsetY - 110;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.closePath();
+            ctx.strokeStyle = isReflect ? '#00d2ff' : '#28a745';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // จุดยอด
+            ctx.fillStyle = '#ffb703';
+            ctx.font = 'bold 16px Kanit';
+            ctx.fillText(p1, x1 - 15, y1 + 10);
+            ctx.fillText(p2, x2 + 10, y2 + 10);
+            ctx.fillText(p3, x3 - 5, y3 - 10);
+
+            // แสดงความยาวด้าน
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '13px Kanit';
+            if (d.showSideAB) ctx.fillText(`${d.sideAB}`, (x1 + x2) / 2 - 5, y1 + 22);
+            if (d.showSideAC) ctx.fillText(`${d.sideAC}`, (x1 + x3) / 2 - 20, (y1 + y3) / 2);
+            if (d.showSideBC) ctx.fillText(`${d.sideBC}`, (x2 + x3) / 2 + 10, (y2 + y3) / 2);
+
+            // แสดงสัญลักษณ์มุม
+            ctx.fillStyle = '#ff4d4d';
+            if (d.mode === 4) {
+                ctx.strokeStyle = '#ff4d4d';
+                ctx.strokeRect(x1, y1 - 15, 15, 15); // ฉาก
+                if (d.showAngleB) ctx.fillText(`${d.angleB}°`, x2 - 40, y2 - 8);
+            } else {
+                if (d.showAngleA) ctx.fillText(`${d.angleA}°`, x1 + 18, y1 - 8);
+                if (d.showAngleB) ctx.fillText(`${d.angleB}°`, x2 - 40, y2 - 8);
+            }
+        }
+
+        function checkAnswer() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            const userInp = document.getElementById('inp-0').value.trim().toUpperCase();
+
+            if (!userInp) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกคำตอบก่อนกดตรวจครับ</b>';
+                return;
+            }
+
+            let isCorrect = false;
+            if (typeof currentProblem.ans === "number") {
+                isCorrect = Math.abs(parseFloat(userInp) - currentProblem.ans) < 0.1;
+            } else {
+                isCorrect = userInp === currentProblem.ans;
+            }
+
+            if (isCorrect) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ!</b><br><br>${currentProblem.explain}`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b> (คำตอบที่ถูกคือ: <b>${currentProblem.ans}</b>)<br><br>💡 <b>เฉลยและวิธีคิด:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

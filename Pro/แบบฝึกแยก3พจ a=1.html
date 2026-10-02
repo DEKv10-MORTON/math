@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - แบบฝึกแยกตัวประกอบ 2 วงเล็บ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        /* กล่องสมการ 3 พจน์ */
+        .equation-box {
+            background: #000000;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .eq-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* โครงสร้าง Template 2 วงเล็บ */
+        .template-section {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .factor-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            flex-wrap: wrap;
+        }
+
+        .bracket-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #222;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        select.sign-select {
+            font-size: 24px;
+            font-weight: bold;
+            background: #333;
+            color: var(--accent-cyan);
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 2px 8px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        input[type="number"].num-input {
+            width: 65px;
+            height: 45px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 4px;
+            border-radius: 6px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"].num-input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        /* ปุ่มกด */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        /* ข้อความตรวจคำตอบ & เฉลย */
+        .feedback {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid #28a745;
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid #dc3545;
+        }
+
+        /* โซน Tip ช่วยจำ */
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>🧩 ฝึกแยกตัวประกอบ 2 วงเล็บ (a = 1)</h1>
+
+            <!-- โจทย์สมการ 3 พจน์ -->
+            <div class="equation-box">
+                <div class="eq-text" id="eq-display">x<sup>2</sup> + 5x + 6</div>
+            </div>
+
+            <!-- แม่แบบ Template เติมคำ -->
+            <div class="template-section">
+                <div class="factor-container">
+                    <!-- วงเล็บที่ 1 -->
+                    <div class="bracket-group">
+                        ( x
+                        <select class="sign-select" id="sign1">
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                        </select>
+                        <input type="number" class="num-input" id="num1" min="1" placeholder="?">
+                        )
+                    </div>
+
+                    <!-- วงเล็บที่ 2 -->
+                    <div class="bracket-group">
+                        ( x
+                        <select class="sign-select" id="sign2">
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                        </select>
+                        <input type="number" class="num-input" id="num2" min="1" placeholder="?">
+                        )
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                    <button class="btn-random" onclick="generateRandomProblem()">🎲 สุ่มโจทย์ใหม่</button>
+                </div>
+
+                <div class="feedback" id="feedback-box"></div>
+            </div>
+
+            <!-- โซนแนะนำ Tips เทคนิคการสังเกต -->
+            <div class="tip-box">
+                <div class="tip-header">💡 Tip เทคนิคการสังเกตและใส่เครื่องหมาย</div>
+
+                <div class="tip-item">
+                    📌 <b>Tip 1 (วิธีหาตัวเลขท้าย):</b> ให้มองหาเลข 2 ตัวที่ <span class="highlight">"คูณกันได้พจน์ท้าย
+                        (c)"</span> และ <span class="highlight">"บวก/ลบกันได้พจน์กลาง (b)"</span>
+                </div>
+
+                <div class="tip-item">
+                    📌 <b>Tip 2 (วิธีใส่เครื่องหมาย + / -):</b>
+                    <br>• ถ้า <b>พจน์ท้ายเป็น (+)</b> &rarr; เครื่องหมายทั้ง 2 วงเล็บจะ <span
+                        class="highlight">เหมือนกัน</span> (เป็น + + หรือ - - ตามพจน์กลาง)
+                    <br>• ถ้า <b>พจน์ท้ายเป็น (-)</b> &rarr; เครื่องหมายทั้ง 2 วงเล็บจะ <span class="highlight">ต่างกัน
+                        (+ -)</span> โดยเลขที่มากกว่าจะใช้เครื่องหมายตามพจน์กลาง!
+                </div>
+                <!-- 📍 วางแท็กโฆษณาตรงนี้ครับ -->
+                <div class="ad-container-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSolution = { p: 0, q: 0, b: 0, c: 0 };
+
+        // สุ่มโจทย์แบบไม่จำกัด
+        function generateRandomProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('sign1').value = '+';
+            document.getElementById('sign2').value = '+';
+
+            // สุ่มตัวเลขคำตอบ p และ q (ระหว่าง -9 ถึง 9 ที่ไม่ใช่ 0)
+            let p = 0, q = 0;
+            while (p === 0) p = Math.floor(Math.random() * 18) - 9;
+            while (q === 0) q = Math.floor(Math.random() * 18) - 9;
+
+            const b = p + q;
+            const c = p * q;
+
+            currentSolution = { p, q, b, c };
+
+            // สร้างข้อความสมการคณิตศาสตร์ที่ถูกต้องบน Chrome
+            let eqHtml = `x<sup>2</sup> `;
+            if (b !== 0) {
+                eqHtml += b > 0 ? `+ ${b === 1 ? '' : b}x ` : `- ${Math.abs(b) === 1 ? '' : Math.abs(b)}x `;
+            }
+            if (c !== 0) {
+                eqHtml += c > 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+            }
+
+            document.getElementById('eq-display').innerHTML = eqHtml;
+        }
+
+        // ระบบตรวจคำตอบ + เฉลย
+        function checkAnswer() {
+            const s1 = document.getElementById('sign1').value;
+            const n1 = parseInt(document.getElementById('num1').value);
+            const s2 = document.getElementById('sign2').value;
+            const n2 = parseInt(document.getElementById('num2').value);
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (isNaN(n1) || isNaN(n2)) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกตัวเลขให้ครบทั้ง 2 ช่องครับ</b>';
+                return;
+            }
+
+            // แปลงค่าที่เด็กกรอกเป็นจำนวนจริงที่มีเครื่องหมาย
+            const val1 = s1 === '+' ? n1 : -n1;
+            const val2 = s2 === '+' ? n2 : -n2;
+
+            const { p, q } = currentSolution;
+
+            // ตรวจสอบว่าคูณกันได้ c และ บวกกันได้ b หรือไม่ (สลับตำแหน่งวงเล็บได้)
+            const isCorrect = (val1 === p && val2 === q) || (val1 === q && val2 === p);
+
+            if (isCorrect) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>เก่งมาก! ถูกต้องแล้วครับ</b><br>แยกได้เป็น (x ${p >= 0 ? '+ ' + p : '- ' + Math.abs(p)})(x ${q >= 0 ? '+ ' + q : '- ' + Math.abs(q)})`;
+            } else {
+                const pStr = p >= 0 ? `+ ${p}` : `- ${Math.abs(p)}`;
+                const qStr = q >= 0 ? `+ ${q}` : `- ${Math.abs(q)}`;
+
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้องครับ</b><br>💡 <b>เฉลย:</b> คำตอบที่ถูกต้องคือ <b>(x ${pStr})(x ${qStr})</b>`;
+            }
+        }
+
+        // เริ่มต้นสุ่มโจทย์แรกเมื่อเปิดหน้าเว็บ
+        generateRandomProblem();
+    </script>
+
+</body>
+
+</html>

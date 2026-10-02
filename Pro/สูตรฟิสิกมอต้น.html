@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Formula Hub - DEK MORTON STUDIO</title>
+    
+    <!-- ฝัง App Icon (SVG Data-URI) ด้านบน: PHYSICS FORMULA HUB | ด้านล่าง: DEK MORTON STUDIO -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231e293b'/><text x='256' y='60' font-family='Arial, sans-serif' font-weight='bold' font-size='22' fill='%2338bdf8' text-anchor='middle' letter-spacing='2'>PHYSICS FORMULA HUB</text><circle cx='256' cy='230' r='30' fill='%2338bdf8'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(30 256 230)'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(-30 256 230)'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(90 256 230)'/><text x='256' y='415' font-family='Arial, sans-serif' font-weight='bold' font-size='30' fill='%23ffffff' text-anchor='middle' letter-spacing='2'>DEK MORTON</text><text x='256' y='455' font-family='Arial, sans-serif' font-weight='bold' font-size='22' fill='%2338bdf8' text-anchor='middle' letter-spacing='5'>STUDIO</text></svg>">
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231e293b'/><text x='256' y='60' font-family='Arial, sans-serif' font-weight='bold' font-size='22' fill='%2338bdf8' text-anchor='middle' letter-spacing='2'>PHYSICS FORMULA HUB</text><circle cx='256' cy='230' r='30' fill='%2338bdf8'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(30 256 230)'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(-30 256 230)'/><ellipse cx='256' cy='230' rx='135' ry='48' fill='none' stroke='%2338bdf8' stroke-width='14' transform='rotate(90 256 230)'/><text x='256' y='415' font-family='Arial, sans-serif' font-weight='bold' font-size='30' fill='%23ffffff' text-anchor='middle' letter-spacing='2'>DEK MORTON</text><text x='256' y='455' font-family='Arial, sans-serif' font-weight='bold' font-size='22' fill='%2338bdf8' text-anchor='middle' letter-spacing='5'>STUDIO</text></svg>">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap');
+        * { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+        body { margin: 0; background: #f0f4f8; display: flex; height: 100vh; overflow: hidden; }
+
+        /* Layout Main */
+        .sidebar { width: 340px; background: #1e293b; color: white; display: flex; flex-direction: column; border-right: 1px solid #334155; }
+        .sidebar-header { padding: 20px; background: #0f172a; border-bottom: 1px solid #334155; }
+        
+        /* App Branding Box ใน Sidebar */
+        .brand-box { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .brand-icon-svg { width: 42px; height: 42px; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #475569; }
+        .brand-info { display: flex; flex-direction: column; }
+        .app-category { font-size: 0.75rem; color: #38bdf8; letter-spacing: 1.5px; font-weight: bold; text-transform: uppercase; }
+        .app-title { font-size: 1.15rem; color: #ffffff; font-weight: bold; margin: 0; line-height: 1.2; }
+        .studio-tag { font-size: 0.7rem; color: #94a3b8; letter-spacing: 1px; margin-top: 2px; }
+
+        .menu-container { flex: 1; overflow-y: auto; padding: 10px; }
+        
+        .category-title { font-weight: bold; padding: 14px 10px 6px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; border-top: 1px solid #334155; margin-top: 8px; }
+        .category-title:first-child { border-top: none; margin-top: 0; }
+        
+        .formula-btn { width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 5px; background: #334155; color: #f8fafc; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .formula-btn:hover { background: #0284c7; color: white; }
+        .formula-btn.active { background: #2563eb; color: white; font-weight: bold; }
+        
+        .tag { font-size: 0.75rem; background: #475569; padding: 2px 6px; border-radius: 4px; color: #cbd5e1; }
+        .tag-trig { background: #eab308; color: #000; font-weight: bold; }
+        .tag-main { background: #0284c7; color: white; font-weight: bold; }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; background: #f8fafc; overflow-y: auto; }
+        .top-bar { padding: 15px 30px; background: white; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .clear-btn { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .clear-btn:hover { background: #dc2626; }
+
+        .content-body { padding: 30px; max-width: 800px; margin: 0 auto; width: 100%; }
+        .welcome-card { background: white; padding: 40px; border-radius: 16px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .welcome-card h1 { color: #1e3a8a; margin-bottom: 10px; }
+        
+        .calc-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: none; }
+        .badge { display: inline-block; padding: 4px 12px; background: #e0f2fe; color: #0369a1; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 10px; }
+        .formula-name { margin: 0 0 10px 0; color: #1e293b; font-size: 1.8rem; }
+        .equation-box { background: #0f172a; color: #38bdf8; padding: 20px; border-radius: 10px; font-size: 1.8rem; font-weight: bold; text-align: center; margin-bottom: 20px; letter-spacing: 1px; }
+        .desc-box { background: #f1f5f9; padding: 15px; border-radius: 8px; margin-bottom: 25px; color: #475569; font-size: 0.95rem; line-height: 1.5; }
+        
+        .inputs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-weight: bold; color: #334155; margin-bottom: 5px; }
+        .input-group input { padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 1.1rem; outline: none; }
+        .input-group input:focus { border-color: #2563eb; }
+
+        .result-box { background: #d1fae5; border: 2px solid #10b981; padding: 20px; border-radius: 12px; text-align: center; }
+        .result-title { color: #065f46; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+        .result-value { color: #047857; font-size: 2.2rem; font-weight: bold; }
+        .unit { font-size: 1.2rem; color: #065f46; margin-left: 5px; }
+        
+        .footer-credit { text-align: center; margin-top: 25px; font-size: 0.85rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-box">
+                <div class="brand-icon-svg">
+                    <!-- Atom Icon SVG -->
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+                        <circle cx="12" cy="12" r="2.5" fill="#38bdf8"/>
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(30 12 12)"/>
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)"/>
+                        <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(90 12 12)"/>
+                    </svg>
+                </div>
+                <div class="brand-info">
+                    <span class="app-category">PHYSICS MODULE</span>
+                    <h2 class="app-title">Formula Hub</h2>
+                    <span class="studio-tag">BY DEK MORTON STUDIO</span>
+                </div>
+            </div>
+        </div>
+        <div class="menu-container" id="menuContainer"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <span style="font-weight: bold; color: #64748b;">Physics Formula Hub — คำนวณสูตรแม่-สูตรลูก & ตรีโกณมิติ</span>
+            <button class="clear-btn" onclick="clearScreen()">🧹 เคลียร์หน้าจอ</button>
+        </div>
+
+        <div class="content-body">
+            <div class="welcome-card" id="welcomeCard">
+                <h1>Physics Formula Hub</h1>
+                <p>👈 เลือกสูตรคำนวณจากเมนูทางซ้ายมือได้เลยครับ (ม.2 - ม.6 ครบทุกหมวดวิชา)</p>
+                <div class="footer-credit">DEVELOPED BY DEK MORTON STUDIO</div>
+            </div>
+
+            <div class="calc-card" id="calcCard">
+                <span class="badge" id="catBadge">หมวดวิชา</span>
+                <h1 class="formula-name" id="formulaTitle">ชื่อสูตร</h1>
+                <div class="equation-box" id="equationDisplay">สมการ</div>
+                <div class="desc-box" id="formulaDesc">คำอธิบาย</div>
+
+                <h3>⚙️ ป้อนค่าตัวแปรเพื่อคำนวณ:</h3>
+                <div class="inputs-grid" id="inputsContainer"></div>
+
+                <div class="result-box">
+                    <div class="result-title" id="resultLabel">ผลลัพธ์คำนวณ</div>
+                    <div class="result-value">
+                        <span id="resultVal">0</span>
+                        <span class="unit" id="unitVal">หน่วย</span>
+                    </div>
+                </div>
+                <div class="footer-credit">POWERED BY DEK MORTON STUDIO</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+const toRad = (deg) => (deg * Math.PI) / 180;
+
+const physicsData = [
+    {
+        category: "1. การเคลื่อนที่ & แรง (กลศาสตร์)",
+        formulas: [
+            {
+                id: "f_ma", name: "กฎข้อ 2 นิวตัน (แรงลัพธ์)", type: "สูตรแม่",
+                eq: "F = m × a", desc: "แรงลัพธ์ที่กระทำต่อวัตถุ เท่ากับ มวล คูณด้วย ความเร่ง",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "ความเร่ง (a)", varName: "a", unit: "m/s²" }
+                ],
+                calc: (v) => v.m * v.a, target: "แรง (F)", unit: "นิวตัน (N)"
+            },
+            {
+                id: "v_u_at", name: "ความเร็วปลาย (แนวตรง)", type: "สูตรลูก",
+                eq: "v = u + (a × t)", desc: "หาความเร็วปลาย เมื่อทราบความเร็วต้น ความเร่ง และเวลา",
+                inputs: [
+                    { label: "ความเร็วต้น (u)", varName: "u", unit: "m/s" },
+                    { label: "ความเร่ง (a)", varName: "a", unit: "m/s²" },
+                    { label: "เวลา (t)", varName: "t", unit: "s" }
+                ],
+                calc: (v) => v.u + (v.a * v.t), target: "ความเร็วปลาย (v)", unit: "m/s"
+            },
+            {
+                id: "weight", name: "น้ำหนักวัตถุ", type: "สูตรลูก",
+                eq: "W = m × g", desc: "น้ำหนักคือแรงดึงดูดของโลกที่กระทำต่อมวล",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "แรงโน้มถ่วง (g)", varName: "g", unit: "m/s²", default: 9.8 }
+                ],
+                calc: (v) => v.m * v.g, target: "น้ำหนัก (W)", unit: "นิวตัน (N)"
+            },
+            {
+                id: "f_incline", name: "แรงขนานพื้นเอียง (Sin)", type: "มุม Sin",
+                eq: "F = m × g × sin(θ)", desc: "แรงดึงลงตามแนวพื้นเอียงเนื่องจากแรงโน้มถ่วง",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "แรงโน้มถ่วง (g)", varName: "g", unit: "m/s²", default: 9.8 },
+                    { label: "มุมเอียง (θ)", varName: "deg", unit: "องศา (°)" }
+                ],
+                calc: (v) => v.m * v.g * Math.sin(toRad(v.deg)), target: "แรงไถลลงพื้นเอียง (F)", unit: "นิวตัน (N)"
+            },
+            {
+                id: "proj_range", name: "ระยะตกไกลสุด (โพรเจกไทล์)", type: "มุม Sin",
+                eq: "Sx = (u² × sin(2θ)) / g", desc: "หาระยะทางแนวราบของการขว้างวัตถุทำมุม θ",
+                inputs: [
+                    { label: "ความเร็วต้น (u)", varName: "u", unit: "m/s" },
+                    { label: "มุมที่ขว้าง (θ)", varName: "deg", unit: "องศา (°)" },
+                    { label: "แรงโน้มถ่วง (g)", varName: "g", unit: "m/s²", default: 9.8 }
+                ],
+                calc: (v) => (Math.pow(v.u, 2) * Math.sin(toRad(2 * v.deg))) / v.g, target: "ระยะตกไกลสุด (Sx)", unit: "เมตร (m)"
+            }
+        ]
+    },
+    {
+        category: "2. งาน กำลัง & พลังงาน",
+        formulas: [
+            {
+                id: "w_fs", name: "งานเนื่องจากแรง (แนวตรง)", type: "สูตรแม่",
+                eq: "W = F × s", desc: "งานเกิดจากแรงกระทำขนานกับการเคลื่อนที่",
+                inputs: [
+                    { label: "แรง (F)", varName: "F", unit: "N" },
+                    { label: "ระยะทาง (s)", varName: "s", unit: "m" }
+                ],
+                calc: (v) => v.F * v.s, target: "งาน (W)", unit: "จูล (J)"
+            },
+            {
+                id: "w_f_cos", name: "งานจากการดึงทำมุม (Cos)", type: "มุม Cos",
+                eq: "W = F × s × cos(θ)", desc: "คำนวณงานเมื่อออกแรง F ทำมุม θ กับแนวการเคลื่อนที่",
+                inputs: [
+                    { label: "แรง (F)", varName: "F", unit: "N" },
+                    { label: "ระยะทาง (s)", varName: "s", unit: "m" },
+                    { label: "มุมองศา (θ)", varName: "deg", unit: "องศา (°)" }
+                ],
+                calc: (v) => v.F * v.s * Math.cos(toRad(v.deg)), target: "งาน (W)", unit: "จูล (J)"
+            },
+            {
+                id: "p_wt", name: "กำลังเครื่องกล", type: "สูตรแม่",
+                eq: "P = W / t", desc: "อัตราการทำงานต่อหนึ่งหน่วยเวลา",
+                inputs: [
+                    { label: "งาน (W)", varName: "W", unit: "J" },
+                    { label: "เวลา (t)", varName: "t", unit: "s" }
+                ],
+                calc: (v) => v.t !== 0 ? v.W / v.t : 0, target: "กำลัง (P)", unit: "วัตต์ (W)"
+            },
+            {
+                id: "ek", name: "พลังงานจลน์", type: "สูตรลูก",
+                eq: "E_k = 0.5 × m × v²", desc: "พลังงานที่มีอยู่ในวัตถุที่กำลังเคลื่อนที่",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "ความเร็ว (v)", varName: "v", unit: "m/s" }
+                ],
+                calc: (v) => 0.5 * v.m * Math.pow(v.v, 2), target: "พลังงานจลน์ (Ek)", unit: "จูล (J)"
+            },
+            {
+                id: "ep", name: "พลังงานศักย์โน้มถ่วง", type: "สูตรลูก",
+                eq: "E_p = m × g × h", desc: "พลังงานที่สะสมในวัตถุตามตำแหน่งความสูง",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "ความสูง (h)", varName: "h", unit: "m" },
+                    { label: "แรงโน้มถ่วง (g)", varName: "g", unit: "m/s²", default: 9.8 }
+                ],
+                calc: (v) => v.m * v.g * v.h, target: "พลังงานศักย์ (Ep)", unit: "จูล (J)"
+            }
+        ]
+    },
+    {
+        category: "3. ความร้อน & ของไหล",
+        formulas: [
+            {
+                id: "q_mc_dt", name: "ความร้อนเปลี่ยนอุณหภูมิ", type: "สูตรแม่",
+                eq: "Q = m × c × ΔT", desc: "ปริมาณความร้อนที่ทำให้อุณหภูมิของวัตถุเปลี่ยนไป",
+                inputs: [
+                    { label: "มวล (m)", varName: "m", unit: "kg" },
+                    { label: "ความร้อนจำเพาะ (c)", varName: "c", unit: "J/kg·K" },
+                    { label: "อุณหภูมิที่เปลี่ยน (ΔT)", varName: "dT", unit: "°C หรือ K" }
+                ],
+                calc: (v) => v.m * v.c * v.dT, target: "ความร้อน (Q)", unit: "จูล (J)"
+            },
+            {
+                id: "p_fa", name: "ความดันของแรง", type: "สูตรแม่",
+                eq: "P = F / A", desc: "ขนาดของแรงที่กระทำตั้งฉากต่อหนึ่งหน่วยพื้นที่",
+                inputs: [
+                    { label: "แรง (F)", varName: "F", unit: "N" },
+                    { label: "พื้นที่ (A)", varName: "A", unit: "m²" }
+                ],
+                calc: (v) => v.A !== 0 ? v.F / v.A : 0, target: "ความดัน (P)", unit: "พาสคัล (Pa)"
+            }
+        ]
+    },
+    {
+        category: "4. คลื่น แสง & เสียง",
+        formulas: [
+            {
+                id: "v_f_lam", name: "อัตราเร็วคลื่น", type: "สูตรแม่",
+                eq: "v = f × λ", desc: "ความเร็วของคลื่น เท่ากับ ความถี่ คูณ ความยาวคลื่น",
+                inputs: [
+                    { label: "ความถี่ (f)", varName: "f", unit: "Hz" },
+                    { label: "ความยาวคลื่น (λ)", varName: "lam", unit: "m" }
+                ],
+                calc: (v) => v.f * v.lam, target: "อัตราเร็วคลื่น (v)", unit: "m/s"
+            },
+            {
+                id: "snell_law", name: "กฎของสเนลล์ (หักเหแสง)", type: "มุม Sin",
+                eq: "sin(θ2) = (n1 / n2) × sin(θ1)", desc: "หามุมหักเห θ2 เมื่อแสงเดินทางผ่านตัวกลางต่างชนิด",
+                inputs: [
+                    { label: "ดรรชนีตัวกลาง 1 (n1)", varName: "n1", unit: "-" },
+                    { label: "มุมตกกระทบ (θ1)", varName: "deg1", unit: "องศา (°)" },
+                    { label: "ดรรชนีตัวกลาง 2 (n2)", varName: "n2", unit: "-" }
+                ],
+                calc: (v) => {
+                    if(v.n2 === 0) return 0;
+                    const sinTheta2 = (v.n1 / v.n2) * Math.sin(toRad(v.deg1));
+                    return (Math.asin(Math.min(1, Math.max(-1, sinTheta2))) * 180) / Math.PI;
+                }, target: "มุมหักเห (θ2)", unit: "องศา (°)"
+            },
+            {
+                id: "f_1_t", name: "ความถี่คลื่น", type: "สูตรลูก",
+                eq: "f = 1 / T", desc: "ความถี่เป็นส่วนกลับของคาบเวลา (T)",
+                inputs: [
+                    { label: "คาบเวลา (T)", varName: "T", unit: "s" }
+                ],
+                calc: (v) => v.T !== 0 ? 1 / v.T : 0, target: "ความถี่ (f)", unit: "เฮิรตซ์ (Hz)"
+            }
+        ]
+    },
+    {
+        category: "5. ไฟฟ้า & แม่เหล็ก",
+        formulas: [
+            {
+                id: "v_ir", name: "กฎของโอห์ม", type: "สูตรแม่",
+                eq: "V = I × R", desc: "ความต่างศักย์ไฟฟ้า เท่ากับ กระแสไฟฟ้า คูณ ความต้านทาน",
+                inputs: [
+                    { label: "กระแสไฟฟ้า (I)", varName: "I", unit: "A" },
+                    { label: "ความต้านทาน (R)", varName: "R", unit: "Ω" }
+                ],
+                calc: (v) => v.I * v.R, target: "ความต่างศักย์ (V)", unit: "โวลต์ (V)"
+            },
+            {
+                id: "p_vi", name: "กำลังไฟฟ้า", type: "สูตรแม่",
+                eq: "P = V × I", desc: "พลังงานไฟฟ้าที่ใช้ไปในหนึ่งหน่วยเวลา",
+                inputs: [
+                    { label: "ความต่างศักย์ (V)", varName: "V", unit: "V" },
+                    { label: "กระแสไฟฟ้า (I)", varName: "I", unit: "A" }
+                ],
+                calc: (v) => v.V * v.I, target: "กำลังไฟฟ้า (P)", unit: "วัตต์ (W)"
+            }
+        ]
+    },
+    {
+        category: "6. ฟิสิกส์ยุคใหม่ & อะตอม",
+        formulas: [
+            {
+                id: "e_mc2", name: "ทฤษฎีสัมพัทธภาพ (ไอน์สไตน์)", type: "สูตรแม่",
+                eq: "E = m × c²", desc: "มวลสารสามารถเปลี่ยนเป็นพลังงานได้ (c ≈ 3×10⁸ m/s)",
+                inputs: [
+                    { label: "มวลสาร (m)", varName: "m", unit: "kg" },
+                    { label: "ความเร็วแสง (c)", varName: "c", unit: "m/s", default: 300000000 }
+                ],
+                calc: (v) => v.m * Math.pow(v.c, 2), target: "พลังงาน (E)", unit: "จูล (J)"
+            }
+        ]
+    }
+];
+
+let activeFormula = null;
+
+function renderSidebar() {
+    const container = document.getElementById('menuContainer');
+    container.innerHTML = '';
+
+    physicsData.forEach((cat) => {
+        const title = document.createElement('div');
+        title.className = 'category-title';
+        title.innerText = cat.category;
+        container.appendChild(title);
+
+        cat.formulas.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.className = 'formula-btn';
+            btn.id = `btn-${item.id}`;
+            btn.onclick = () => selectFormula(item);
+            
+            let tagClass = 'tag';
+            if (item.type === 'สูตรแม่') tagClass += ' tag-main';
+            if (item.type.includes('มุม')) tagClass += ' tag-trig';
+
+            btn.innerHTML = `
+                <span>${item.name}</span>
+                <span class="${tagClass}">${item.type}</span>
+            `;
+            container.appendChild(btn);
+        });
+    });
+}
+
+function selectFormula(item) {
+    activeFormula = item;
+    document.querySelectorAll('.formula-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${item.id}`).classList.add('active');
+
+    document.getElementById('welcomeCard').style.display = 'none';
+    document.getElementById('calcCard').style.display = 'block';
+
+    document.getElementById('catBadge').innerText = item.type;
+    document.getElementById('formulaTitle').innerText = item.name;
+    document.getElementById('equationDisplay').innerText = item.eq;
+    document.getElementById('formulaDesc').innerText = item.desc;
+    document.getElementById('resultLabel').innerText = `ผลลัพธ์คำนวณ: ${item.target}`;
+    document.getElementById('unitVal').innerText = item.unit;
+
+    const inputContainer = document.getElementById('inputsContainer');
+    inputContainer.innerHTML = '';
+    
+    item.inputs.forEach((inp) => {
+        const div = document.createElement('div');
+        div.className = 'input-group';
+        div.innerHTML = `
+            <label>${inp.label} [${inp.unit}]</label>
+            <input type="number" id="inp-${inp.varName}" 
+                   value="${inp.default !== undefined ? inp.default : ''}" 
+                   placeholder="กรอกค่า..." oninput="calculate()">
+        `;
+        inputContainer.appendChild(div);
+    });
+
+    calculate();
+}
+
+function calculate() {
+    if (!activeFormula) return;
+
+    const values = {};
+    activeFormula.inputs.forEach((inp) => {
+        const val = parseFloat(document.getElementById(`inp-${inp.varName}`).value);
+        values[inp.varName] = isNaN(val) ? 0 : val;
+    });
+
+    const result = activeFormula.calc(values);
+    document.getElementById('resultVal').innerText = Number.isInteger(result) ? result : result.toLocaleString('en-US', {maximumFractionDigits: 4});
+}
+
+function clearScreen() {
+    activeFormula = null;
+    document.querySelectorAll('.formula-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('calcCard').style.display = 'none';
+    document.getElementById('welcomeCard').style.display = 'block';
+}
+
+renderSidebar();
+</script>
+</body>
+</html>

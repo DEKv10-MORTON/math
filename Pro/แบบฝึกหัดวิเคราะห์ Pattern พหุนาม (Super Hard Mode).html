@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฝึกหัดวิเคราะห์ Pattern พหุนาม ม.2 (Inferno Hard Mode) - DEK MORTON STUDIO</title>
+    <!-- MathJax for rendering equations -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            /* ธีมนรกไฟรุก (Inferno Theme) */
+            --bg-color: #0d0202;
+            --paper-bg: #180909;
+            --text-main: #f8fafc;
+            --text-muted: #fda4af;
+            --border-color: #7f1d1d;
+            --correct-bg: #064e3b;
+            --correct-border: #10b981;
+            --correct-text: #a7f3d0;
+            --wrong-bg: #7f1d1d;
+            --wrong-border: #ef4444;
+            --wrong-text: #fca5a5;
+            --score-bg: #451a03;
+            --score-border: #f59e0b;
+            --score-text: #fcd34d;
+            --hard-mode-bg: #991b1b;
+            --hard-mode-border: #f87171;
+            --hard-mode-text: #ffffff;
+            --fire-orange: #ff5722;
+            --fire-yellow: #ffb300;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* พื้นหลังไล่สีแบบไฟรุกนรก */
+            background: radial-gradient(circle at 50% 100%, #7f1d1d 0%, #450a0a 35%, #0f0202 85%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .exam-container {
+            background: var(--paper-bg);
+            width: 100%;
+            max-width: 760px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.3), 0 0 10px rgba(255, 87, 34, 0.2);
+            border: 2px solid var(--border-color);
+            padding: 32px;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .header {
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            color: #fca5a5;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: #fecdd3;
+            margin-top: 4px;
+        }
+
+        .header-brand {
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--fire-orange);
+            text-shadow: 0 0 5px rgba(255, 87, 34, 0.8);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #2a0808;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid #450a0a;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff8c00, #ff0000);
+            box-shadow: 0 0 10px #ff4500;
+            transition: width 0.3s ease;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fef08a;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-badge {
+            font-size: 0.9rem;
+            background: #2a0808;
+            color: #fca5a5;
+            border: 1px solid #7f1d1d;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timer-badge.warning {
+            background: #7f1d1d;
+            color: #ffffff;
+            border-color: #ef4444;
+            animation: firePulse 0.6s infinite alternate;
+        }
+
+        @keyframes firePulse {
+            from {
+                box-shadow: 0 0 5px #ef4444;
+            }
+
+            to {
+                box-shadow: 0 0 18px #ff0000, 0 0 25px #ff5722;
+                transform: scale(1.05);
+            }
+        }
+
+        .live-score-badge {
+            font-size: 0.95rem;
+            background: var(--score-bg);
+            color: var(--score-text);
+            border: 1px solid var(--score-border);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-weight: 700;
+        }
+
+        .hard-badge {
+            font-size: 0.8rem;
+            background: linear-gradient(45deg, #b91c1c, #ff4500);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid #f87171;
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(255, 69, 0, 0.8);
+            animation: flameFlicker 1.5s infinite alternate;
+        }
+
+        @keyframes flameFlicker {
+            0% {
+                box-shadow: 0 0 4px #ff4500;
+            }
+
+            50% {
+                box-shadow: 0 0 12px #ff0000, 0 0 4px #ffb300;
+            }
+
+            100% {
+                box-shadow: 0 0 8px #ff4500;
+            }
+        }
+
+        .question-box {
+            background: #240c0c;
+            border: 1px solid #7f1d1d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .instruction-note {
+            font-size: 0.85rem;
+            color: #fca5a5;
+            margin-bottom: 16px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 580px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            background: #2a0d0d;
+            border: 1px solid #5c1414;
+            border-radius: 6px;
+            padding: 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 64px;
+            color: #f8fafc;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #ff4500;
+            background-color: #450a0a;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+        }
+
+        .explanation-box {
+            background-color: #2a0d0d;
+            border-left: 4px solid #ff4500;
+            padding: 16px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #fef08a;
+        }
+
+        .btn-action {
+            background: linear-gradient(180deg, #dc2626, #991b1b);
+            color: white;
+            border: 1px solid #f87171;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(180deg, #ef4444, #b91c1c);
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.8);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(180deg, #2563eb, #1e3a8a);
+            border-color: #60a5fa;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(180deg, #3b82f6, #1d4ed8);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #2a0808;
+            border: 4px solid #ff4500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6);
+        }
+
+        .score-number {
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #ff4500;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .score-total {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .student-info-box {
+            margin: 15px 0;
+            padding: 12px;
+            background: #240c0c;
+            border: 1px dashed #7f1d1d;
+            border-radius: 6px;
+        }
+
+        .student-info-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .student-info-input input {
+            padding: 8px 12px;
+            background: #180909;
+            border: 1px solid #7f1d1d;
+            color: #ffffff;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            width: 48%;
+        }
+
+        .student-info-display {
+            display: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .summary-list {
+            text-align: left;
+            margin: 20px 0;
+            background: #240c0c;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 1px solid #450a0a;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #450a0a;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        /* CSS สำหรับสั่ง Print / Export PDF ปรับกลับเป็นสีขาวดำกระดาษเพื่อความประหยัดหมึกพิมพ์ */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0;
+            }
+
+            .exam-container {
+                box-shadow: none !important;
+                border: none !important;
+                background: white !important;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .header h1 {
+                color: black !important;
+                text-shadow: none !important;
+            }
+
+            .header {
+                border-bottom: 2px solid black !important;
+            }
+
+            .summary-list,
+            .student-info-box {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #000 !important;
+            }
+
+            .summary-item {
+                border-bottom: 1px dashed #ccc !important;
+            }
+
+            .score-circle {
+                background: white !important;
+                border-color: black !important;
+                box-shadow: none !important;
+            }
+
+            .score-number {
+                color: black !important;
+                text-shadow: none !important;
+            }
+
+            .progress-bar-container,
+            #quiz-screen,
+            .btn-action {
+                display: none !important;
+            }
+
+            .result-screen {
+                display: block !important;
+            }
+
+            .student-info-input {
+                display: none !important;
+            }
+
+            .student-info-display {
+                display: block !important;
+                margin-bottom: 8px;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="exam-container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>แบบฝึกหัดวิเคราะห์ Pattern พหุนาม ม.2</h1>
+                <div class="subtitle">โหมดวัดดวงและกึ๋น: Inferno Hard Mode (ไฟรุกดักทางสายจำ)</div>
+            </div>
+            <div class="header-brand">
+                DEK MORTON STUDIO
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen">
+            <div class="question-header">
+                <span class="question-number" id="question-number">ข้อที่ 1 / 25</span>
+                <div class="header-meta">
+                    <!-- Countdown Timer -->
+                    <div class="timer-badge" id="timer-badge">
+                        ⏱️ <span id="timer-text">20</span>s
+                    </div>
+                    <!-- Live Score Badge -->
+                    <div class="live-score-badge">
+                        ⭐ <span id="live-score-text">0</span>/25
+                    </div>
+                    <!-- Hard Mode Badge -->
+                    <span class="hard-badge">🔥 Inferno Hard</span>
+                </div>
+            </div>
+
+            <div class="instruction-note">
+                💡 คำแนะนำ: วิเคราะห์จากโครงสร้างโจทย์โดยตรง ระวังกับดักโจทย์ 3 พจน์ และโจทย์ 2 พจน์ในขุมนรกนี้!
+            </div>
+
+            <div class="question-box" id="question-box"></div>
+
+            <div class="options-grid" id="options-grid"></div>
+
+            <div class="explanation-box" id="explanation-box"></div>
+
+            <button class="btn-action" id="next-btn" style="display: none;" onclick="nextQuestion()">ข้อถัดไป ➔</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="result-screen">
+            <h2>ใบบันทึกผลการทดสอบ (Inferno Mode Report)</h2>
+            <div id="print-date" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"></div>
+
+            <div class="student-info-box">
+                <div class="student-info-input" id="student-inputs">
+                    <input type="text" id="student-name" placeholder="ชื่อ - นามสกุล นักเรียน">
+                    <input type="text" id="student-class" placeholder="ชั้น / เลขที่">
+                </div>
+                <div class="student-info-display" id="student-display"></div>
+            </div>
+
+            <div class="score-circle">
+                <span class="score-number" id="score-text">0</span>
+                <span class="score-total">จาก 25 คะแนน</span>
+            </div>
+
+            <p id="result-eval" style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;"></p>
+
+            <div class="summary-list">
+                <div class="summary-item">
+                    <span>1. ดึงตัวร่วม / ดึงตัวร่วมหลอกผลต่าง:</span>
+                    <strong id="cat1-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>2. ผลต่างกำลังสองบริสุทธิ์:</span>
+                    <strong id="cat2-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>3. กำลังสองสมบูรณ์บริสุทธิ์:</span>
+                    <strong id="cat3-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>4. โจทย์ 3 พจน์ 2 วงเล็บ (ดักกำลังสองสมบูรณ์):</span>
+                    <strong id="cat4-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>5. ตอบไม่ทันเวลา (หมดเวลา):</span>
+                    <strong id="timeout-score" style="color: var(--wrong-text);">0 ข้อ</strong>
+                </div>
+            </div>
+
+            <button class="btn-action btn-secondary" onclick="printReport()">🖨️ พิมพ์รายงาน / บันทึกเป็น PDF
+                ส่งครู</button>
+            <button class="btn-action" onclick="restartQuiz()" style="margin-top: 10px;">🔄 เริ่มทำแบบทดสอบใหม่</button>
+        </div>
+    </div>
+
+    <script>
+        const TIME_PER_QUESTION = 20;
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Helper สุ่มค่า c สำหรับดึงตัวร่วม
+        function c_val(b) { return getRandomInt(1, 5); }
+
+        // 1. หมวดดึงตัวร่วม / ดึงตัวร่วมหลอกผลต่างกำลังสอง
+        function genFactorOut() {
+            const isTrap = Math.random() > 0.5;
+            if (isTrap) {
+                const a = getRandomInt(2, 6);
+                const b = getRandomInt(2, 6);
+                const c = c_val(b);
+                return {
+                    catId: 1,
+                    question: `${a * b}x^2 - ${a * c}x`,
+                    correct: `${a}x(${b}x - ${c})`,
+                    distractors: [
+                        `(${a * b}x - ${a * c})(${a * b}x + ${a * c})`, // ช้อยส์หลอกผลต่างกำลังสอง
+                        `(${a * b}x - ${a * c})^2`,
+                        `${a}(${b}x^2 - ${c}x)`
+                    ],
+                    patternRule: "⚠️ <strong>กับดักนรก!:</strong> พจน์หลังมี $x$ ติดอยู่ด้วย ต้องใช้วิธี <strong>[ดึงตัวร่วม $x$]</strong> ไม่ใช่ผลต่างกำลังสอง"
+                };
+            } else {
+                const a = getRandomInt(2, 9), b = getRandomInt(1, 5), c = getRandomInt(1, 9);
+                const sign = Math.random() > 0.5 ? '+' : '-';
+                return {
+                    catId: 1,
+                    question: `${a * b}x ${sign} ${a * c}`,
+                    correct: `${a}(${b === 1 ? '' : b}x ${sign} ${c})`,
+                    distractors: [`(${b === 1 ? '' : b}x ${sign} ${c})^2`, `(${b === 1 ? '' : b}x - ${c})(${b === 1 ? '' : b}x + ${c})`, `${a * b}x^2 ${sign} ${2 * a * b * c}x + ${c * c}`],
+                    patternRule: "ข้อนี้คือ <strong>[หมวดการดึงตัวร่วม]</strong> -> โครงสร้าง: $a(bx \\pm c)$"
+                };
+            }
+        }
+
+        // 2. หมวดผลต่างกำลังสองบริสุทธิ์
+        function genDiffOfSquares() {
+            const a = getRandomInt(1, 7), b = getRandomInt(1, 9);
+            const aSq = a * a, bSq = b * b, aStr = a === 1 ? '' : a;
+            return {
+                catId: 2,
+                question: `${aSq === 1 ? '' : aSq}x^2 - ${bSq}`,
+                correct: `(${aStr}x - ${b})(${aStr}x + ${b})`,
+                distractors: [`(${aStr}x - ${b})^2`, `${aSq}x(${aStr}x - ${bSq})`, `${aSq === 1 ? '' : aSq}x^2 - ${2 * a * b}x + ${bSq}`],
+                patternRule: "ข้อนี้คือ <strong>[หมวดผลต่างกำลังสอง]</strong> พจน์หลังเป็นตัวเลขลอยๆ -> โครงสร้าง: $(A - B)(A + B)$"
+            };
+        }
+
+        // 3. หมวดกำลังสองสมบูรณ์บริสุทธิ์
+        function genPerfectSquare() {
+            const a = getRandomInt(1, 4), b = getRandomInt(1, 8), isPlus = Math.random() > 0.5, sign = isPlus ? '+' : '-', aStr = a === 1 ? '' : a;
+            return {
+                catId: 3,
+                question: `${a * a === 1 ? 'x^2' : `${a * a}x^2`} ${sign} ${2 * a * b}x + ${b * b}`,
+                correct: `(${aStr}x ${sign} ${b})^2`,
+                distractors: [
+                    `(${aStr}x - ${b})(${aStr}x + ${b})`,
+                    `(${aStr}x ${sign} ${b})(${aStr}x ${sign} ${b + 2})`,
+                    `${a * a}(x ${sign} ${b})`
+                ],
+                patternRule: "ข้อนี้คือ <strong>[หมวดกำลังสองสมบูรณ์]</strong> พจน์กลางตรงเป๊ะ -> โครงสร้าง: $(A \\pm B)^2$"
+            };
+        }
+
+        // 4. หมวด 3 พจน์ 2 วงเล็บ (ดักสายดิ่งตอบกำลังสองสมบูรณ์)
+        function genTrickyTrinomial() {
+            const m = getRandomInt(2, 8);
+            let n = getRandomInt(1, 7);
+            if (m === n) n = m + 1; // บังคับให้ m != n เพื่อไม่ให้เป็นกำลังสองสมบูรณ์
+
+            const c = m * n;
+            const b = m + n; // พจน์กลาง
+            const perfectB = 2 * Math.round(Math.sqrt(c)); // ค่าพจน์กลางถ้าเป็นกำลังสองสมบูรณ์
+
+            return {
+                catId: 4,
+                question: `x^2 - ${b}x + ${c}`,
+                correct: `(x - ${m})(x - ${n})`,
+                distractors: [
+                    `(x - ${Math.round(Math.sqrt(c))})^2`, // ช้อยส์หลอกกำลังสองสมบูรณ์
+                    `(x - ${c})(x + ${b})`,
+                    `(x - ${m})(x + ${n})`
+                ],
+                patternRule: `⚠️ <strong>กับดัก 3 พจน์!:</strong> แม้พจน์หลังคือ $${c}$ แต่พจน์กลางคือ $-${b}x$ (ไม่ใช่ $-${perfectB}x$) จึงไม่ใช่กำลังสองสมบูรณ์ แต่เป็น 2 วงเล็บต่างกัน`
+            };
+        }
+
+        function generateQuestionPool(totalQuestions = 25) {
+            const generators = [genFactorOut, genDiffOfSquares, genPerfectSquare, genTrickyTrinomial];
+            const pool = [];
+            for (let i = 0; i < totalQuestions; i++) {
+                pool.push(generators[i % generators.length]());
+            }
+            return pool.sort(() => Math.random() - 0.5);
+        }
+
+        // STATE
+        let questions = [], currentIndex = 0, score = 0, timeoutCount = 0;
+        let timer = null, timeLeft = TIME_PER_QUESTION;
+        let categoryStats = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 }, 4: { correct: 0, total: 0 } };
+        let isAnswered = false;
+
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const timerBadge = document.getElementById('timer-badge');
+        const timerText = document.getElementById('timer-text');
+        const liveScoreTextEl = document.getElementById('live-score-text');
+
+        function initQuiz() {
+            questions = generateQuestionPool(25);
+            currentIndex = 0; score = 0; timeoutCount = 0;
+            categoryStats = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 }, 4: { correct: 0, total: 0 } };
+            questions.forEach(q => categoryStats[q.catId].total++);
+
+            liveScoreTextEl.innerText = score;
+            quizScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
+            renderQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = TIME_PER_QUESTION;
+            timerText.innerText = timeLeft;
+            timerBadge.classList.remove('warning');
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = timeLeft;
+
+                if (timeLeft <= 5) {
+                    timerBadge.classList.add('warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            if (isAnswered) return;
+            isAnswered = true;
+            timeoutCount++;
+
+            const currentQ = questions[currentIndex];
+            const allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.isCorrect === "true") {
+                    btn.classList.add('correct');
+                }
+            });
+
+            document.getElementById('explanation-box').innerHTML = `<strong>⏰ หมดเวลาในขุมนรก!:</strong> ถือว่าตอบผิดในข้อนี้<br>${currentQ.patternRule}`;
+            document.getElementById('explanation-box').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (window.MathJax) MathJax.typesetPromise([document.getElementById('explanation-box')]);
+        }
+
+        function renderQuestion() {
+            isAnswered = false;
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('explanation-box').style.display = 'none';
+            document.getElementById('options-grid').innerHTML = '';
+
+            const currentQ = questions[currentIndex];
+            document.getElementById('question-number').innerText = `ข้อที่ ${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex) / questions.length) * 100}%`;
+            document.getElementById('question-box').innerHTML = `$${currentQ.question}$`;
+
+            const allChoices = [
+                { text: currentQ.correct, isCorrect: true },
+                ...currentQ.distractors.map(d => ({ text: d, isCorrect: false }))
+            ].sort(() => Math.random() - 0.5);
+
+            allChoices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `$${choice.text}$`;
+                btn.dataset.isCorrect = choice.isCorrect;
+                btn.onclick = () => handleAnswer(btn, choice.isCorrect, currentQ);
+                document.getElementById('options-grid').appendChild(btn);
+            });
+
+            if (window.MathJax) MathJax.typesetPromise();
+            startTimer();
+        }
+
+        function handleAnswer(selectedBtn, isCorrect, currentQ) {
+            if (isAnswered) return;
+            isAnswered = true;
+            clearInterval(timer);
+
+            const allButtons = document.querySelectorAll('.option-btn');
+
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.isCorrect === "true") {
+                    btn.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                categoryStats[currentQ.catId].correct++;
+                liveScoreTextEl.innerText = score;
+                selectedBtn.classList.add('correct');
+            } else {
+                selectedBtn.classList.add('wrong');
+            }
+
+            document.getElementById('explanation-box').innerHTML = `<strong>💡 เฉลยวิเคราะห์ Pattern:</strong><br>${currentQ.patternRule}`;
+            document.getElementById('explanation-box').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (window.MathJax) MathJax.typesetPromise([document.getElementById('explanation-box')]);
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timer);
+            document.getElementById('progress-bar').style.width = '100%';
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            document.getElementById('score-text').innerText = score;
+            document.getElementById('print-date').innerText = `วันที่ทำแบบทดสอบ: ${new Date().toLocaleString('th-TH')}`;
+
+            const evalEl = document.getElementById('result-eval');
+            if (score >= 22) {
+                evalEl.innerText = "🔥🏆 จอมมารพหุนาม! รอดพ้นนรกไฟรุกมาได้อย่างสมบูรณ์แบบ";
+                evalEl.style.color = "#a7f3d0";
+            } else if (score >= 15) {
+                evalEl.innerText = "👍 ยอดเยี่ยม! ผ่านการทดสอบนรกไฟรุกมาได้อย่างน่าประทับใจ";
+                evalEl.style.color = "#fcd34d";
+            } else {
+                evalEl.innerText = "💀 โดนเปลวเพลิงนรกหลอกเข้าแล้ว! ลองใหม่อีกครั้งนะ";
+                evalEl.style.color = "#fca5a5";
+            }
+
+            document.getElementById('cat1-score').innerText = `${categoryStats[1].correct}/${categoryStats[1].total}`;
+            document.getElementById('cat2-score').innerText = `${categoryStats[2].correct}/${categoryStats[2].total}`;
+            document.getElementById('cat3-score').innerText = `${categoryStats[3].correct}/${categoryStats[3].total}`;
+            document.getElementById('cat4-score').innerText = `${categoryStats[4].correct}/${categoryStats[4].total}`;
+            document.getElementById('timeout-score').innerText = `${timeoutCount} ข้อ`;
+        }
+
+        function printReport() {
+            const nameVal = document.getElementById('student-name').value.trim();
+            const classVal = document.getElementById('student-class').value.trim();
+            const displayEl = document.getElementById('student-display');
+
+            if (nameVal || classVal) {
+                displayEl.innerText = `ชื่อ-นามสกุล: ${nameVal || '-'} | ชั้น/เลขที่: ${classVal || '-'}`;
+            } else {
+                displayEl.innerText = `ชื่อ-นามสกุล: ........................................................... ชั้น/เลขที่: ...................`;
+            }
+
+            window.print();
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - สมบัติของเลขยกกำลัง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 6px;
+            background: #2a2a2a;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .problem-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 15px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .problem-detail {
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.6;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .base-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        input[type="number"].exp-input {
+            width: 90px;
+            height: 50px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"].exp-input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>⚡ สมบัติของเลขยกกำลัง (การคูณและการหาร)</h1>
+
+            <!-- ปุ่มเลือกโหมด -->
+            <div class="mode-selector">
+                <button class="mode-btn active" id="btn-mode1" onclick="switchMode(1)">1. การคูณเลขยกกำลัง</button>
+                <button class="mode-btn" id="btn-mode2" onclick="switchMode(2)">2. การหารเลขยกกำลัง</button>
+                <button class="mode-btn" id="btn-mode3" onclick="switchMode(3)">3. ผสมคูณและหาร</button>
+            </div>
+
+            <!-- กล่องแสดงโจทย์ -->
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์การคูณเลขยกกำลัง</div>
+                <div class="problem-detail" id="problem-detail">กำลังโหลดโจทย์...</div>
+            </div>
+
+            <!-- ส่วนกรอกคำตอบ -->
+            <div class="input-group">
+                <span>คำตอบในรูปเลขยกกำลัง: </span>
+                <span class="base-display" id="ans-base">a</span>
+                <sup><input type="number" class="exp-input" id="ans-exp" placeholder="n"></sup>
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <!-- Tip สรุปกฎ -->
+            <div class="tip-box">
+                <div class="tip-header">💡 คลังสรุปสมบัติของเลขยกกำลัง</div>
+                <div class="tip-item">
+                    ✖️ <b>การคูณ (ฐานเหมือนกัน):</b> <span class="highlight">a<sup>m</sup> × a<sup>n</sup> = a<sup>m +
+                            n</sup></span> (นำเลขชี้กำลังมา<b>บวกกัน</b>)
+                </div>
+                <div class="tip-item">
+                    ➗ <b>การหาร (ฐานเหมือนกัน):</b> <span class="highlight">a<sup>m</sup> ÷ a<sup>n</sup> = a<sup>m -
+                            n</sup></span> (นำเลขชี้กำลังมา<b>ลบกัน</b>)
+                </div>
+                <div class="tip-item">
+                    📌 <b>ข้อสังเกต:</b>
+                    • <span class="highlight">a<sup>0</sup> = 1</span> (เมื่อ a ≠ 0)<br>
+                    • <span class="highlight">a<sup>-n</sup> = 1 / a<sup>n</sup></span> (เลขชี้กำลังติดลบ)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentProblem = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-mode1').className = mode === 1 ? 'mode-btn active' : 'mode-btn';
+            document.getElementById('btn-mode2').className = mode === 2 ? 'mode-btn active' : 'mode-btn';
+            document.getElementById('btn-mode3').className = mode === 3 ? 'mode-btn active' : 'mode-btn';
+            generateProblem();
+        }
+
+        function getRandomInt(min, max) {
+            let val = Math.floor(Math.random() * (max - min + 1)) + min;
+            return val === 0 ? 1 : val;
+        }
+
+        function getRandomBase() {
+            const bases = ['a', 'x', 'y', '2', '3', '5', '7', '(-2)', '(-3)'];
+            return bases[Math.floor(Math.random() * bases.length)];
+        }
+
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+            document.getElementById('ans-exp').value = '';
+
+            const base = getRandomBase();
+            document.getElementById('ans-base').innerText = base;
+
+            if (currentMode === 1) {
+                generateMultiplication(base);
+            } else if (currentMode === 2) {
+                generateDivision(base);
+            } else {
+                generateMixed(base);
+            }
+
+            document.getElementById('problem-title').innerText = currentProblem.title;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+        }
+
+        // 1. การคูณเลขยกกำลัง
+        function generateMultiplication(base) {
+            const m = getRandomInt(-8, 12);
+            const n = getRandomInt(-8, 12);
+            const ansExp = m + n;
+
+            currentProblem = {
+                base: base,
+                ansExp: ansExp,
+                title: '✖️ การคูณเลขยกกำลังที่มีฐานเหมือนกัน',
+                detail: `${base}<sup>${m}</sup> × ${base}<sup>${n}</sup>`,
+                explain: `<b>สมบัติการคูณ:</b> a<sup>m</sup> × a<sup>n</sup> = a<sup>m + n</sup><br>` +
+                    `<b>วิธีคิด:</b> เลขชี้กำลังคือ (${m}) + (${n}) = <b>${ansExp}</b><br>` +
+                    `<b>คำตอบ:</b> ${base}<sup>${ansExp}</sup>`
+            };
+        }
+
+        // 2. การหารเลขยกกำลัง
+        function generateDivision(base) {
+            const m = getRandomInt(-5, 15);
+            const n = getRandomInt(-5, 12);
+            const ansExp = m - n;
+
+            const isFraction = Math.random() > 0.5;
+            let detailText = isFraction ?
+                `<span style="display:inline-block; vertical-align:middle; text-align:center;">` +
+                `<span style="border-bottom:2px solid #fff; display:block; padding:0 4px;">${base}<sup>${m}</sup></span>` +
+                `<span style="display:block; padding:0 4px;">${base}<sup>${n}</sup></span></span>`
+                : `${base}<sup>${m}</sup> ÷ ${base}<sup>${n}</sup>`;
+
+            currentProblem = {
+                base: base,
+                ansExp: ansExp,
+                title: '➗ การหารเลขยกกำลังที่มีฐานเหมือนกัน',
+                detail: detailText,
+                explain: `<b>สมบัติการหาร:</b> a<sup>m</sup> ÷ a<sup>n</sup> = a<sup>m - n</sup><br>` +
+                    `<b>วิธีคิด:</b> เลขชี้กำลังคือ (${m}) - (${n}) = <b>${ansExp}</b><br>` +
+                    `<b>คำตอบ:</b> ${base}<sup>${ansExp}</sup>`
+            };
+        }
+
+        // 3. ผสมการคูณและการหาร
+        function generateMixed(base) {
+            const m = getRandomInt(-6, 10);
+            const n = getRandomInt(-6, 10);
+            const k = getRandomInt(-6, 10);
+            const ansExp = (m + n) - k;
+
+            let detailText = `<span style="display:inline-block; vertical-align:middle; text-align:center;">` +
+                `<span style="border-bottom:2px solid #fff; display:block; padding:0 4px;">${base}<sup>${m}</sup> × ${base}<sup>${n}</sup></span>` +
+                `<span style="display:block; padding:0 4px;">${base}<sup>${k}</sup></span></span>`;
+
+            currentProblem = {
+                base: base,
+                ansExp: ansExp,
+                title: '🔀 การคูณและการหารเลขยกกำลังแบบผสม',
+                detail: detailText,
+                explain: `<b>สมบัติแบบผสม:</b> (a<sup>m</sup> × a<sup>n</sup>) ÷ a<sup>k</sup> = a<sup>m + n - k</sup><br>` +
+                    `<b>วิธีคิด:</b> เลขชี้กำลังคือ (${m}) + (${n}) - (${k}) = <b>${ansExp}</b><br>` +
+                    `<b>คำตอบ:</b> ${base}<sup>${ansExp}</sup>`
+            };
+        }
+
+        // ตรวจคำตอบ
+        function checkAnswer() {
+            const userExp = parseInt(document.getElementById('ans-exp').value);
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (isNaN(userExp)) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกเลขชี้กำลังก่อนตรวจคำตอบครับ</b>';
+                return;
+            }
+
+            if (userExp === currentProblem.ansExp) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ!</b> คำตอบคือ <b>${currentProblem.base}<sup>${currentProblem.ansExp}</sup></b><br><br>${currentProblem.explain}`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b> (เลขชี้กำลังที่คุณกรอก: ${userExp})<br><br>💡 <b>เฉลยและวิธีคิด:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

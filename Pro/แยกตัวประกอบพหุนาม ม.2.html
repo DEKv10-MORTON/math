@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกแยกตัวประกอบพหุนาม ม.2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+        }
+
+        /* เมนูหมวดหมู่ */
+        .category-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cat-btn {
+            flex: 1;
+            padding: 12px 8px;
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .cat-btn:hover {
+            background: #383838;
+        }
+
+        .cat-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 600;
+            border-color: var(--accent-cyan);
+        }
+
+        /* ส่วนเนื้อหาความรู้ */
+        .lesson-box {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .lesson-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .lesson-desc {
+            font-size: 15px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .formula-box {
+            background: #000;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 16px;
+            color: #fff;
+            margin: 8px 0;
+            display: inline-block;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-cyan);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-start:hover {
+            opacity: 0.9;
+        }
+
+        /* ส่วนหน้าโจทย์ */
+        .quiz-box {
+            display: none;
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .question-display {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .answer-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        input[type="number"] {
+            width: 70px;
+            height: 45px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 4px;
+            border-radius: 6px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-reveal {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-reveal:hover {
+            background: #444;
+        }
+
+        .btn-next {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-next:hover {
+            opacity: 0.9;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .feedback.solution {
+            background: #2b281b;
+            color: #d7ca85;
+            border: 1px solid #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📐 แบบฝึกหัดแยกตัวประกอบพหุนาม ม.2</h1>
+
+        <!-- เมนูเลือกหมวดหมู่ -->
+        <div class="category-menu">
+            <button class="cat-btn active" onclick="selectCategory(1)">1. ดึงตัวร่วม</button>
+            <button class="cat-btn" onclick="selectCategory(2)">2. ผลต่างกำลังสอง</button>
+            <button class="cat-btn" onclick="selectCategory(3)">3. กำลังสองสมบูรณ์</button>
+        </div>
+
+        <!-- หน้าแสดงบทเรียน/เนื้อหา -->
+        <div id="lesson-page" class="lesson-box">
+            <div id="lesson-content"></div>
+            <button class="btn-start" onclick="startQuiz()">🚀 เริ่มทำแบบฝึกหัด (สุ่มโจทย์)</button>
+        </div>
+
+        <!-- หน้าแสดงโจทย์และการทำข้อสอบ -->
+        <div id="quiz-page" class="quiz-box">
+            <div style="font-size: 14px; color: var(--text-sub);" id="quiz-category-title">หมวดหมู่: </div>
+            <div class="question-display" id="question-text">ax + ay</div>
+
+            <div class="answer-area" id="answer-inputs">
+                <!-- ช่องว่างเติมคำตอบจะถูกสร้างด้วย JS -->
+            </div>
+
+            <div class="control-btns">
+                <button class="btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="btn btn-reveal" onclick="revealSolution()">💡 เฉลยคำตอบ</button>
+                <button class="btn btn-next" onclick="generateQuestion()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = 1;
+        let currentProblem = {};
+
+        // ข้อมูลเนื้อหาบทเรียน
+        const lessons = {
+            1: {
+                title: "📌 1. การดึงตัวร่วม (Factorization by Common Factor)",
+                desc: "เป็นการใช้สมบัติการแจกแจงโดยหา <b>ห.ร.ม.</b> ของตัวเลขและตัวแปรที่ซ้ำกัน ดึงออกไว้หน้าวงเล็บ",
+                formula: "ax + ay = a(x + y)",
+                example: "เช่น 6x + 12 = <b>6</b>(x + <b>2</b>)"
+            },
+            2: {
+                title: "📌 2. ผลต่างกำลังสอง (Difference of Squares)",
+                desc: "ใช้เมื่อพหุนามจัดอยู่ในรูปพจน์หน้ากำลังสอง ลบ พจน์หลังกำลังสอง",
+                formula: "A² - B² = (A - B)(A + B)",
+                example: "เช่น x² - 9 = x² - 3² = (x - <b>3</b>)(x + <b>3</b>)"
+            },
+            3: {
+                title: "📌 3. กำลังสองสมบูรณ์ (Perfect Square Trinomials)",
+                desc: "พหุนามที่จัดรูปได้เป็น หน้า² ± 2(หน้า)(หลัง) + หลัง²",
+                formula: "A² ± 2AB + B² = (A ± B)²",
+                example: "เช่น x² + 6x + 9 = x² + 2(3)x + 3² = (x + <b>3</b>)²"
+            }
+        };
+
+        function selectCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === cat);
+            });
+
+            // สลับกลับไปหน้าบทเรียน
+            document.getElementById('lesson-page').style.display = 'block';
+            document.getElementById('quiz-page').style.display = 'none';
+
+            // แสดงเนื้อหาตามหมวด
+            const l = lessons[cat];
+            document.getElementById('lesson-content').innerHTML = `
+                <div class="lesson-title">${l.title}</div>
+                <div class="lesson-desc">${l.desc}</div>
+                <div><b>สูตรหลัก:</b></div>
+                <div class="formula-box">${l.formula}</div>
+                <div class="lesson-desc" style="margin-top: 10px;">${l.example}</div>
+            `;
+        }
+
+        function startQuiz() {
+            document.getElementById('lesson-page').style.display = 'none';
+            document.getElementById('quiz-page').style.display = 'block';
+            generateQuestion();
+        }
+
+        // ฟังก์ชันสุ่มโจทย์ตามหมวดหมู่
+        function generateQuestion() {
+            hideFeedback();
+            const quizTitle = document.getElementById('quiz-category-title');
+            const qText = document.getElementById('question-text');
+            const aInputs = document.getElementById('answer-inputs');
+
+            if (currentCategory === 1) {
+                // หมวด 1: ดึงตัวร่วม -> ax + ab = a(x + b)
+                quizTitle.innerText = "หมวด: การดึงตัวร่วม";
+                const a = Math.floor(Math.random() * 8) + 2; // ห.ร.ม (2-9)
+                const b = Math.floor(Math.random() * 9) + 1; // ตัวหลัง (1-9)
+                const term2 = a * b;
+
+                currentProblem = {
+                    type: 1,
+                    ans: [a, b],
+                    solutionStr: `${a}(x + ${b})`
+                };
+
+                qText.innerHTML = `${a}x + ${term2}`;
+                aInputs.innerHTML = `
+                    <input type="number" id="ans1"> ( x + <input type="number" id="ans2"> )
+                `;
+
+            } else if (currentCategory === 2) {
+                // หมวด 2: ผลต่างกำลังสอง -> x² - b² = (x - b)(x + b)
+                quizTitle.innerText = "หมวด: ผลต่างกำลังสอง";
+                const b = Math.floor(Math.random() * 12) + 1; // 1-12
+                const bSquare = b * b;
+
+                currentProblem = {
+                    type: 2,
+                    ans: [b, b],
+                    solutionStr: `(x - ${b})(x + ${b})`
+                };
+
+                qText.innerHTML = `x<sup>2</sup> - ${bSquare}`;
+                aInputs.innerHTML = `
+                    ( x - <input type="number" id="ans1"> ) ( x + <input type="number" id="ans2"> )
+                `;
+
+            } else if (currentCategory === 3) {
+                // หมวด 3: กำลังสองสมบูรณ์ -> x² ± 2bx + b² = (x ± b)²
+                quizTitle.innerText = "หมวด: กำลังสองสมบูรณ์";
+                const isPlus = Math.random() < 0.5;
+                const b = Math.floor(Math.random() * 10) + 1; // 1-10
+                const middleTerm = 2 * b;
+                const lastTerm = b * b;
+                const sign = isPlus ? '+' : '-';
+
+                currentProblem = {
+                    type: 3,
+                    ans: [b],
+                    solutionStr: `(x ${sign} ${b})²`
+                };
+
+                qText.innerHTML = `x<sup>2</sup> ${sign} ${middleTerm}x + ${lastTerm}`;
+                aInputs.innerHTML = `
+                    ( x ${sign} <input type="number" id="ans1"> )<sup>2</sup>
+                `;
+            }
+        }
+
+        // ตรวจคำตอบ
+        function checkAnswer() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+
+            let isCorrect = false;
+
+            if (currentProblem.type === 1 || currentProblem.type === 2) {
+                const u1 = parseInt(document.getElementById('ans1').value);
+                const u2 = parseInt(document.getElementById('ans2').value);
+
+                if (u1 === currentProblem.ans[0] && u2 === currentProblem.ans[1]) {
+                    isCorrect = true;
+                }
+            } else if (currentProblem.type === 3) {
+                const u1 = parseInt(document.getElementById('ans1').value);
+                if (u1 === currentProblem.ans[0]) {
+                    isCorrect = true;
+                }
+            }
+
+            if (isCorrect) {
+                fb.className = 'feedback correct';
+                fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> คำตอบคือ ${currentProblem.solutionStr}`;
+            } else {
+                fb.className = 'feedback wrong';
+                fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> ลองคิดคำนวณใหม่อีกครั้งครับ`;
+            }
+        }
+
+        // กดแสดงเฉลย
+        function revealSolution() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+            fb.className = 'feedback solution';
+            fb.innerHTML = `💡 <b>เฉลย:</b> คำตอบที่ถูกต้องคือ <b>${currentProblem.solutionStr}</b>`;
+        }
+
+        function hideFeedback() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'none';
+        }
+
+        // เริ่มต้นโหลดหมวด 1
+        selectCategory(1);
+    </script>
+
+</body>
+
+</html>

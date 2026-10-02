@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - แบบฝึกหัดกระจายกำลังสองสมบูรณ์</title>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .brand-logo {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #00d2d3;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 0 8px rgba(0, 210, 211, 0.4);
+        }
+
+        .card {
+            background: #1e1e1e;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2d2d2d;
+        }
+
+        .problem-box {
+            background-color: #2a2a2a;
+            border: 2px dashed #00d2d3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .problem {
+            font-size: 34px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* จัดวางโซนช่องว่างเติมคำตอบ */
+        .answer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .term-group {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .var-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00d2d3;
+            margin: 0 2px;
+        }
+
+        .sign-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0 4px;
+        }
+
+        .input-term {
+            background-color: #2a2a2a;
+            border: 2px solid #555;
+            color: #00d2d3;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 8px;
+            text-align: center;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        /* ช่องกรอกเลขชี้กำลังเล็กๆ ลอยด้านบนขวา */
+        .input-exp {
+            background-color: #2a2a2a;
+            border: 1.5px solid #00d2d3;
+            color: #ff9ff3;
+            font-size: 13px;
+            font-weight: bold;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            border-radius: 6px;
+            outline: none;
+            position: relative;
+            top: -14px;
+            left: -2px;
+        }
+
+        .input-term:focus,
+        .input-exp:focus {
+            border-color: #00d2d3;
+            box-shadow: 0 0 8px rgba(0, 210, 211, 0.5);
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background-color: #00d2d3;
+            color: #121212;
+        }
+
+        .btn-check:hover {
+            background-color: #48dbfb;
+            box-shadow: 0 0 10px rgba(72, 219, 251, 0.4);
+        }
+
+        .btn-next {
+            background-color: #10ac84;
+            color: white;
+        }
+
+        .btn-next:hover {
+            background-color: #1dd1a1;
+            box-shadow: 0 0 10px rgba(29, 209, 161, 0.4);
+        }
+
+        .btn-hint {
+            background-color: #ff9ff3;
+            color: #121212;
+        }
+
+        .btn-hint:hover {
+            background-color: #feca57;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            line-height: 1.7;
+            display: none;
+            font-size: 16px;
+        }
+
+        .correct {
+            background-color: #1b382b;
+            color: #75b798;
+            border-left: 5px solid #28a745;
+        }
+
+        .wrong {
+            background-color: #3d2024;
+            color: #ea868f;
+            border-left: 5px solid #dc3545;
+        }
+
+        .hint {
+            background-color: #3d3319;
+            color: #feca57;
+            border-left: 5px solid #ff9f43;
+        }
+
+        sup {
+            font-size: 0.7em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="brand-logo">⚡ DEK MORTON STUDIO</div>
+        <h2>✍️ แบบฝึกหัดกระจาย (น ± ล)²</h2>
+        <p style="color: #aaa; font-size: 14px;">เติมตัวเลขและเลขชี้กำลังลงในช่องว่างให้ถูกต้อง</p>
+
+        <div class="problem-box">
+            <div class="problem" id="problem-text">(2x - 1)²</div>
+        </div>
+
+        <!-- โซนช่องว่างเติมคำตอบแบบแยกพจน์ + ช่องยกกำลัง -->
+        <div class="answer-container">
+            <!-- พจน์หน้า: [สัมประสิทธิ์] x^[กำลัง] -->
+            <div class="term-group">
+                <input type="text" id="coef1" class="input-term" placeholder="หน้า" style="width: 55px;"
+                    autocomplete="off">
+                <span class="var-text">x</span>
+                <input type="text" id="exp1" class="input-exp" placeholder="กำลัง" autocomplete="off">
+            </div>
+
+            <span id="sign1" class="sign-text">-</span>
+
+            <!-- พจน์กลาง: [สัมประสิทธิ์] x -->
+            <div class="term-group">
+                <input type="text" id="coef2" class="input-term" placeholder="กลาง" style="width: 65px;"
+                    autocomplete="off">
+                <span class="var-text">x</span>
+            </div>
+
+            <span class="sign-text">+</span>
+
+            <!-- พจน์หลัง: [ตัวเลข] -->
+            <div class="term-group">
+                <input type="text" id="coef3" class="input-term" placeholder="หลัง" style="width: 65px;"
+                    autocomplete="off">
+            </div>
+        </div>
+
+        <div>
+            <button class="btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+            <button class="btn-next" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            <button class="btn-hint" onclick="showHint()">💡 ดูเฉลย</button>
+        </div>
+
+        <div class="feedback" id="feedback-box"></div>
+        <!-- 📍 วางแท็กโฆษณาตรงนี้ครับ -->
+        <div class="ad-container-bottom"></div>
+    </div>
+
+    <script>
+        let currentAns = {};
+
+        function generateProblem() {
+            // ล้างค่าในโซนแจ้งเตือนและช่องกรอกทั้งหมด
+            document.getElementById('feedback-box').style.display = 'none';
+            document.getElementById('coef1').value = '';
+            document.getElementById('exp1').value = '';
+            document.getElementById('coef2').value = '';
+            document.getElementById('coef3').value = '';
+
+            // สุ่มตัวตั้งต้น (Ax ± B)²
+            const A = Math.random() < 0.6 ? 1 : Math.floor(Math.random() * 3) + 2; // 1, 2, 3, 4
+            const B = Math.floor(Math.random() * 9) + 1; // 1 ถึง 9
+            const isPlus = Math.random() < 0.5;
+
+            // คำนวณค่าที่ถูกต้องในแต่ละช่อง
+            const coef1_ans = (A * A).toString();
+            const exp1_ans = "2";
+            const coef2_ans = (2 * A * B).toString();
+            const coef3_ans = (B * B).toString();
+
+            currentAns = { A, B, isPlus, coef1_ans, exp1_ans, coef2_ans, coef3_ans };
+
+            // แสดงผลโจทย์และเครื่องหมายพจน์กลาง
+            const AText = A === 1 ? '' : A;
+            const signText = isPlus ? '+' : '-';
+
+            document.getElementById('problem-text').innerHTML = `(${AText}x ${signText} ${B})²`;
+            document.getElementById('sign1').innerText = signText;
+        }
+
+        function checkAnswer() {
+            let userC1 = document.getElementById('coef1').value.trim();
+            // กรณี A*A = 1 แล้วเด็กละช่องไว้ในฐานที่เข้าใจ ให้ระบบปรับเป็น 1 อัตโนมัติ
+            if (userC1 === '' && currentAns.coef1_ans === '1') userC1 = '1';
+
+            const userE1 = document.getElementById('exp1').value.trim();
+            const userC2 = document.getElementById('coef2').value.trim();
+            const userC3 = document.getElementById('coef3').value.trim();
+
+            const isC1Correct = (userC1 === currentAns.coef1_ans);
+            const isE1Correct = (userE1 === currentAns.exp1_ans);
+            const isC2Correct = (userC2 === currentAns.coef2_ans);
+            const isC3Correct = (userC3 === currentAns.coef3_ans);
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            if (isC1Correct && isE1Correct && isC2Correct && isC3Correct) {
+                feedbackBox.className = 'feedback correct';
+                const c1Display = currentAns.coef1_ans === '1' ? '' : currentAns.coef1_ans;
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องเก่งมากครับ!</b><br>กระจายได้ = <b>${c1Display}x² ${currentAns.isPlus ? '+' : '-'} ${currentAns.coef2_ans}x + ${currentAns.coef3_ans}</b> เป๊ะๆ`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                let errorMsg = '❌ <b>ยังมีจุดที่ต้องแก้ไขนะครับ:</b><br>';
+                if (!isC1Correct) errorMsg += `• สัมประสิทธิ์หน้า x² : เช็กการยกกำลังสองของพจน์หน้าอีกที<br>`;
+                if (!isE1Correct) errorMsg += `• ช่องเลขชี้กำลัง : x ต้องยกกำลังอะไรเอ่ย?<br>`;
+                if (!isC2Correct) errorMsg += `• พจน์กลาง : อย่าลืมนำ 2 × หน้า × หลัง นะครับ<br>`;
+                if (!isC3Correct) errorMsg += `• พจน์หลัง : คำนวณเลขยกกำลังสองของพจน์หลังผิดหรือเปล่า?<br>`;
+                feedbackBox.innerHTML = errorMsg;
+            }
+        }
+
+        function showHint() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.className = 'feedback hint';
+            feedbackBox.style.display = 'block';
+
+            const sign = currentAns.isPlus ? '+' : '-';
+            const AText = currentAns.A === 1 ? '' : currentAns.A;
+            const c1Display = currentAns.coef1_ans === '1' ? '' : currentAns.coef1_ans;
+
+            feedbackBox.innerHTML = `💡 <b>เฉลยสเต็ปการคิด:</b><br>` +
+                `👉 น² = (${AText}x)² = <b>${currentAns.coef1_ans}x²</b><br>` +
+                `👉 2นล = 2(${AText}x)(${currentAns.B}) = <b>${currentAns.coef2_ans}x</b><br>` +
+                `👉 ล² = (${currentAns.B})² = <b>${currentAns.coef3_ans}</b><br>` +
+                `คำตอบเต็ม: <b>${c1Display}x² ${sign} ${currentAns.coef2_ans}x + ${currentAns.coef3_ans}</b>`;
+        }
+
+        // สุ่มโจทย์ข้อแรกทันทีเมื่อเปิดหน้าเว็บ
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

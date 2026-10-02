@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - กำลังสองสมบูรณ์</title>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .brand-logo {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #00d2d3;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 0 8px rgba(0, 210, 211, 0.4);
+        }
+
+        .card {
+            background: #1e1e1e;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2d2d2d;
+        }
+
+        .problem-box {
+            background-color: #2a2a2a;
+            border: 2px dashed #00d2d3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .problem {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .formula-box {
+            background-color: #111;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #ff9ff3;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        button {
+            background-color: #00d2d3;
+            color: #121212;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: #48dbfb;
+            box-shadow: 0 0 10px rgba(72, 219, 251, 0.4);
+        }
+
+        .btn-step {
+            background-color: #10ac84;
+            color: white;
+        }
+
+        .btn-step:hover {
+            background-color: #1dd1a1;
+            box-shadow: 0 0 10px rgba(29, 209, 161, 0.4);
+        }
+
+        .step-box {
+            background-color: #252525;
+            border-left: 5px solid #10ac84;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+            line-height: 1.8;
+            font-size: 17px;
+            display: none;
+            border-radius: 4px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .highlight-green {
+            font-weight: bold;
+            color: #1dd1a1;
+        }
+
+        .highlight-yellow {
+            font-weight: bold;
+            color: #feca57;
+        }
+
+        sup {
+            font-size: 0.7em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="brand-logo">⚡ DEK MORTON STUDIO</div>
+        <h2>🎯 จัดรูป กำลังสองสมบูรณ์</h2>
+
+        <div class="formula-box">
+            💡 สูตรจำขึ้นใจ: <b>(น ± ล)² = น² ± 2นล + ล²</b>
+        </div>
+
+        <div class="problem-box">
+            <div class="problem" id="problem-text">x² + 6x + 9</div>
+        </div>
+
+        <button onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+        <button class="btn-step" onclick="showNextStep()">💡 ดูวิธีทำทีละสเต็ป</button>
+
+        <div id="steps-container"></div>
+    </div>
+
+    <script>
+        let currentProblem = {};
+        let currentStep = 0;
+
+        // สุ่มสร้างโจทย์ประเภท (A*x ± B)²
+        function generateProblem() {
+            currentStep = 0;
+            document.getElementById('steps-container').innerHTML = '';
+
+            // สุ่มตัวหน้า (A) และตัวหลัง (B)
+            const A = Math.random() < 0.6 ? 1 : Math.floor(Math.random() * 3) + 2; // 1, 2, 3, 4
+            const B = Math.floor(Math.random() * 8) + 1; // 1 ถึง 8
+            const isPlus = Math.random() < 0.5; // เครื่องหมาย + หรือ -
+
+            // กระจายสูตรหาค่าในรูป ax² ± bx + c
+            const a = A * A;
+            const b = 2 * A * B * (isPlus ? 1 : -1);
+            const c = B * B;
+
+            currentProblem = { A, B, isPlus, a, b, c };
+
+            // จัดรูปแสดงผลโจทย์
+            const aText = a === 1 ? '' : a;
+            const bSign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+
+            document.getElementById('problem-text').innerHTML = `${aText}x² ${bSign}x + ${c}`;
+        }
+
+        function showNextStep() {
+            const { A, B, isPlus, a, b, c } = currentProblem;
+            const signText = isPlus ? '+' : '-';
+            const absB = Math.abs(b);
+
+            const aText = a === 1 ? '' : a;
+            const AText = A === 1 ? '' : A;
+
+            // ข้อความแต่ละสเต็ปการอธิบาย
+            const steps = [
+                `<b>สเต็ป 1: จัดรูปตัวหน้า (น²) และ ตัวหลัง (ล²)</b><br>` +
+                `👉 ตัวหน้า: ${aText}x² เกิดจาก <span class="highlight-green">(${AText}x)²</span><br>` +
+                `👉 ตัวหลัง: ${c} เกิดจาก <span class="highlight-yellow">(${B})²</span>`,
+
+                `<b>สเต็ป 2: เช็กพจน์กลางว่าตรงกับ 2 × หน้า × หลัง ไหม?</b><br>` +
+                `👉 2 × <span class="highlight-green">(${AText}x)</span> × <span class="highlight-yellow">(${B})</span> = <span class="highlight">${absB}x</span><br>` +
+                `*(พจน์กลางเท่ากับ ${absB}x เป๊ะ! แสดงว่าเป็นกำลังสองสมบูรณ์แน่นอน)*`,
+
+                `<b>คำตอบสุดท้าย: ยุบรวมเข้าสูตร (น ${signText} ล)²</b><br>` +
+                `👉 <span style="font-size: 22px; color: #00d2d3; font-weight: bold;">(${AText}x ${signText} ${B})²</span>`
+            ];
+
+            if (currentStep < steps.length) {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'step-box';
+                stepDiv.style.display = 'block';
+                stepDiv.innerHTML = steps[currentStep];
+                document.getElementById('steps-container').appendChild(stepDiv);
+                currentStep++;
+            }
+        }
+
+        // เริ่มต้นระบบ
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

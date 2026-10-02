@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEK MORTON STUDIO - การดำเนินการของพหุนาม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-gold: #ffb703;
+            --accent-green: #28a745;
+            --accent-red: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .studio-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 4px;
+            background: #2a2a2a;
+            color: var(--text-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .problem-box {
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-title {
+            font-size: 15px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .problem-detail {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"].poly-input {
+            width: 70px;
+            height: 48px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+        }
+
+        input[type="number"].poly-input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-random {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .btn-random:hover {
+            background: #383838;
+        }
+
+        .feedback {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .tip-box {
+            background: #161c24;
+            border: 1px solid #1e3a5f;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 24px;
+        }
+
+        .tip-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .tip-item {
+            font-size: 14px;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="studio-container">
+        <div class="card">
+            <div class="brand-header">DEK MORTON STUDIO</div>
+            <h1>🧮 การดำเนินการของพหุนาม (Polynomials)</h1>
+
+            <!-- ปุ่มเลือกโหมด -->
+            <div class="mode-selector">
+                <button class="mode-btn active" id="btn-mode1" onclick="switchMode(1)">1. การบวก</button>
+                <button class="mode-btn" id="btn-mode2" onclick="switchMode(2)">2. การลบ</button>
+                <button class="mode-btn" id="btn-mode3" onclick="switchMode(3)">3. การคูณเอกนาม</button>
+                <button class="mode-btn" id="btn-mode4" onclick="switchMode(4)">4. การหารด้วยเอกนาม</button>
+            </div>
+
+            <!-- กล่องแสดงโจทย์ -->
+            <div class="problem-box">
+                <div class="problem-title" id="problem-title">โจทย์การบวกพหุนาม</div>
+                <div class="problem-detail" id="problem-detail">กำลังโหลดโจทย์...</div>
+            </div>
+
+            <!-- ส่วนกรอกคำตอบ -->
+            <div class="input-group" id="input-container">
+                <!-- สร้างช่องกรอก Dynamic ตามโจทย์ -->
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+                <button class="action-btn btn-random" onclick="generateProblem()">🎲 สุ่มโจทย์ใหม่</button>
+            </div>
+
+            <div class="feedback" id="feedback-box"></div>
+
+            <!-- Tip สรุปกฎ -->
+            <div class="tip-box">
+                <div class="tip-header">💡 คลังสรุปหลักการคณิตศาสตร์</div>
+                <div class="tip-item">
+                    ➕➖ <b>การบวก/ลบพหุนาม:</b> นำสัมประสิทธิ์ของ <span class="highlight">พจน์ที่คล้ายกัน</span>
+                    (ตัวแปรและดีกรีเดียวกัน) มาบวกหรือลบกัน
+                </div>
+                <div class="tip-item">
+                    ✖️ <b>การคูณพหุนามด้วยเอกนาม:</b> ใช้ <span class="highlight">สมบัติการแจกแจง</span>
+                    คูณเอกนามเข้าไปในทุกพจน์ของพหุนาม
+                </div>
+                <div class="tip-item">
+                    ➗ <b>การหารพหุนามด้วยเอกนาม:</b> แยกเขียนเป็น <span class="highlight">เศษส่วนย่อย</span>
+                    แล้วนำเอกนามตัวหารไปหารทุกพจน์
+                </div>
+                <!-- 📍 วางแท็กโฆษณาตรงนี้ครับ -->
+                <div class="ad-container-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 1;
+        let currentProblem = {};
+
+        function switchMode(mode) {
+            currentMode = mode;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`btn-mode${i}`).className = mode === i ? 'mode-btn active' : 'mode-btn';
+            }
+            generateProblem();
+        }
+
+        function getRandomNonZero(min, max) {
+            let val = 0;
+            while (val === 0) {
+                val = Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            return val;
+        }
+
+        function formatPoly(a, b, c, varName = 'x') {
+            let str = '';
+            if (a !== 0) {
+                if (a === 1) str += `${varName}²`;
+                else if (a === -1) str += `-${varName}²`;
+                else str += `${a}${varName}²`;
+            }
+            if (b !== 0) {
+                let sign = b > 0 && str !== '' ? ' + ' : (b < 0 ? ' - ' : '');
+                let absB = Math.abs(b);
+                let bStr = absB === 1 ? `${varName}` : `${absB}${varName}`;
+                str += (str === '' && b < 0 ? '-' : sign) + bStr;
+            }
+            if (c !== 0 || str === '') {
+                let sign = c > 0 && str !== '' ? ' + ' : (c < 0 ? ' - ' : '');
+                let absC = Math.abs(c);
+                str += (str === '' && c < 0 ? '-' : sign) + absC;
+            }
+            return str;
+        }
+
+        function generateProblem() {
+            document.getElementById('feedback-box').style.display = 'none';
+
+            if (currentMode === 1) generateAddition();
+            else if (currentMode === 2) generateSubtraction();
+            else if (currentMode === 3) generateMultiplication();
+            else generateDivision();
+
+            document.getElementById('problem-title').innerText = currentProblem.title;
+            document.getElementById('problem-detail').innerHTML = currentProblem.detail;
+            renderInputs();
+        }
+
+        // 1. การบวกพหุนาม
+        function generateAddition() {
+            const a1 = getRandomNonZero(-5, 5), b1 = getRandomNonZero(-5, 5), c1 = getRandomNonZero(-5, 5);
+            const a2 = getRandomNonZero(-5, 5), b2 = getRandomNonZero(-5, 5), c2 = getRandomNonZero(-5, 5);
+
+            const ansA = a1 + a2, ansB = b1 + b2, ansC = c1 + c2;
+
+            currentProblem = {
+                ans: [ansA, ansB, ansC],
+                labels: ["x²", "x", "พจน์คงตัว"],
+                title: '➕ การบวกพหุนาม',
+                detail: `(${formatPoly(a1, b1, c1)}) + (${formatPoly(a2, b2, c2)})`,
+                explain: `<b>วิธีคิด:</b> รวมพจน์ที่คล้ายกัน<br>` +
+                    `• x²: (${a1}) + (${a2}) = <b>${ansA}</b><br>` +
+                    `• x: (${b1}) + (${b2}) = <b>${ansB}</b><br>` +
+                    `• พจน์คงตัว: (${c1}) + (${c2}) = <b>${ansC}</b><br>` +
+                    `<b>ผลลัพธ์:</b> ${formatPoly(ansA, ansB, ansC)}`
+            };
+        }
+
+        // 2. การลบพหุนาม
+        function generateSubtraction() {
+            const a1 = getRandomNonZero(-5, 5), b1 = getRandomNonZero(-5, 5), c1 = getRandomNonZero(-5, 5);
+            const a2 = getRandomNonZero(-5, 5), b2 = getRandomNonZero(-5, 5), c2 = getRandomNonZero(-5, 5);
+
+            const ansA = a1 - a2, ansB = b1 - b2, ansC = c1 - c2;
+
+            currentProblem = {
+                ans: [ansA, ansB, ansC],
+                labels: ["x²", "x", "พจน์คงตัว"],
+                title: '➖ การลบพหุนาม',
+                detail: `(${formatPoly(a1, b1, c1)}) - (${formatPoly(a2, b2, c2)})`,
+                explain: `<b>วิธีคิด:</b> กระจายเครื่องหมายลบ แล้วรวมพจน์ที่คล้ายกัน<br>` +
+                    `• x²: (${a1}) - (${a2}) = <b>${ansA}</b><br>` +
+                    `• x: (${b1}) - (${b2}) = <b>${ansB}</b><br>` +
+                    `• พจน์คงตัว: (${c1}) - (${c2}) = <b>${ansC}</b><br>` +
+                    `<b>ผลลัพธ์:</b> ${formatPoly(ansA, ansB, ansC)}`
+            };
+        }
+
+        // 3. การคูณพหุนามด้วยเอกนาม
+        function generateMultiplication() {
+            const k = getRandomNonZero(-4, 4); // เอกนาม kx
+            const a = getRandomNonZero(-4, 4), b = getRandomNonZero(-5, 5); // พหุนาม ax + b
+
+            const ansA = k * a;
+            const ansB = k * b;
+
+            currentProblem = {
+                ans: [ansA, ansB],
+                labels: ["x²", "x"],
+                title: '✖️ การคูณพหุนามด้วยเอกนาม',
+                detail: `${k === 1 ? '' : (k === -1 ? '-' : k)}x (${formatPoly(0, a, b)})`,
+                explain: `<b>วิธีคิด:</b> ใช้สมบัติการแจกแจงคูณ ${k}x เข้าไปทุกพจน์<br>` +
+                    `• (${k}x) × (${a}x) = <b>${ansA}x²</b><br>` +
+                    `• (${k}x) × (${b}) = <b>${ansB}x</b><br>` +
+                    `<b>ผลลัพธ์:</b> ${formatPoly(ansA, ansB, 0)}`
+            };
+        }
+
+        // 4. การหารพหุนามด้วยเอกนาม
+        function generateDivision() {
+            const divisor = getRandomNonZero(-3, 3); // เอกนามตัวหาร dx
+            const qA = getRandomNonZero(-4, 4); // ผลหาร x²
+            const qB = getRandomNonZero(-4, 4); // ผลหาร x
+            const qC = getRandomNonZero(-5, 5); // ผลหาร พจน์คงตัว
+
+            // พหุนามตัวตั้ง = ตัวหาร * ผลหาร
+            const pA = qA * divisor;
+            const pB = qB * divisor;
+            const pC = qC * divisor;
+
+            const dividendStr = `${pA}x³ ${pB >= 0 ? '+ ' + pB : '- ' + Math.abs(pB)}x² ${pC >= 0 ? '+ ' + pC : '- ' + Math.abs(pC)}x`;
+            const divisorStr = `${divisor === 1 ? '' : (divisor === -1 ? '-' : divisor)}x`;
+
+            currentProblem = {
+                ans: [qA, qB, qC],
+                labels: ["x²", "x", "พจน์คงตัว"],
+                title: '➗ การหารพหุนามด้วยเอกนาม',
+                detail: `(${dividendStr}) ÷ (${divisorStr})`,
+                explain: `<b>วิธีคิด:</b> นำตัวหาร ${divisorStr} ไปหารทุกพจน์ของตัวตั้ง<br>` +
+                    `• (${pA}x³) ÷ (${divisorStr}) = <b>${qA}x²</b><br>` +
+                    `• (${pB}x²) ÷ (${divisorStr}) = <b>${qB}x</b><br>` +
+                    `• (${pC}x) ÷ (${divisorStr}) = <b>${qC}</b><br>` +
+                    `<b>ผลลัพธ์:</b> ${formatPoly(qA, qB, qC)}`
+            };
+        }
+
+        function renderInputs() {
+            const container = document.getElementById('input-container');
+            container.innerHTML = '<span>คำตอบ: </span>';
+
+            currentProblem.labels.forEach((label, idx) => {
+                container.innerHTML += `
+                <input type="number" class="poly-input" id="inp-${idx}" placeholder="0">
+                <span>${label} ${idx < currentProblem.labels.length - 1 ? '+ ' : ''}</span>
+            `;
+            });
+        }
+
+        function checkAnswer() {
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+
+            let userAns = [];
+            let isComplete = true;
+
+            currentProblem.ans.forEach((_, idx) => {
+                const val = parseInt(document.getElementById(`inp-${idx}`).value);
+                if (isNaN(val)) isComplete = false;
+                userAns.push(val);
+            });
+
+            if (!isComplete) {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = '⚠️ <b>กรุณากรอกสัมประสิทธิ์ให้ครบทุกช่องก่อนตรวจครับ</b>';
+                return;
+            }
+
+            const isCorrect = userAns.every((val, idx) => val === currentProblem.ans[idx]);
+
+            if (isCorrect) {
+                feedbackBox.className = 'feedback correct';
+                feedbackBox.innerHTML = `🎉 <b>ถูกต้องแล้วครับ!</b><br><br>${currentProblem.explain}`;
+            } else {
+                feedbackBox.className = 'feedback wrong';
+                feedbackBox.innerHTML = `❌ <b>ยังไม่ถูกต้อง!</b><br><br>💡 <b>เฉลยและวิธีคิด:</b><br>${currentProblem.explain}`;
+            }
+        }
+
+        generateProblem();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฝึกหัดวิเคราะห์ Pattern พหุนาม ม.2 (Hard Mode) - DEK MORTON STUDIO</title>
+    <!-- MathJax for rendering equations -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --paper-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --correct-bg: #dcfce7;
+            --correct-border: #22c55e;
+            --correct-text: #15803d;
+            --wrong-bg: #fee2e2;
+            --wrong-border: #ef4444;
+            --wrong-text: #b91c1c;
+            --score-bg: #fef3c7;
+            --score-border: #f59e0b;
+            --score-text: #b45309;
+            --hard-mode-bg: #fee2e2;
+            --hard-mode-border: #ef4444;
+            --hard-mode-text: #991b1b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sarabun', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .exam-container {
+            background: var(--paper-bg);
+            width: 100%;
+            max-width: 760px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            padding: 32px;
+            position: relative;
+        }
+
+        .header {
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .header-brand {
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #dc2626;
+            transition: width 0.3s ease;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-badge {
+            font-size: 0.9rem;
+            background: #f1f5f9;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timer-badge.warning {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #ef4444;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .live-score-badge {
+            font-size: 0.95rem;
+            background: var(--score-bg);
+            color: var(--score-text);
+            border: 1px solid var(--score-border);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-weight: 700;
+        }
+
+        .hard-badge {
+            font-size: 0.8rem;
+            background: var(--hard-mode-bg);
+            color: var(--hard-mode-text);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--hard-mode-border);
+            font-weight: 700;
+        }
+
+        .question-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instruction-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 580px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 64px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+        }
+
+        /* ปรับสีปุ่มคำตอบ */
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+        }
+
+        .explanation-box {
+            background-color: #f8fafc;
+            border-left: 4px solid #dc2626;
+            padding: 16px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn-action {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-secondary {
+            background-color: #2563eb;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Result Screen */
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #fef2f2;
+            border: 4px solid #dc2626;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .score-number {
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .score-total {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ปรับปรุงส่วนกรอกข้อมูลนักเรียน */
+        .student-info-box {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px dashed var(--border-color);
+            border-radius: 6px;
+        }
+
+        .student-info-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .student-info-input input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            width: 48%;
+        }
+
+        .student-info-display {
+            display: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .summary-list {
+            text-align: left;
+            margin: 20px 0;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        /* CSS สำหรับสั่ง Print / Export PDF */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .exam-container {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .progress-bar-container,
+            #quiz-screen,
+            .btn-action {
+                display: none !important;
+            }
+
+            .result-screen {
+                display: block !important;
+            }
+
+            /* แสดงชื่อในใบบันทึกผลเวลาพิมพ์ */
+            .student-info-input {
+                display: none !important;
+            }
+
+            .student-info-display {
+                display: block !important;
+                margin-bottom: 8px;
+            }
+
+            .summary-list {
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="exam-container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>แบบฝึกหัดวิเคราะห์ Pattern พหุนาม ม.2</h1>
+                <div class="subtitle">โหมดวัดดวงและกึ๋น: คละโจทย์ 4 หมวด (ไม่ระบุหัวข้อบทเรียน)</div>
+            </div>
+            <div class="header-brand">
+                DEK MORTON STUDIO
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen">
+            <div class="question-header">
+                <span class="question-number" id="question-number">ข้อที่ 1 / 25</span>
+                <div class="header-meta">
+                    <!-- Countdown Timer -->
+                    <div class="timer-badge" id="timer-badge">
+                        ⏱️ <span id="timer-text">20</span>s
+                    </div>
+                    <!-- Live Score Badge -->
+                    <div class="live-score-badge">
+                        ⭐ <span id="live-score-text">0</span>/25
+                    </div>
+                    <!-- Hard Mode Badge -->
+                    <span class="hard-badge">🔥 Hard Mode</span>
+                </div>
+            </div>
+
+            <div class="instruction-note">
+                💡 คำแนะนำ: วิเคราะห์จากโครงสร้างโจทย์โดยตรงภายในเวลาที่กำหนด (ข้อละ 20 วินาที)
+            </div>
+
+            <div class="question-box" id="question-box"></div>
+
+            <div class="options-grid" id="options-grid"></div>
+
+            <div class="explanation-box" id="explanation-box"></div>
+
+            <button class="btn-action" id="next-btn" style="display: none;" onclick="nextQuestion()">ข้อถัดไป ➔</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="result-screen">
+            <h2>ใบบันทึกผลการทดสอบ (Hard Mode Report)</h2>
+            <div id="print-date" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"></div>
+
+            <!-- ข้อมูลนักเรียนสำหรับแสดงหน้าจอและในกระดาษพิมพ์ -->
+            <div class="student-info-box">
+                <div class="student-info-input" id="student-inputs">
+                    <input type="text" id="student-name" placeholder="ชื่อ - นามสกุล นักเรียน">
+                    <input type="text" id="student-class" placeholder="ชั้น / เลขที่">
+                </div>
+                <div class="student-info-display" id="student-display">
+                    <!-- จะถูกเติมข้อความด้วย JS เวลาสั่งพิมพ์ -->
+                </div>
+            </div>
+
+            <div class="score-circle">
+                <span class="score-number" id="score-text">0</span>
+                <span class="score-total">จาก 25 คะแนน</span>
+            </div>
+
+            <p id="result-eval" style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;"></p>
+
+            <div class="summary-list">
+                <div class="summary-item">
+                    <span>1. การดึงตัวร่วม [Monomial × Polynom]:</span>
+                    <strong id="cat1-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>2. ผลต่างกำลังสอง [(ก้อนลบ)(ก้อนบวก)]:</span>
+                    <strong id="cat2-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>3. กำลังสองสมบูรณ์ [(ก้อนเดียว)²]:</span>
+                    <strong id="cat3-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>4. กระจาย (น ± ล)² [3 พจน์เรียงกัน]:</span>
+                    <strong id="cat4-score">0/0</strong>
+                </div>
+                <div class="summary-item">
+                    <span>5. ตอบไม่ทันเวลา (หมดเวลา):</span>
+                    <strong id="timeout-score" style="color: var(--wrong-text);">0 ข้อ</strong>
+                </div>
+            </div>
+
+            <button class="btn-action btn-secondary" onclick="printReport()">🖨️ พิมพ์รายงาน / บันทึกเป็น PDF
+                ส่งครู</button>
+            <button class="btn-action" onclick="restartQuiz()" style="margin-top: 10px;">🔄 เริ่มทำแบบทดสอบใหม่</button>
+        </div>
+    </div>
+
+    <script>
+        const TIME_PER_QUESTION = 20; // กำหนดเวลาทำต่อข้อ (วินาที)
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function genFactorOut() {
+            const a = getRandomInt(2, 9), b = getRandomInt(1, 5), c = getRandomInt(1, 9);
+            const sign = Math.random() > 0.5 ? '+' : '-';
+            return {
+                catId: 1,
+                question: `${a * b}x ${sign} ${a * c}`,
+                correct: `${a}(${b === 1 ? '' : b}x ${sign} ${c})`,
+                distractors: [`(${b === 1 ? '' : b}x ${sign} ${c})^2`, `(${b === 1 ? '' : b}x - ${c})(${b === 1 ? '' : b}x + ${c})`, `${a * b}x^2 ${sign} ${2 * a * b * c}x + ${c * c}`],
+                patternRule: "ข้อนี้คือ <strong>[หมวดการดึงตัวร่วม]</strong> -> โครงสร้าง: $a(bx \\pm c)$"
+            };
+        }
+
+        function genDiffOfSquares() {
+            const a = getRandomInt(1, 7), b = getRandomInt(1, 9);
+            const aSq = a * a, bSq = b * b, aStr = a === 1 ? '' : a;
+            return {
+                catId: 2,
+                question: `${aSq === 1 ? '' : aSq}x^2 - ${bSq}`,
+                correct: `(${aStr}x - ${b})(${aStr}x + ${b})`,
+                distractors: [`(${aStr}x - ${b})^2`, `${aSq}x(${aStr}x - ${bSq})`, `${aSq === 1 ? '' : aSq}x^2 - ${2 * a * b}x + ${bSq}`],
+                patternRule: "ข้อนี้คือ <strong>[หมวดผลต่างกำลังสอง]</strong> -> โครงสร้าง: $(A - B)(A + B)$"
+            };
+        }
+
+        function genPerfectSquare() {
+            const a = getRandomInt(1, 4), b = getRandomInt(1, 8), isPlus = Math.random() > 0.5, sign = isPlus ? '+' : '-', aStr = a === 1 ? '' : a;
+            return {
+                catId: 3,
+                question: `${a * a === 1 ? 'x^2' : `${a * a}x^2`} ${sign} ${2 * a * b}x + ${b * b}`,
+                correct: `(${aStr}x ${sign} ${b})^2`,
+                distractors: [`(${aStr}x - ${b})(${aStr}x + ${b})`, `${a * a}(x ${sign} ${b})`, `(${aStr}x ${sign} ${b})(${aStr}x ${sign === '+' ? '-' : '+'} ${2 * b})`],
+                patternRule: "ข้อนี้คือ <strong>[หมวดกำลังสองสมบูรณ์]</strong> -> โครงสร้าง: $(A \\pm B)^2$"
+            };
+        }
+
+        function genExpandSquare() {
+            const a = getRandomInt(1, 5), b = getRandomInt(1, 7), isPlus = Math.random() > 0.5, sign = isPlus ? '+' : '-', aStr = a === 1 ? '' : a;
+            const term1 = a * a === 1 ? 'x^2' : `${a * a}x^2`;
+            return {
+                catId: 4,
+                question: `(${aStr}x ${sign} ${b})^2`,
+                correct: `${term1} ${sign} ${2 * a * b}x + ${b * b}`,
+                distractors: [`${term1} ${sign === '+' ? '-' : '+'} ${b * b}`, `${a * a}(x^2 ${sign} ${b * b})`, `(${aStr}x - ${b})(${aStr}x + ${b})`],
+                patternRule: "ข้อนี้คือ <strong>[หมวดกระจาย $(N \\pm L)^2$]</strong> -> กระจายออกเป็น 3 พจน์เรียงกัน"
+            };
+        }
+
+        function generateQuestionPool(totalQuestions = 25) {
+            const generators = [genFactorOut, genDiffOfSquares, genPerfectSquare, genExpandSquare];
+            const pool = [];
+            for (let i = 0; i < totalQuestions; i++) {
+                pool.push(generators[i % generators.length]());
+            }
+            return pool.sort(() => Math.random() - 0.5);
+        }
+
+        // STATE
+        let questions = [], currentIndex = 0, score = 0, timeoutCount = 0;
+        let timer = null, timeLeft = TIME_PER_QUESTION;
+        let categoryStats = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 }, 4: { correct: 0, total: 0 } };
+        let isAnswered = false;
+
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const timerBadge = document.getElementById('timer-badge');
+        const timerText = document.getElementById('timer-text');
+        const liveScoreTextEl = document.getElementById('live-score-text');
+
+        function initQuiz() {
+            questions = generateQuestionPool(25);
+            currentIndex = 0; score = 0; timeoutCount = 0;
+            categoryStats = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 }, 4: { correct: 0, total: 0 } };
+            questions.forEach(q => categoryStats[q.catId].total++);
+
+            liveScoreTextEl.innerText = score;
+            quizScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
+            renderQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = TIME_PER_QUESTION;
+            timerText.innerText = timeLeft;
+            timerBadge.classList.remove('warning');
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = timeLeft;
+
+                if (timeLeft <= 5) {
+                    timerBadge.classList.add('warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            if (isAnswered) return;
+            isAnswered = true;
+            timeoutCount++;
+
+            const currentQ = questions[currentIndex];
+            const allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.isCorrect === "true") {
+                    btn.classList.add('correct');
+                }
+            });
+
+            document.getElementById('explanation-box').innerHTML = `<strong>⏰ หมดเวลา!:</strong> ถือว่าตอบผิดในข้อนี้<br>${currentQ.patternRule}`;
+            document.getElementById('explanation-box').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (window.MathJax) MathJax.typesetPromise([document.getElementById('explanation-box')]);
+        }
+
+        function renderQuestion() {
+            isAnswered = false;
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('explanation-box').style.display = 'none';
+            document.getElementById('options-grid').innerHTML = '';
+
+            const currentQ = questions[currentIndex];
+            document.getElementById('question-number').innerText = `ข้อที่ ${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex) / questions.length) * 100}%`;
+            document.getElementById('question-box').innerHTML = `$${currentQ.question}$`;
+
+            const allChoices = [
+                { text: currentQ.correct, isCorrect: true },
+                ...currentQ.distractors.map(d => ({ text: d, isCorrect: false }))
+            ].sort(() => Math.random() - 0.5);
+
+            allChoices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `$${choice.text}$`;
+                btn.dataset.isCorrect = choice.isCorrect; // เก็บสถานะคำตอบไว้ใน dataset
+                btn.onclick = () => handleAnswer(btn, choice.isCorrect, currentQ);
+                document.getElementById('options-grid').appendChild(btn);
+            });
+
+            if (window.MathJax) MathJax.typesetPromise();
+            startTimer();
+        }
+
+        function handleAnswer(selectedBtn, isCorrect, currentQ) {
+            if (isAnswered) return;
+            isAnswered = true;
+            clearInterval(timer);
+
+            const allButtons = document.querySelectorAll('.option-btn');
+
+            // ตรวจสอบและแสดงสีของปุ่มคำตอบ
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.isCorrect === "true") {
+                    btn.classList.add('correct'); // ปุ่มเฉลยข้อที่ถูกเปลี่ยนเป็นสีเขียว
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                categoryStats[currentQ.catId].correct++;
+                liveScoreTextEl.innerText = score;
+                selectedBtn.classList.add('correct'); // ข้อที่กดถูกเป็นสีเขียว
+            } else {
+                selectedBtn.classList.add('wrong'); // ข้อที่กดผิดเป็นสีแดง
+            }
+
+            document.getElementById('explanation-box').innerHTML = `<strong>💡 เฉลยวิเคราะห์ Pattern:</strong><br>${currentQ.patternRule}`;
+            document.getElementById('explanation-box').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (window.MathJax) MathJax.typesetPromise([document.getElementById('explanation-box')]);
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            clearInterval(timer);
+            document.getElementById('progress-bar').style.width = '100%';
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            document.getElementById('score-text').innerText = score;
+            document.getElementById('print-date').innerText = `วันที่ทำแบบทดสอบ: ${new Date().toLocaleString('th-TH')}`;
+
+            const evalEl = document.getElementById('result-eval');
+            if (score >= 22) {
+                evalEl.innerText = "🏆 สุดยอดอัจฉริยะ! ความไวและ Pattern Recognition สมบูรณ์แบบ";
+                evalEl.style.color = "var(--correct-text)";
+            } else if (score >= 15) {
+                evalEl.innerText = "👍 เก่งมาก! ผ่านเกณฑ์ Hard Mode แบบจับเวลามาได้";
+                evalEl.style.color = "#2563eb";
+            } else {
+                evalEl.innerText = "📚 ยังต้องฝึกการสังเกตให้ไวยิ่งขึ้น ลองทำใหม่อีกครั้งนะ!";
+                evalEl.style.color = "var(--wrong-text)";
+            }
+
+            document.getElementById('cat1-score').innerText = `${categoryStats[1].correct}/${categoryStats[1].total}`;
+            document.getElementById('cat2-score').innerText = `${categoryStats[2].correct}/${categoryStats[2].total}`;
+            document.getElementById('cat3-score').innerText = `${categoryStats[3].correct}/${categoryStats[3].total}`;
+            document.getElementById('cat4-score').innerText = `${categoryStats[4].correct}/${categoryStats[4].total}`;
+            document.getElementById('timeout-score').innerText = `${timeoutCount} ข้อ`;
+        }
+
+        function printReport() {
+            const nameVal = document.getElementById('student-name').value.trim();
+            const classVal = document.getElementById('student-class').value.trim();
+            const displayEl = document.getElementById('student-display');
+
+            // อัปเดตข้อความเพื่อแสดงในกระดาษพิมพ์
+            if (nameVal || classVal) {
+                displayEl.innerText = `ชื่อ-นามสกุล: ${nameVal || '-'} | ชั้น/เลขที่: ${classVal || '-'}`;
+            } else {
+                displayEl.innerText = `ชื่อ-นามสกุล: ........................................................... ชั้น/เลขที่: ...................`;
+            }
+
+            window.print();
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+
+</html>
