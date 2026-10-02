@@ -14,7 +14,7 @@ function renderBottomAd() {
         container.innerHTML = `
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-client="ca-pub-9860314229138601"
                  data-ad-slot="9876543210"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
