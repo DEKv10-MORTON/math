@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกอัตราส่วนและร้อยละ ม.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --accent-yellow: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+        }
+
+        /* เมนูหมวดหมู่ */
+        .type-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .type-btn {
+            padding: 12px 6px;
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .type-btn:hover {
+            background: #383838;
+        }
+
+        .type-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent-cyan);
+        }
+
+        /* แสดงโจทย์ */
+        .quiz-card {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-display {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        input[type="number"] {
+            width: 130px;
+            height: 50px;
+            background: #2a2a2a;
+            border: 2px solid #555;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        /* ปุ่มควบคุม */
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-reveal {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-reveal:hover {
+            background: #444;
+        }
+
+        .btn-next {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-next:hover {
+            opacity: 0.9;
+        }
+
+        /* ข้อความแจ้งเตือน / เฉลย */
+        .feedback {
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: left;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .feedback.solution {
+            background: #2b281b;
+            color: #d7ca85;
+            border: 1px solid var(--accent-yellow);
+        }
+
+        .step-line {
+            font-size: 15px;
+            margin: 4px 0;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📊 โปรแกรมฝึกอัตราส่วนและร้อยละ (ม.1)</h1>
+
+        <!-- เมนูเลือกรูปแบบโจทย์ -->
+        <div class="type-menu">
+            <button class="type-btn active" onclick="setType(1)">1. อัตราส่วนที่เท่ากัน<br><small>(หาค่าตัวแปร
+                    x)</small></button>
+            <button class="type-btn" onclick="setType(2)">2. คำนวณร้อยละ<br><small>(...% ของ ...
+                    เท่ากับเท่าใด)</small></button>
+            <button class="type-btn" onclick="setType(3)">3. โจทย์ปัญหาประยุกต์<br><small>(ส่วนลด /
+                    กำไร-ขาดทุน)</small></button>
+        </div>
+
+        <!-- แสดงโจทย์ -->
+        <div class="quiz-card">
+            <div class="question-display" id="question-text">โจทย์กำลังโหลด...</div>
+
+            <div class="input-group">
+                <span id="unit-prefix">คำตอบคือ:</span>
+                <input type="number" id="userAns" placeholder="?" onkeydown="if(event.key==='Enter') checkAnswer()">
+                <span id="unit-suffix"></span>
+            </div>
+        </div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="control-btns">
+            <button class="btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+            <button class="btn btn-reveal" onclick="revealSolution()">💡 วิธีคิด / เฉลย</button>
+            <button class="btn btn-next" onclick="generateQuestion()">🎲 สุ่มโจทย์ใหม่</button>
+        </div>
+
+        <!-- กล่องแสดงข้อความ -->
+        <div class="feedback" id="feedback-box"></div>
+    </div>
+
+    <script>
+        let currentType = 1;
+        let currentProblem = {};
+
+        function setType(type) {
+            currentType = type;
+            const btns = document.querySelectorAll('.type-btn');
+            btns.forEach((btn, i) => {
+                btn.classList.toggle('active', i + 1 === type);
+            });
+            generateQuestion();
+        }
+
+        // สุ่มตัวเลขจำนวนเต็มช่วง min ถึง max
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateQuestion() {
+            hideFeedback();
+            document.getElementById('userAns').value = '';
+            document.getElementById('userAns').focus();
+
+            const prefixEl = document.getElementById('unit-prefix');
+            const suffixEl = document.getElementById('unit-suffix');
+            prefixEl.innerText = "คำตอบคือ:";
+            suffixEl.innerText = "";
+
+            let exprStr = '';
+            let steps = [];
+            let ans = 0;
+
+            if (currentType === 1) {
+                // รูปแบบ 1: หาค่า x จากอัตราส่วน a : b = x : d (ใช้การคูณไขว้)
+                const a = getRandomInt(2, 9);
+                const b = getRandomInt(3, 10);
+                const k = getRandomInt(2, 8); // ตัวคูณ
+                ans = a * k;
+                const d = b * k;
+
+                exprStr = `ถ้าอัตราส่วน <b>${a} : ${b} = x : ${d}</b> จงหาค่าของ x`;
+                prefixEl.innerText = "x =";
+
+                steps = [
+                    `โจทย์: ${a} : ${b} = x : ${d}`,
+                    `เขียนให้อยู่ในรูปเศษส่วน: <sup>${a}</sup>/<sub>${b}</sub> = <sup>x</sup>/<sub>${d}</sub>`,
+                    `ใช้การคูณไขว้: ${b} × x = ${a} × ${d}`,
+                    `${b}x = ${a * d}`,
+                    `x = ${a * d} / ${b}`,
+                    `<b>x = ${ans}</b>`
+                ];
+
+            } else if (currentType === 2) {
+                // รูปแบบ 2: P% ของ N เท่ากับเท่าใด
+                const percent = getRandomInt(1, 19) * 5; // สุ่มทีละ 5% (5, 10, 15, ..., 95)
+                const total = getRandomInt(2, 20) * 50;  // สุ่มเลขกลมๆ (100, 150, ..., 1000)
+                ans = (percent / 100) * total;
+
+                exprStr = `<b>${percent}%</b> ของ <b>${total}</b> มีค่าเท่ากับเท่าใด?`;
+
+                steps = [
+                    `เปลี่ยนคำว่า "%" เป็นเศษส่วนส่วน 100 และ "ของ" เป็นการคูณ:`,
+                    `คำนวณ: (<sup>${percent}</sup>/<sub>100</sub>) × ${total}`,
+                    `= (${percent} × ${total}) / 100`,
+                    `= ${percent * total} / 100`,
+                    `<b>= ${ans}</b>`
+                ];
+
+            } else if (currentType === 3) {
+                // รูปแบบ 3: โจทย์ปัญหาโจทย์ส่วนลด / กำไร
+                const subType = getRandomInt(1, 2);
+
+                if (subType === 1) {
+                    // โจทย์ติดราคาและลดราคา
+                    const price = getRandomInt(2, 20) * 100; // 200 - 2000 บาท
+                    const discountPercent = getRandomInt(1, 6) * 10; // 10% - 60%
+                    const discountAmount = (discountPercent / 100) * price;
+                    ans = price - discountAmount;
+
+                    exprStr = `เสื้อตัวหนึ่งติดราคาไว้ <b>${price} บาท</b> ร้านค้าประกาศ<b>ลดราคา ${discountPercent}%</b> ผู้ซื้อต้องจ่ายเงินกี่บาท?`;
+                    suffixEl.innerText = "บาท";
+
+                    steps = [
+                        `1. คำนวณหาส่วนลด: (<sup>${discountPercent}</sup>/<sub>100</sub>) × ${price} = ${discountAmount} บาท`,
+                        `2. คำนวณราคาที่ต้องจ่ายจริง: ราคาเต็ม - ส่วนลด`,
+                        `= ${price} - ${discountAmount}`,
+                        `<b>= ${ans} บาท</b>`
+                    ];
+                } else {
+                    // โจทย์ขายสินค้ารวมภาษี หรือ คิดกำไร
+                    const cost = getRandomInt(2, 15) * 100; // 200 - 1500 บาท
+                    const profitPercent = getRandomInt(1, 5) * 10; // 10% - 50%
+                    const profitAmount = (profitPercent / 100) * cost;
+                    ans = cost + profitAmount;
+
+                    exprStr = `พ่อค้าซื้อสินค้ามาในราคา <b>${cost} บาท</b> ต้องการขายให้ได้<b>กำไร ${profitPercent}%</b> พ่อค้าต้องตั้งราคาขายกี่บาท?`;
+                    suffixEl.innerText = "บาท";
+
+                    steps = [
+                        `1. คำนวณหากำไรที่ต้องการ: (<sup>${profitPercent}</sup>/<sub>100</sub>) × ${cost} = ${profitAmount} บาท`,
+                        `2. คำนวณราคาขาย: ทุน + กำไร`,
+                        `= ${cost} + ${profitAmount}`,
+                        `<b>= ${ans} บาท</b>`
+                    ];
+                }
+            }
+
+            currentProblem = { exprStr, ans, steps };
+            document.getElementById('question-text').innerHTML = exprStr;
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById('userAns').value;
+            if (input === '') return;
+
+            const userAns = parseFloat(input);
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+
+            if (userAns === currentProblem.ans) {
+                fb.className = 'feedback correct';
+                fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> <br>คำตอบที่ถูกต้องคือ <b>${currentProblem.ans}</b>`;
+            } else {
+                fb.className = 'feedback wrong';
+                fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> <br>คำตอบที่คุณกรอกคือ ${userAns} (ลองตรวจเช็กขั้นตอนการคิดคำนวณอีกครั้งครับ)`;
+            }
+        }
+
+        function revealSolution() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+            fb.className = 'feedback solution';
+
+            let stepsHtml = currentProblem.steps.map(s => `<div class="step-line">• ${s}</div>`).join('');
+            fb.innerHTML = `💡 <b>วิธีคิด / เฉลยขั้นตอน:</b><br>${stepsHtml}`;
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-box').style.display = 'none';
+        }
+
+        // เริ่มต้นโจทย์ข้อแรก
+        generateQuestion();
+    </script>
+
+</body>
+
+</html>

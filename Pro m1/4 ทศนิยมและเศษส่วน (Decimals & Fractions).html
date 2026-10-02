@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกทศนิยมและเศษส่วน ม.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --accent-yellow: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+        }
+
+        /* เมนูหมวดหมู่ */
+        .type-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .type-btn {
+            padding: 12px 6px;
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .type-btn:hover {
+            background: #383838;
+        }
+
+        .type-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent-cyan);
+        }
+
+        /* แสดงโจทย์ */
+        .quiz-card {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        /* สไตล์เศษส่วน */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-size: 24px;
+        }
+
+        .frac .top {
+            border-bottom: 2px solid #fff;
+            padding-bottom: 2px;
+        }
+
+        .frac .bottom {
+            padding-top: 2px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            height: 48px;
+            background: #2a2a2a;
+            border: 2px solid #555;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        .frac-input-container {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .frac-input-container input {
+            width: 80px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .frac-line {
+            width: 100%;
+            height: 2px;
+            background: #fff;
+        }
+
+        /* ปุ่มควบคุม */
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-reveal {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-reveal:hover {
+            background: #444;
+        }
+
+        .btn-next {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-next:hover {
+            opacity: 0.9;
+        }
+
+        /* ข้อความแจ้งเตือน / เฉลย */
+        .feedback {
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: left;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .feedback.solution {
+            background: #2b281b;
+            color: #d7ca85;
+            border: 1px solid var(--accent-yellow);
+        }
+
+        .step-line {
+            font-size: 15px;
+            margin: 4px 0;
+            color: #f0f0f0;
+        }
+
+        .recurring-dot {
+            position: relative;
+            display: inline-block;
+        }
+
+        .recurring-dot::after {
+            content: "•";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🔢 โปรแกรมฝึกทศนิยมและเศษส่วน (ม.1)</h1>
+
+        <!-- เมนูเลือกรูปแบบโจทย์ -->
+        <div class="type-menu">
+            <button class="type-btn active" onclick="setType(1)">1. บวก/ลบ เศษส่วน<br><small>(หา ค.ร.น.
+                    ส่วน)</small></button>
+            <button class="type-btn" onclick="setType(2)">2. เศษส่วน ➔
+                ทศนิยม<br><small>(เปลี่ยนเป็นทศนิยม)</small></button>
+            <button class="type-btn" onclick="setType(3)">3. ทศนิยมซ้ำ ➔ เศษส่วน<br><small>(ใช้สูตรส่วน
+                    9)</small></button>
+        </div>
+
+        <!-- แสดงโจทย์ -->
+        <div class="quiz-card">
+            <div class="question-display" id="question-text">โจทย์กำลังโหลด...</div>
+
+            <div class="input-group" id="input-area">
+                <!-- เนื้อหาจะเปลี่ยนตามรูปแบบโจทย์ -->
+            </div>
+        </div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="control-btns">
+            <button class="btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+            <button class="btn btn-reveal" onclick="revealSolution()">💡 วิธีคิด / เฉลย</button>
+            <button class="btn btn-next" onclick="generateQuestion()">🎲 สุ่มโจทย์ใหม่</button>
+        </div>
+
+        <!-- กล่องแสดงข้อความ -->
+        <div class="feedback" id="feedback-box"></div>
+    </div>
+
+    <script>
+        let currentType = 1;
+        let currentProblem = {};
+
+        function setType(type) {
+            currentType = type;
+            const btns = document.querySelectorAll('.type-btn');
+            btns.forEach((btn, i) => {
+                btn.classList.toggle('active', i + 1 === type);
+            });
+            generateQuestion();
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // หาล.ร.ม (GCD)
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        // หา ค.ร.น (LCM)
+        function lcm(a, b) {
+            return (a * b) / gcd(a, b);
+        }
+
+        // ช่วยสร้าง HTML แสดงเศษส่วน
+        function renderFracHtml(num, den) {
+            return `<span class="frac"><span class="top">${num}</span><span class="bottom">${den}</span></span>`;
+        }
+
+        function generateQuestion() {
+            hideFeedback();
+            const inputArea = document.getElementById('input-area');
+            inputArea.innerHTML = '';
+
+            let exprStr = '';
+            let steps = [];
+
+            if (currentType === 1) {
+                // รูปแบบ 1: บวก/ลบ เศษส่วน
+                const den1 = getRandomInt(2, 6);
+                let den2 = getRandomInt(2, 6);
+                while (den1 === den2) den2 = getRandomInt(2, 6); // ส่วนไม่เท่ากัน
+
+                const num1 = getRandomInt(1, den1 - 1);
+                const num2 = getRandomInt(1, den2 - 1);
+                const isAdd = Math.random() < 0.5;
+
+                const commonDen = lcm(den1, den2);
+                const newNum1 = num1 * (commonDen / den1);
+                const newNum2 = num2 * (commonDen / den2);
+
+                let rawAnsNum = isAdd ? (newNum1 + newNum2) : (newNum1 - newNum2);
+                let rawAnsDen = commonDen;
+
+                // ทอนเป็นเศษส่วนอย่างต่ำ
+                const divisor = gcd(Math.abs(rawAnsNum), rawAnsDen);
+                const ansNum = rawAnsNum / divisor;
+                const ansDen = rawAnsDen / divisor;
+
+                const opSign = isAdd ? '+' : '-';
+                exprStr = `จงหาผลลัพธ์ของ ${renderFracHtml(num1, den1)} ${opSign} ${renderFracHtml(num2, den2)}`;
+
+                inputArea.innerHTML = `
+                    <span>คำตอบคือ: </span>
+                    <div class="frac-input-container">
+                        <input type="number" id="userNum" placeholder="เศษ">
+                        <div class="frac-line"></div>
+                        <input type="number" id="userDen" placeholder="ส่วน">
+                    </div>
+                `;
+
+                steps = [
+                    `1. หา ค.ร.น. ของส่วน (${den1} และ ${den2}) ได้เท่ากับ <b>${commonDen}</b>`,
+                    `2. ปรับตัวส่วนให้เท่ากัน:`,
+                    `• ${renderFracHtml(num1, den1)} = ${renderFracHtml(newNum1, commonDen)}`,
+                    `• ${renderFracHtml(num2, den2)} = ${renderFracHtml(newNum2, commonDen)}`,
+                    `3. คำนวณตัวเศษ: ${newNum1} ${opSign} ${newNum2} = ${rawAnsNum}`,
+                    `จะได้ผลลัพธ์คือ ${renderFracHtml(rawAnsNum, commonDen)}`,
+                    divisor > 1 ? `4. ตัดทอนเป็นเศษส่วนอย่างต่ำ (หารด้วย ${divisor}): <b>${renderFracHtml(ansNum, ansDen)}</b>` : `<b>คำตอบคือ ${renderFracHtml(ansNum, ansDen)}</b>`
+                ];
+
+                currentProblem = { ansNum, ansDen, steps };
+
+            } else if (currentType === 2) {
+                // รูปแบบ 2: เศษส่วน ➔ ทศนิยม (สุ่มส่วนเป็น 2, 4, 5, 8, 10, 20, 25)
+                const dens = [2, 4, 5, 8, 10, 20, 25];
+                const den = dens[getRandomInt(0, dens.length - 1)];
+                const num = getRandomInt(1, den * 2);
+
+                const ansDecimal = parseFloat((num / den).toFixed(3));
+
+                exprStr = `เขียนเศษส่วน <b>${renderFracHtml(num, den)}</b> ให้อยู่ในรูปทศนิยม`;
+
+                inputArea.innerHTML = `
+                    <span>คำตอบคือ: </span>
+                    <input type="number" id="userDec" step="any" style="width: 140px;" placeholder="0.0">
+                `;
+
+                steps = [
+                    `โจทย์: ${renderFracHtml(num, den)}`,
+                    `นำตัวเศษตั้ง แล้วหารด้วยตัวส่วน: ${num} ÷ ${den}`,
+                    `<b>คำตอบคือ ${ansDecimal}</b>`
+                ];
+
+                currentProblem = { ansDecimal, steps };
+
+            } else if (currentType === 3) {
+                // รูปแบบ 3: ทศนิยมซ้ำ ➔ เศษส่วนอย่างต่ำ (เน้นซ้ำ 1 หรือ 2 ตำแหน่งหลังจุด)
+                const d = getRandomInt(1, 9); // ตัวเลขซ้ำ เช่น 0.d...
+                const ansNum = d / gcd(d, 9);
+                const ansDen = 9 / gcd(d, 9);
+
+                exprStr = `แปลงทศนิยมซ้ำ <b>0.<span class="recurring-dot">${d}</span></b> ให้อยู่ในรูปเศษส่วนอย่างต่ำ`;
+
+                inputArea.innerHTML = `
+                    <span>คำตอบคือ: </span>
+                    <div class="frac-input-container">
+                        <input type="number" id="userNum" placeholder="เศษ">
+                        <div class="frac-line"></div>
+                        <input type="number" id="userDen" placeholder="ส่วน">
+                    </div>
+                `;
+
+                steps = [
+                    `หลักการเปลี่ยนทศนิยมซ้ำเป็นเศษส่วน:`,
+                    `• ตัวเลขหลังจุดที่ซ้ำ 1 ตำแหน่ง จะมีส่วนเป็น **9**`,
+                    `ดังนั้น 0.<span class="recurring-dot">${d}</span> เขียนเป็นเศษส่วนได้คือ ${renderFracHtml(d, 9)}`,
+                    gcd(d, 9) > 1 ? `ตัดทอนเป็นเศษส่วนอย่างต่ำ (หารด้วย ${gcd(d, 9)}): <b>${renderFracHtml(ansNum, ansDen)}</b>` : `<b>คำตอบคือ ${renderFracHtml(ansNum, ansDen)}</b>`
+                ];
+
+                currentProblem = { ansNum, ansDen, steps };
+            }
+
+            document.getElementById('question-text').innerHTML = exprStr;
+        }
+
+        function checkAnswer() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+
+            if (currentType === 1 || currentType === 3) {
+                const numEl = document.getElementById('userNum');
+                const denEl = document.getElementById('userDen');
+
+                if (!numEl.value || !denEl.value) return;
+
+                const uNum = parseInt(numEl.value);
+                const uDen = parseInt(denEl.value);
+
+                if (uNum === currentProblem.ansNum && uDen === currentProblem.ansDen) {
+                    fb.className = 'feedback correct';
+                    fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> <br>คำตอบคือ ${renderFracHtml(currentProblem.ansNum, currentProblem.ansDen)}`;
+                } else {
+                    fb.className = 'feedback wrong';
+                    fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> <br>ลองตรวจสอบการหา ค.ร.น. หรือการตัดทอนเป็นเศษส่วนอย่างต่ำอีกครั้งครับ`;
+                }
+            } else if (currentType === 2) {
+                const decEl = document.getElementById('userDec');
+                if (!decEl.value) return;
+
+                const uDec = parseFloat(decEl.value);
+
+                if (Math.abs(uDec - currentProblem.ansDecimal) < 0.001) {
+                    fb.className = 'feedback correct';
+                    fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> <br>คำตอบคือ <b>${currentProblem.ansDecimal}</b>`;
+                } else {
+                    fb.className = 'feedback wrong';
+                    fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> <br>คำตอบที่คุณกรอกคือ ${uDec} (ลองตั้งหารยาวใหม่อีกครั้งครับ)`;
+                }
+            }
+        }
+
+        function revealSolution() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+            fb.className = 'feedback solution';
+
+            let stepsHtml = currentProblem.steps.map(s => `<div class="step-line">• ${s}</div>`).join('');
+            fb.innerHTML = `💡 <b>วิธีคิด / เฉลยขั้นตอน:</b><br>${stepsHtml}`;
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-box').style.display = 'none';
+        }
+
+        // เริ่มต้นโจทย์ข้อแรก
+        generateQuestion();
+    </script>
+
+</body>
+
+</html>

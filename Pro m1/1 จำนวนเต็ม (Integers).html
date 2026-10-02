@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกคำนวณจำนวนเต็ม ม.1 (Integers Practice)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --accent-yellow: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+        }
+
+        /* เมนูการดำเนินงาน */
+        .op-menu {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .op-btn {
+            padding: 10px 4px;
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .op-btn:hover {
+            background: #383838;
+        }
+
+        .op-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent-cyan);
+        }
+
+        /* เลือกระดับความยาก */
+        .diff-menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: #181818;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #2e2e2e;
+        }
+
+        .diff-label {
+            font-size: 14px;
+            color: var(--text-sub);
+            align-self: center;
+        }
+
+        .diff-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .diff-btn.active {
+            background: #333;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* การแสดงผลโจทย์ */
+        .quiz-card {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-display {
+            font-size: 38px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        input[type="number"] {
+            width: 140px;
+            height: 50px;
+            background: #2a2a2a;
+            border: 2px solid #555;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        /* ปุ่มกด */
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-reveal {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-reveal:hover {
+            background: #444;
+        }
+
+        .btn-next {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-next:hover {
+            opacity: 0.9;
+        }
+
+        /* ข้อความแจ้งเตือน / เฉลย */
+        .feedback {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: left;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .feedback.solution {
+            background: #2b281b;
+            color: #d7ca85;
+            border: 1px solid var(--accent-yellow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>➕➖ โปรแกรมฝึกคำนวณจำนวนเต็ม (Integers)</h1>
+
+        <!-- เมนูเลือกการดำเนินงาน -->
+        <div class="op-menu">
+            <button class="op-btn active" onclick="setOp('add')">บวก (+)</button>
+            <button class="op-btn" onclick="setOp('sub')">ลบ (-)</button>
+            <button class="op-btn" onclick="setOp('mul')">คูณ (×)</button>
+            <button class="op-btn" onclick="setOp('div')">หาร (÷)</button>
+            <button class="op-btn" onclick="setOp('mix')">สุ่มรวม</button>
+        </div>
+
+        <!-- เลือกระดับความยาก -->
+        <div class="diff-menu">
+            <span class="diff-label">ระดับตัวเลข:</span>
+            <button class="diff-btn active" onclick="setDiff('easy')">ง่าย (1-10)</button>
+            <button class="diff-btn" onclick="setDiff('medium')">ปานกลาง (1-30)</button>
+            <button class="diff-btn" onclick="setDiff('hard')">ท้าทาย (1-50)</button>
+        </div>
+
+        <!-- แสดงโจทย์ -->
+        <div class="quiz-card">
+            <div class="question-display" id="question-text">(-5) + 8 = ?</div>
+
+            <div class="input-group">
+                <span>คำตอบคือ :</span>
+                <input type="number" id="userAns" placeholder="?" onkeydown="if(event.key==='Enter') checkAnswer()">
+            </div>
+        </div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="control-btns">
+            <button class="btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+            <button class="btn btn-reveal" onclick="revealSolution()">💡 วิธีคิด / เฉลย</button>
+            <button class="btn btn-next" onclick="generateQuestion()">🎲 สุ่มโจทย์ใหม่</button>
+        </div>
+
+        <!-- กล่องแสดงข้อความ -->
+        <div class="feedback" id="feedback-box"></div>
+    </div>
+
+    <script>
+        let currentOp = 'add';
+        let currentDiff = 'easy';
+        let currentProblem = {};
+
+        function setOp(op) {
+            currentOp = op;
+            const btns = document.querySelectorAll('.op-btn');
+            const ops = ['add', 'sub', 'mul', 'div', 'mix'];
+            btns.forEach((btn, i) => {
+                btn.classList.toggle('active', ops[i] === op);
+            });
+            generateQuestion();
+        }
+
+        function setDiff(diff) {
+            currentDiff = diff;
+            const btns = document.querySelectorAll('.diff-btn');
+            const diffs = ['easy', 'medium', 'hard'];
+            btns.forEach((btn, i) => {
+                btn.classList.toggle('active', diffs[i] === diff);
+            });
+            generateQuestion();
+        }
+
+        function getMaxRange() {
+            if (currentDiff === 'easy') return 10;
+            if (currentDiff === 'medium') return 30;
+            return 50;
+        }
+
+        // สุ่มตัวเลขบวกหรือลบ
+        function getRandomInteger() {
+            const range = getMaxRange();
+            let val = Math.floor(Math.random() * range) + 1;
+            // 50% โอกาสที่จะเป็นจำนวนติดลบ
+            if (Math.random() < 0.5) val = -val;
+            return val;
+        }
+
+        function generateQuestion() {
+            hideFeedback();
+            document.getElementById('userAns').value = '';
+            document.getElementById('userAns').focus();
+
+            let op = currentOp;
+            if (op === 'mix') {
+                const ops = ['add', 'sub', 'mul', 'div'];
+                op = ops[Math.floor(Math.random() * ops.length)];
+            }
+
+            let num1 = getRandomInteger();
+            let num2 = getRandomInteger();
+            let ans = 0;
+            let exprStr = '';
+            let explanation = '';
+
+            const n1Str = num1 < 0 ? `(${num1})` : `${num1}`;
+            const n2Str = num2 < 0 ? `(${num2})` : `${num2}`;
+
+            if (op === 'add') {
+                ans = num1 + num2;
+                exprStr = `${n1Str} + ${n2Str}`;
+                explanation = `หลักการบวกจำนวนเต็ม: <br>• เครื่องหมายเหมือนกัน ให้เอาค่ามาบวกกัน เครื่องหมายคงเดิม <br>• เครื่องหมายต่างกัน ให้เอาตัวมากลบตัวน้อย เครื่องหมายตามตัวที่มีค่ามากกว่า`;
+            } else if (op === 'sub') {
+                ans = num1 - num2;
+                exprStr = `${n1Str} - ${n2Str}`;
+                explanation = `หลักการลบจำนวนเต็ม: เปลี่ยนเป็น "ตัวตั้ง + ตัวตรงข้ามของตัวลบ"<br>ดังนั้น ${n1Str} - ${n2Str} = ${n1Str} + (${-num2})`;
+            } else if (op === 'mul') {
+                ans = num1 * num2;
+                exprStr = `${n1Str} × ${n2Str}`;
+                explanation = `หลักการคูณจำนวนเต็ม:<br>• บวก × บวก = บวก<br>• ลบ × ลบ = บวก<br>• บวก × ลบ (หรือ ลบ × บวก) = ติดลบ`;
+            } else if (op === 'div') {
+                // เพื่อให้หารลงตัว: สุ่มผลลัพธ์และตัวหาร แล้วหาตัวตั้ง
+                const quotient = getRandomInteger();
+                num1 = quotient * num2; // ตัวตั้ง
+                ans = quotient;
+
+                const n1DivStr = num1 < 0 ? `(${num1})` : `${num1}`;
+                exprStr = `${n1DivStr} ÷ ${n2Str}`;
+                explanation = `หลักการหารจำนวนเต็ม:<br>• เครื่องหมายเหมือนกัน หารกันได้ผลลัพธ์เป็น **บวก**<br>• เครื่องหมายต่างกัน หารกันได้ผลลัพธ์เป็น **ติดลบ**`;
+            }
+
+            currentProblem = {
+                num1, num2, ans, exprStr, explanation
+            };
+
+            document.getElementById('question-text').innerHTML = `${exprStr} = ?`;
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById('userAns').value;
+            if (input === '') return;
+
+            const userAns = parseInt(input);
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+
+            if (userAns === currentProblem.ans) {
+                fb.className = 'feedback correct';
+                fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> <br>${currentProblem.exprStr} = <b>${currentProblem.ans}</b>`;
+            } else {
+                fb.className = 'feedback wrong';
+                fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> <br>คำตอบที่คุณกรอกคือ ${userAns} (ลองตรวจเช็กเครื่องหมายบวก/ลบ อีกครั้งครับ)`;
+            }
+        }
+
+        function revealSolution() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+            fb.className = 'feedback solution';
+            fb.innerHTML = `💡 <b>เฉลย:</b> ${currentProblem.exprStr} = <b>${currentProblem.ans}</b><br><br>${currentProblem.explanation}`;
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-box').style.display = 'none';
+        }
+
+        // เริ่มต้นโจทย์ข้อแรก
+        generateQuestion();
+    </script>
+
+</body>
+
+</html>

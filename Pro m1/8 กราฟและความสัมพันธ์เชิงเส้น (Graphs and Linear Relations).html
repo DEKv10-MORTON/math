@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมฝึกกราฟและความสัมพันธ์เชิงเส้น ม.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../ads-style.css">
+    <script src="../ads-script.js"></script>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --text-main: #f5f5f5;
+            --text-sub: #a0a0a0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --accent-yellow: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+        }
+
+        /* เมนูหมวดหมู่ */
+        .type-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .type-btn {
+            padding: 12px 6px;
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .type-btn:hover {
+            background: #383838;
+        }
+
+        .type-btn.active {
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent-cyan);
+        }
+
+        /* แสดงโจทย์ */
+        .quiz-card {
+            background: #181818;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-display {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Canvas สำหรับวาดกราฟ */
+        #graphCanvas {
+            background-color: #121212;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin: 10px auto 20px auto;
+            display: block;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        input[type="number"] {
+            width: 140px;
+            height: 48px;
+            background: #2a2a2a;
+            border: 2px solid #555;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-cyan);
+            background: #333;
+        }
+
+        /* ปุ่มควบคุม */
+        .control-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-check {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-check:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-reveal {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-reveal:hover {
+            background: #444;
+        }
+
+        .btn-next {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        .btn-next:hover {
+            opacity: 0.9;
+        }
+
+        /* ข้อความแจ้งเตือน / เฉลย */
+        .feedback {
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: left;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .feedback.correct {
+            background: #1b382b;
+            color: #85d7b0;
+            border: 1px solid var(--accent-green);
+        }
+
+        .feedback.wrong {
+            background: #4a282d;
+            color: #f8a5ac;
+            border: 1px solid var(--accent-red);
+        }
+
+        .feedback.solution {
+            background: #2b281b;
+            color: #d7ca85;
+            border: 1px solid var(--accent-yellow);
+        }
+
+        .step-line {
+            font-size: 15px;
+            margin: 4px 0;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📈 โปรแกรมฝึกกราฟและความสัมพันธ์เชิงเส้น (ม.1)</h1>
+
+        <!-- เมนูเลือกรูปแบบโจทย์ -->
+        <div class="type-menu">
+            <button class="type-btn active" onclick="setType(1)">1. หาค่า y จาก
+                x<br><small>(แทนค่าในสมการ)</small></button>
+            <button class="type-btn" onclick="setType(2)">2. จุดตัดแกน Y<br><small>(หาค่า c จาก y = mx +
+                    c)</small></button>
+            <button class="type-btn" onclick="setType(3)">3. ความชันของกราฟ<br><small>(หาค่า m
+                    จากสมการ)</small></button>
+        </div>
+
+        <!-- แสดงโจทย์ -->
+        <div class="quiz-card">
+            <div class="question-display" id="question-text">โจทย์กำลังโหลด...</div>
+
+            <!-- ผ้าใบวาดกราฟ canvas -->
+            <canvas id="graphCanvas" width="280" height="280"></canvas>
+
+            <div class="input-group">
+                <span id="prefix-label">คำตอบคือ:</span>
+                <input type="number" id="userAns" step="any" placeholder="?"
+                    onkeydown="if(event.key==='Enter') checkAnswer()">
+                <span id="unit-label"></span>
+            </div>
+        </div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="control-btns">
+            <button class="btn btn-check" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+            <button class="btn btn-reveal" onclick="revealSolution()">💡 วิธีคิด / เฉลย</button>
+            <button class="btn btn-next" onclick="generateQuestion()">🎲 สุ่มโจทย์ใหม่</button>
+        </div>
+
+        <!-- กล่องแสดงข้อความ -->
+        <div class="feedback" id="feedback-box"></div>
+    </div>
+
+    <script>
+        let currentType = 1;
+        let currentProblem = {};
+
+        function setType(type) {
+            currentType = type;
+            const btns = document.querySelectorAll('.type-btn');
+            btns.forEach((btn, i) => {
+                btn.classList.toggle('active', i + 1 === type);
+            });
+            generateQuestion();
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // วาดระบบพิกัดฉากและกราฟเส้นตรง
+        function drawGraph(m, c, targetPoint = null) {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const center = w / 2;
+            const scale = 20; // 1 ช่อง = 20px (ขอบเขต -6 ถึง 6)
+
+            ctx.clearRect(0, 0, w, h);
+
+            // วาดเส้นตาราง (Grid)
+            ctx.strokeStyle = '#2a2a2a';
+            ctx.lineWidth = 1;
+            for (let x = 0; x <= w; x += scale) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+            }
+            for (let y = 0; y <= h; y += scale) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+
+            // วาดแกน X และ แกน Y
+            ctx.strokeStyle = '#888888';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, center); ctx.lineTo(w, center); ctx.stroke(); // แกน X
+            ctx.beginPath(); ctx.moveTo(center, 0); ctx.lineTo(center, h); ctx.stroke(); // แกน Y
+
+            // วาดตัวอักษรแกน
+            ctx.fillStyle = '#aaa';
+            ctx.font = '12px Kanit';
+            ctx.fillText('X', w - 15, center - 6);
+            ctx.fillText('Y', center + 6, 15);
+
+            // วาดเส้นตรง y = mx + c
+            ctx.strokeStyle = '#00d2ff';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            let xStart = -7;
+            let yStart = m * xStart + c;
+            let canvasXStart = center + xStart * scale;
+            let canvasYStart = center - yStart * scale;
+
+            let xEnd = 7;
+            let yEnd = m * xEnd + c;
+            let canvasXEnd = center + xEnd * scale;
+            let canvasYEnd = center - yEnd * scale;
+
+            ctx.moveTo(canvasXStart, canvasYStart);
+            ctx.lineTo(canvasXEnd, canvasYEnd);
+            ctx.stroke();
+
+            // ไฮไลต์จุดพิกัด (ถ้ามี)
+            if (targetPoint) {
+                let px = center + targetPoint.x * scale;
+                let py = center - targetPoint.y * scale;
+                ctx.fillStyle = '#ffc107';
+                ctx.beginPath();
+                ctx.arc(px, py, 6, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function generateQuestion() {
+            hideFeedback();
+            document.getElementById('userAns').value = '';
+            document.getElementById('userAns').focus();
+
+            const prefixEl = document.getElementById('prefix-label');
+            prefixEl.innerText = "คำตอบคือ:";
+
+            let exprStr = '';
+            let steps = [];
+            let ans = 0;
+
+            if (currentType === 1) {
+                // รูปแบบ 1: กำหนดสมการ y = mx + c และให้ x มา หาค่า y
+                const m = getRandomInt(-3, 3) || 1;
+                const c = getRandomInt(-4, 4);
+                const xVal = getRandomInt(-4, 4);
+
+                ans = m * xVal + c;
+
+                const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+                const mStr = m === 1 ? '' : (m === -1 ? '-' : `${m}`);
+
+                exprStr = `กำหนดสมการเชิงเส้น <b>y = ${mStr}x ${cStr}</b><br>ถ้า <b>x = ${xVal}</b> แล้ว ค่าของ <b>y</b> เท่ากับเท่าใด?`;
+                prefixEl.innerText = "y =";
+
+                steps = [
+                    `สมการ: y = ${mStr}x ${cStr}`,
+                    `แทนค่า x = ${xVal} ลงในสมการ`,
+                    `y = (${m}) × (${xVal}) ${cStr}`,
+                    `y = ${m * xVal} ${cStr}`,
+                    `<b>y = ${ans}</b>`
+                ];
+
+                drawGraph(m, c, { x: xVal, y: ans });
+
+            } else if (currentType === 2) {
+                // รูปแบบ 2: หาจุดตัดแกน Y (ค่า c ใน y = mx + c)
+                const m = getRandomInt(-2, 3) || 2;
+                const c = getRandomInt(-5, 5);
+                ans = c;
+
+                const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+                const mStr = m === 1 ? '' : (m === -1 ? '-' : `${m}`);
+
+                exprStr = `จากสมการเชิงเส้น <b>y = ${mStr}x ${cStr}</b><br>กราฟนี้จะตัดแกน Y ที่จุดใด (หาค่าพิกัด y เมื่อ x = 0)`;
+                prefixEl.innerText = "ค่า y คือ:";
+
+                steps = [
+                    `จุดตัดแกน Y จะเกิดขึ้นเมื่อค่า **x = 0**`,
+                    `แทนค่า x = 0 ลงในสมการ y = ${mStr}(0) ${cStr}`,
+                    `y = 0 ${cStr}`,
+                    `<b>y = ${ans}</b> (หรือจุดพิกัดคือ (0, ${ans}))`
+                ];
+
+                drawGraph(m, c, { x: 0, y: c });
+
+            } else if (currentType === 3) {
+                // รูปแบบ 3: หาความชัน (m) จากสมการรูปมาตรฐาน y = mx + c
+                const m = getRandomInt(-4, 4) || 2;
+                const c = getRandomInt(-3, 3);
+                ans = m;
+
+                const cStr = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+                const mStr = m === 1 ? '' : (m === -1 ? '-' : `${m}`);
+
+                exprStr = `จากสมการเชิงเส้น <b>y = ${mStr}x ${cStr}</b><br>กราฟเส้นตรงนี้มีความชัน (Slope: m) เท่ากับเท่าใด?`;
+                prefixEl.innerText = "ความชัน m =";
+
+                steps = [
+                    `เทียบรูปสมการมาตรฐาน: **y = mx + c**`,
+                    `โดยที่ **m** คือ **ความชันของกราฟ**`,
+                    `สัมประสิทธิ์ที่อยู่หน้า x คือ ${m}`,
+                    `<b>ดังนั้น ความชัน m = ${ans}</b>`
+                ];
+
+                drawGraph(m, c);
+            }
+
+            currentProblem = { exprStr, ans, steps };
+            document.getElementById('question-text').innerHTML = exprStr;
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById('userAns').value;
+            if (input === '') return;
+
+            const userAns = parseFloat(input);
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+
+            if (userAns === currentProblem.ans) {
+                fb.className = 'feedback correct';
+                fb.innerHTML = `🎉 <b>ถูกต้องเก่งมาก!</b> <br>คำตอบที่ถูกต้องคือ <b>${currentProblem.ans}</b>`;
+            } else {
+                fb.className = 'feedback wrong';
+                fb.innerHTML = `❌ <b>ยังไม่ถูกต้อง</b> <br>คำตอบที่คุณกรอกคือ ${userAns} (ลองตรวจเช็กขั้นตอนการคิดหรือการคูณ/ลบเครื่องหมายอีกครั้งครับ)`;
+            }
+        }
+
+        function revealSolution() {
+            const fb = document.getElementById('feedback-box');
+            fb.style.display = 'block';
+            fb.className = 'feedback solution';
+
+            let stepsHtml = currentProblem.steps.map(s => `<div class="step-line">• ${s}</div>`).join('');
+            fb.innerHTML = `💡 <b>วิธีคิด / เฉลยขั้นตอน:</b><br>${stepsHtml}`;
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-box').style.display = 'none';
+        }
+
+        // เริ่มต้นโจทย์ข้อแรก
+        generateQuestion();
+    </script>
+
+</body>
+
+</html>
