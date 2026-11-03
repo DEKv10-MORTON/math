@@ -1,0 +1,465 @@
+:root {
+  --primary: #0891b2; /* Cyan/Teal Lab Theme */
+  --primary-dark: #0e7490;
+  --primary-light: #ecfeff;
+  --accent: #059669; /* Emerald Green */
+  --bg-main: #f0fdf4;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --success: #10b981;
+  --error: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Prompt', sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Navbar */
+.header-nav {
+  background: linear-gradient(135deg, #0e7490, #0891b2);
+  color: white;
+  padding: 16px 24px;
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.15);
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.brand-text h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.brand-text p {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Header Right Group (Stats + YouTube Pulse Button) */
+.header-right-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: flex;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 16px;
+  border-radius: 12px;
+  gap: 16px;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* YouTube Pulse Button with Glow Animation */
+.yt-pulse-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ff0000;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  animation: ytGlowPulse 2s infinite;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.yt-pulse-btn i {
+  font-size: 1.1rem;
+}
+
+.yt-pulse-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+@keyframes ytGlowPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
+/* Main Wrapper & Tabs */
+.main-wrapper {
+  max-width: 900px;
+  width: 100%;
+  margin: 24px auto;
+  padding: 0 16px;
+  flex: 1;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  background: white;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Banner Card */
+.banner-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  border-left: 6px solid var(--primary);
+}
+
+.badge-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.banner-card h1 {
+  font-size: 1.5rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.banner-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Theory Grid */
+.theory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.theory-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid var(--accent);
+}
+
+.card-header-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-science {
+  color: var(--primary);
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.sci-tag {
+  background: #f0fdf4;
+  color: #059669;
+}
+
+.theory-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.formula-box {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.formula-title {
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+/* Quiz Card & Drill */
+.quiz-card {
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sci-indicator {
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sci-gen-tag {
+  font-size: 0.75rem;
+  background: #ecfeff;
+  color: var(--primary-dark);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.question-box {
+  margin-bottom: 24px;
+}
+
+.question-title {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.question-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Options Grid */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.option-btn {
+  padding: 14px 18px;
+  background: #f8fafc;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-main);
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.option-btn.correct {
+  background: #d1fae5;
+  border-color: var(--success);
+  color: #065f46;
+  font-weight: 600;
+}
+
+.option-btn.wrong {
+  background: #fee2e2;
+  border-color: var(--error);
+  color: #991b1b;
+}
+
+/* Feedback Box */
+.feedback-box {
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.feedback-box.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.feedback-box.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.feedback-header {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feedback-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Action Row */
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sci-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.sci-btn:hover {
+  background: var(--primary-dark);
+}
