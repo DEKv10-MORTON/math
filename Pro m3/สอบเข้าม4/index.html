@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แนวข้อสอบคณิตศาสตร์ สอบเข้า ม.4 (50 ข้อ)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      color: #1e293b;
+      padding-bottom: 50px;
+    }
+
+    .main-header {
+      background-color: #00a66c;
+      color: #ffffff;
+      padding: 14px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #00a66c;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .yt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #dc2626;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .yt-button:hover {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .yt-button svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .control-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .select-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-value span {
+      color: #00a66c;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      width: 1px;
+      height: 32px;
+      background-color: #e2e8f0;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 2%;
+      background-color: #00a66c;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .chapter-tag {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+    .option-item:hover {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.selected {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #15803d;
+    }
+
+    .option-item.wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #b91c1c;
+    }
+
+    .option-item.disabled {
+      pointer-events: none;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .radio-circle {
+      border-color: #00a66c;
+      border-width: 6px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit {
+      background-color: #00a66c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #008f5d;
+    }
+
+    .btn-random {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-random:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-explain {
+      background-color: #f59e0b;
+      color: white;
+      display: none;
+    }
+
+    .btn-explain:hover {
+      background-color: #d97706;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">แนวข้อสอบคณิตศาสตร์ สอบเข้า ม.4</h1>
+          <p class="header-subtitle">ระบบฝึกทำข้อสอบ Interactive 50 ข้อ พร้อมเฉลยรายละเอียด</p>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/watch?v=1WWs1VLjXjI" target="_blank" rel="noopener noreferrer" class="yt-button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>ดูติวเตอร์</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="control-card">
+      <div class="select-group">
+        <div class="select-label">เลือกบทเรียนที่ต้องการทำ:</div>
+        <select class="custom-select" id="chapter-select" onchange="filterQuestions()">
+          <option value="all">ทำข้อสอบทั้งหมด (คละบทเรียน 50 ข้อ)</option>
+          <option value="1">หมวด 1: พีชคณิต สมการ และอสมการ</option>
+          <option value="2">หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง</option>
+          <option value="3">หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร</option>
+          <option value="4">หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ</option>
+          <option value="5">หมวด 5: สถิติและความน่าจะเป็น</option>
+        </select>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-label">ข้อที่</div>
+          <div class="stat-value"><span id="current-index">1</span> / <span id="total-count">50</span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <div class="stat-label">คะแนนรวม</div>
+          <div class="stat-value"><span id="score-count">0</span> คะแนน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="chapter-tag" id="question-chapter">หมวดหมู่</span>
+        <span class="status-tag" id="question-status">ยังไม่ได้ตอบ</span>
+      </div>
+
+      <h2 class="question-text" id="question-title">กำลังโหลดโจทย์...</h2>
+      <div class="options-list" id="options-container"></div>
+
+      <div class="action-group">
+        <button class="btn btn-submit" onclick="checkAnswer()">Check ตรวจคำตอบ</button>
+        <button class="btn btn-random" onclick="loadRandomQuestion()">🎲 สุ่มโจทย์ข้อใหม่</button>
+        <button class="btn btn-explain" id="btn-explain" onclick="toggleExplanation()">💡 ดูเฉลยรายละเอียด</button>
+      </div>
+
+      <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">📌 เฉลยและวิธีทำอย่างละเอียด:</div>
+        <div class="explanation-text" id="explanation-text"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // คลังข้อสอบเตรียมสอบเข้า ม.4 จำนวน 50 ข้อ
+    const questionBank = [
+      // --- หมวด 1: พีชคณิต สมการ และอสมการ (ข้อ 1-10) ---
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า 2^(x+1) + 2^x = 48 แล้ว ค่าของ x เท่ากับเท่าใด?", options: ["A) 3", "B) 4", "C) 5", "D) 6"], correctIndex: 1, explain: "ดึงตัวร่วม 2^x(2 + 1) = 48 → 2^x (3) = 48 → 2^x = 16 = 2^4 ดังนั้น x = 4" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า (x - 2)/3 - (x + 1)/4 ≤ 1 แล้ว ค่า x ที่มากที่สุดคือข้อใด?", options: ["A) 19", "B) 23", "C) 25", "D) 27"], correctIndex: 1, explain: "คูณ 12 ทั้งสองข้าง: 4(x - 2) - 3(x + 1) ≤ 12 → 4x - 8 - 3x - 3 ≤ 12 → x - 11 ≤ 12 → x ≤ 23" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "คำตอบของระบบสมการ 3x - 2y = 11 และ 2x + 5y = 1 คือคู่อันดับ (x, y) ในข้อใด?", options: ["A) (3, -1)", "B) (4, 1)", "C) (5, 2)", "D) (1, -4)"], correctIndex: 0, explain: "นำสมการที่ 1 × 5: 15x - 10y = 55 และสมการที่ 2 × 2: 4x + 10y = 2 บวกกันได้ 19x = 57 → x = 3, y = -1" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า a + b = 7 และ ab = 12 แล้ว ค่าของ a² + b² เท่ากับเท่าใด?", options: ["A) 25", "B) 37", "C) 49", "D) 73"], correctIndex: 0, explain: "จาก (a + b)² = a² + 2ab + b² → 7² = a² + 2(12) + b² → 49 = a² + b² + 24 → a² + b² = 25" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า x + 1/x = 4 แล้ว ค่าของ x² + 1/x² เท่ากับเท่าใด?", options: ["A) 12", "B) 14", "C) 16", "D) 18"], correctIndex: 1, explain: "ยกกำลังสองทั้งสองข้าง: (x + 1/x)² = 4² → x² + 2(x)(1/x) + 1/x² = 16 → x² + 2 + 1/x² = 16 → x² + 1/x² = 14" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ผลบวกของจำนวนเต็มทั้งหมดที่สอดคล้องกับอสมการ -3 < 2x - 1 ≤ 7 เท่ากับเท่าใด?", options: ["A) 6", "B) 9", "C) 10", "D) 14"], correctIndex: 2, explain: "บวก 1 ทุกข้าง: -2 < 2x ≤ 8 → หาร 2: -1 < x ≤ 4 → จำนวนเต็ม x คือ {0, 1, 2, 3, 4} ผลบวก = 0 + 1 + 2 + 3 + 4 = 10" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า 3^x = 5 และ 5^y = 9 แล้ว ค่าของ xy เท่ากับเท่าใด?", options: ["A) 1.5", "B) 2", "C) 2.5", "D) 3"], correctIndex: 1, explain: "แทนค่า 5 = 3^x ใน 5^y = 9 จะได้ (3^x)^y = 9 → 3^(xy) = 3² ดังนั้น xy = 2" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ปัจจุบันพ่อมีอายุเป็น 3 เท่าของลูก อีก 12 ปีข้างหน้า พ่อจะมีอายุเป็น 2 เท่าของลูก ปัจจุบันลูกมีอายุกี่ปี?", options: ["A) 10 ปี", "B) 12 ปี", "C) 15 ปี", "D) 18 ปี"], correctIndex: 1, explain: "ให้ลูกอายุ x พ่ออายุ 3x → อีก 12 ปี: 3x + 12 = 2(x + 12) → 3x + 12 = 2x + 24 → x = 12" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ถ้า (2x - 1)/3 > (x + 2)/2 แล้ว คำตอบของอสมการคือข้อใด?", options: ["A) x > 8", "B) x > 7", "C) x < 8", "D) x > 5"], correctIndex: 0, explain: "คูณ 6 ทั้งสองข้าง: 2(2x - 1) > 3(x + 2) → 4x - 2 > 3x + 6 → x > 8" },
+      { chapterId: 1, chapterName: "หมวด 1: พีชคณิต สมการ และอสมการ", title: "ค่าของ √((3 - √8)²) + √((3 + √8)²) เท่ากับข้อใด?", options: ["A) 2√8", "B) 6", "C) 0", "D) 6 - 2√8"], correctIndex: 1, explain: "เนื่องจาก 3 > √8 (เพราะ 3 = √9) ดังนั้น |3 - √8| = 3 - √8 และ |3 + √8| = 3 + √8 บวกกันได้ 3 - √8 + 3 + √8 = 6" },
+
+      // --- หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง (ข้อ 11-20) ---
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ถ้า x² - 6x + k เป็นพหุนามกำลังสองสมบูรณ์ แล้วค่า k เท่ากับเท่าใด?", options: ["A) 6", "B) 9", "C) 12", "D) 36"], correctIndex: 1, explain: "จาก (x - 3)² = x² - 6x + 9 ดังนั้น k = (6/2)² = 9" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ผลคูณของรากทั้งหมดของสมการ 2x² - 7x + 3 = 0 เท่ากับเท่าใด?", options: ["A) 3/2", "B) 7/2", "C) -3/2", "D) 3"], correctIndex: 0, explain: "จากสูตรผลคูณของราก ax² + bx + c = 0 คือ c/a = 3/2" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "แยกตัวประกอบของ x⁴ - 13x² + 36 ได้ผลลัพธ์ตรงกับข้อใด?", options: ["A) (x - 2)(x + 2)(x - 3)(x + 3)", "B) (x² - 4)(x² + 9)", "C) (x - 6)²(x + 6)²", "D) (x² - 13)(x² + 36)"], correctIndex: 0, explain: "(x² - 4)(x² - 9) = (x - 2)(x + 2)(x - 3)(x + 3)" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "พหุนาม x³ + 3x² - 4x - 12 สามารถแยกตัวประกอบได้ตรงกับข้อใด?", options: ["A) (x - 2)(x + 2)(x + 3)", "B) (x - 1)(x + 4)(x + 3)", "C) (x - 3)(x + 2)²", "D) (x - 2)(x + 3)²"], correctIndex: 0, explain: "จับคู่: x²(x + 3) - 4(x + 3) = (x² - 4)(x + 3) = (x - 2)(x + 2)(x + 3)" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ถ้าสมการ x² - 2kx + (k + 2) = 0 มีคำตอบเท่ากัน 2 คำตอบ แล้ว k มีค่าเท่าใดบ้าง?", options: ["A) 2 หรือ -1", "B) -2 หรือ 1", "C) 3 หรือ -1", "D) -3 หรือ 2"], correctIndex: 0, explain: "b² - 4ac = 0 → (-2k)² - 4(1)(k + 2) = 0 → 4k² - 4k - 8 = 0 → k² - k - 2 = 0 → (k - 2)(k + 1) = 0 → k = 2, -1" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ข้อใดคือการแยกตัวประกอบของ 8x³ + 27?", options: ["A) (2x + 3)(4x² - 6x + 9)", "B) (2x + 3)(4x² + 6x + 9)", "C) (2x - 3)(4x² + 6x + 9)", "D) (2x + 3)³"], correctIndex: 0, explain: "(2x)³ + 3³ = (2x + 3)((2x)² - (2x)(3) + 3²) = (2x + 3)(4x² - 6x + 9)" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "สามเหลี่ยมมุมฉากมีด้านยาว x, x + 1, x + 2 ตามลำดับ ค่า x มีค่าเท่ากับเท่าใด?", options: ["A) 2", "B) 3", "C) 4", "D) 5"], correctIndex: 1, explain: "x² + (x+1)² = (x+2)² → x² + x² + 2x + 1 = x² + 4x + 4 → x² - 2x - 3 = 0 → (x-3)(x+1) = 0 → x = 3" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "เศษจากการหาร 2x³ - 3x² + x - 5 ด้วย x - 2 มีค่าเท่าใด?", options: ["A) 1", "B) 3", "C) 5", "D) 7"], correctIndex: 0, explain: "แทน x = 2: 2(2)³ - 3(2)² + 2 - 5 = 16 - 12 + 2 - 5 = 1" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ถ้า 4x² + 12x + a = (2x + b)² แล้วค่าของ a + b เท่ากับเท่าใด?", options: ["A) 9", "B) 12", "C) 15", "D) 18"], correctIndex: 1, explain: "(2x + b)² = 4x² + 4bx + b² → 4b = 12 → b = 3 และ a = b² = 9 ดังนั้น a + b = 9 + 3 = 12" },
+      { chapterId: 2, chapterName: "หมวด 2: การแยกตัวประกอบพหุนามและกำลังสอง", title: "ถ้าผลบวกของสองจำนวนเท่ากับ 14 และผลคูณเท่ากับ 45 สมการกำลังสองที่มีคำตอบเป็นสองจำนวนนี้คือข้อใด?", options: ["A) x² - 14x + 45 = 0", "B) x² + 14x + 45 = 0", "C) x² - 45x + 14 = 0", "D) x² + 45x - 14 = 0"], correctIndex: 0, explain: "รูปทั่วไป x² - (ผลบวกคำตอบ)x + (ผลคูณคำตอบ) = 0 จะได้ x² - 14x + 45 = 0" },
+
+      // --- หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร (ข้อ 21-30) ---
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "ทรงกลมลูกหนึ่งมีรัศมี 3 ซม. จะมีพื้นที่ผิวทั้งหมดกี่ตารางเซนติเมตร? (ติดค่า π)", options: ["A) 18π", "B) 36π", "C) 54π", "D) 72π"], correctIndex: 1, explain: "พื้นที่ผิวทรงกลม = 4πr² = 4 × π × 3² = 36π" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "กรวยกลมมีรัศมีฐาน 6 ซม. และสูง 8 ซม. จะมีปริมาตรกี่ลูกบาศก์เซนติเมตร? (ติดค่า π)", options: ["A) 48π", "B) 96π", "C) 144π", "D) 288π"], correctIndex: 1, explain: "ปริมาตรกรวย = (1/3)πr²h = (1/3) × π × 6² × 8 = (1/3) × 36 × 8 × π = 96π" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "สามเหลี่ยม ABC คล้ายกับสามเหลี่ยม DEF โดยมีอัตราส่วนความยาวด้านสมนัยเป็น 2 : 3 ถ้าสามเหลี่ยม ABC มีพื้นที่ 16 ตร.ซม. สามเหลี่ยม DEF มีพื้นที่กี่ตารางเซนติเมตร?", options: ["A) 24", "B) 36", "C) 48", "D) 64"], correctIndex: 1, explain: "อัตราส่วนพื้นที่ = (2/3)² = 4/9 → 16 / พื้นที่ DEF = 4/9 → พื้นที่ DEF = (16 × 9) / 4 = 36" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "มุมในส่วนโค้งของวงกลมกาง 65° มุมที่จุดศูนย์กลางที่รองรับด้วยส่วนโค้งเดียวกันกางกี่องศา?", options: ["A) 65°", "B) 100°", "C) 130°", "D) 150°"], correctIndex: 2, explain: "มุมที่จุดศูนย์กลางกางเป็น 2 เท่าของมุมในส่วนโค้ง = 2 × 65° = 130°" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "พีระมิดฐานสี่เหลี่ยมจัตุรัสมีด้านยาว 10 ซม. สูงเอียง 13 ซม. สูงตรงของพีระมิดนี้ยาวกี่เซนติเมตร?", options: ["A) 10", "B) 11", "C) 12", "D) 12.5"], correctIndex: 2, explain: "สูงตรง h = √(สูงเอียง² - (ครึ่งด้านฐาน)²) = √(13² - 5²) = √(169 - 25) = √144 = 12 ซม." },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "ถังทรงกระบอกมีรัศมี 7 เมตร สูง 10 เมตร มีความจุประมาณกี่ลิตร? (1 ลบ.ม. = 1,000 ลิตร, π ≈ 22/7)", options: ["A) 154,000", "B) 770,000", "C) 1,540,000", "D) 3,080,000"], correctIndex: 2, explain: "ปริมาตร = (22/7) × 7² × 10 = 1,540 ลบ.ม. = 1,540 × 1,000 = 1,540,000 ลิตร" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "สี่เหลี่ยม ABCD แนบในวงกลม ถ้ามุม A กาง 85° แล้ว มุม C ซึ่งเป็นมุมตรงข้ามกางกี่องศา?", options: ["A) 85°", "B) 95°", "C) 105°", "D) 115°"], correctIndex: 1, explain: "มุมตรงข้ามของสี่เหลี่ยมแนบในวงกลมรวมกันได้ 180° → มุม C = 180° - 85° = 95°" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "เสาไฟสูง 12 เมตร ทอดเงายาว 9 เมตร ระยะทางจากปลายเงาถึงยอดเสาไฟยาวกี่เมตร?", options: ["A) 13", "B) 14", "C) 15", "D) 16"], correctIndex: 2, explain: "c = √(12² + 9²) = √(144 + 81) = √225 = 15 เมตร" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "รูปหกเหลี่ยมด้านเท่ามุมเท่า มีขนาดมุมภายในแต่ละมุมเท่ากับกี่องศา?", options: ["A) 108°", "B) 120°", "C) 135°", "D) 140°"], correctIndex: 1, explain: "ผลรวมมุมภายใน = (6-2)×180 = 720° → แต่ละมุม = 720/6 = 120°" },
+      { chapterId: 3, chapterName: "หมวด 3: เรขาคณิต พื้นที่ผิว และปริมาตร", title: "ถ้าเพิ่มรัศมีของทรงกลมขึ้นเป็น 2 เท่า ปริมาตรของทรงกลมลูกใหม่จะเพิ่มขึ้นเป็นกี่เท่าของของเดิม?", options: ["A) 2 เท่า", "B) 4 เท่า", "C) 6 เท่า", "D) 8 เท่า"], correctIndex: 3, explain: "ปริมาตรแปรผันตาม r³ ดังนั้น เมื่อรัศมีเพิ่ม 2 เท่า ปริมาตรจะเป็น (2)³ = 8 เท่า" },
+
+      // --- หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ (ข้อ 31-40) ---
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "จุดยอดของพาราโบลา y = -2(x + 3)² + 8 คือจุดใด?", options: ["A) (3, 8)", "B) (-3, 8)", "C) (-3, -8)", "D) (3, -8)"], correctIndex: 1, explain: "จากรูป y = a(x - h)² + k จะได้ (h, k) = (-3, 8)" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "พาราโบลา y = x² - 4x + 7 ให้ค่าสูงสุดหรือต่ำสุดเท่าใด?", options: ["A) ค่าต่ำสุดเท่ากับ 3", "B) ค่าสูงสุดเท่ากับ 3", "C) ค่าต่ำสุดเท่ากับ 7", "D) ค่าสูงสุดเท่ากับ 7"], correctIndex: 0, explain: "a = 1 (>0) หงาย มีค่าต่ำสุด k = c - (b²/4a) = 7 - (16/4) = 3" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "ถ้า sin θ = 3/5 โดยที่ θ เป็นมุมแหลม แล้วค่าของ tan θ เท่ากับเท่าใด?", options: ["A) 3/4", "B) 4/5", "C) 4/3", "D) 5/3"], correctIndex: 0, explain: "ข้าม = 3, ฉาก = 5 → ชิด = √(5² - 3²) = 4 ดังนั้น tan θ = ข้าม/ชิด = 3/4" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "ค่าของ (sin 30° + cos 60°) × tan 45° เท่ากับข้อใด?", options: ["A) 1/2", "B) 1", "C) 3/2", "D) 2"], correctIndex: 1, explain: "(1/2 + 1/2) × 1 = 1 × 1 = 1" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "กราฟของสมการ y = 3x - 6 ตัดแกน X และแกน Y ที่จุดใดตามลำดับ?", options: ["A) (2, 0) และ (0, -6)", "B) (-2, 0) และ (0, 6)", "C) (0, 2) และ (-6, 0)", "D) (3, 0) และ (0, -6)"], correctIndex: 0, explain: "ตัดแกน X (y=0): 3x - 6 = 0 → x = 2 ได้ (2, 0) / ตัดแกน Y (x=0): y = -6 ได้ (0, -6)" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "คนยืนห่างจากตึก 20 เมตร มองยอดตึกเป็นมุมเงย 30° ตึกนี้สูงกี่เมตร? (ไม่คิดความสูงคน)", options: ["A) 20/√3", "B) 20√3", "C) 10", "D) 10√3"], correctIndex: 0, explain: "tan 30° = สูง / 20 → 1/√3 = สูง / 20 → สูง = 20/√3 เมตร" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "ถ้าความชันของเส้นตรง L1 เท่ากับ 2/3 และ L2 ขนานกับ L1 แล้ว ความชันของ L2 เท่ากับเท่าใด?", options: ["A) -3/2", "B) 2/3", "C) 3/2", "D) -2/3"], correctIndex: 1, explain: "เส้นตรงที่ขนานกัน จะมีความชันเท่ากันเสมอ (m1 = m2 = 2/3)" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "แกนสมมาตรของพาราโบลา y = x² - 8x + 12 คือเส้นตรงใด?", options: ["A) x = 2", "B) x = 4", "C) x = 6", "D) x = 8"], correctIndex: 1, explain: "x = -b / (2a) = -(-8) / (2×1) = 4" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "ค่าของ cos² 45° + sin² 45° เท่ากับเท่าใด?", options: ["A) 1/2", "B) 1", "C) √2", "D) 2"], correctIndex: 1, explain: "เอกลักษณ์ sin²A + cos²A = 1 เสมอ" },
+      { chapterId: 4, chapterName: "หมวด 4: ฟังก์ชันกำลังสองและตรีโกณมิติ", title: "กราฟพาราโบลา y = -x² + 4 ตัดแกน X ที่จุดใดบ้าง?", options: ["A) (2, 0) เท่านั้น", "B) (2, 0) และ (-2, 0)", "C) (0, 4)", "D) (4, 0) และ (-4, 0)"], correctIndex: 1, explain: "แทน y = 0 → 0 = -x² + 4 → x² = 4 → x = ±2 ได้ (2, 0) และ (-2, 0)" },
+
+      // --- หมวด 5: สถิติและความน่าจะเป็น (ข้อ 41-50) ---
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "ข้อมูลชุดหนึ่งมี 7 จำนวน คือ 3, 7, 8, x, 12, 14, 18 มีค่าเฉลี่ยเลขคณิตเท่ากับ 11 ค่า x เท่ากับเท่าใด?", options: ["A) 10", "B) 11", "C) 12", "D) 15"], correctIndex: 3, explain: "ผลรวม = 3 + 7 + 8 + x + 12 + 14 + 18 = 62 + x → 62 + x = 7 × 11 = 77 → x = 15" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "มัธยฐานของข้อมูล 12, 5, 9, 18, 22, 15 เท่ากับเท่าใด?", options: ["A) 12", "B) 13.5", "C) 15", "D) 16.5"], correctIndex: 1, explain: "เรียงข้อมูล: 5, 9, 12, 15, 18, 22 → ค่ากลางคือ 12 กับ 15 → มัธยฐาน = (12 + 15) / 2 = 13.5" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "โยนเหรียญบาท 3 เหรียญพร้อมกัน 1 ครั้ง ความน่าจะเป็นที่จะออกหัวอย่างน้อย 2 เหรียญเท่ากับเท่าใด?", options: ["A) 3/8", "B) 1/2", "C) 5/8", "D) 3/4"], correctIndex: 1, explain: "Sample space มี 8 แบบ หัวอย่างน้อย 2 เหรียญคือ {HHH, HHT, HTH, THH} รวม 4 แบบ → 4/8 = 1/2" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "ทอดลูกเต๋า 2 ลูกพร้อมกัน 1 ครั้ง ความน่าจะเป็นที่ผลบวกของแต้มเท่ากับ 7 เท่ากับเท่าใด?", options: ["A) 1/6", "B) 5/36", "C) 7/36", "D) 1/4"], correctIndex: 0, explain: "แต้มบวกได้ 7 คือ (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) รวม 6 แบบ จากทั้งหมด 36 แบบ → 6/36 = 1/6" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "ถุงมีลูกบอลสีแดง 5 ลูก สีน้ำเงิน 3 ลูก สีเหลือง 2 ลูก สุ่มหยิบ 1 ลูก ความน่าจะเป็นที่จะได้ลูกบอล 'ไม่ใช่สีน้ำเงิน' เท่ากับเท่าใด?", options: ["A) 3/10", "B) 1/2", "C) 7/10", "D) 4/5"], correctIndex: 2, explain: "ไม่ใช่สีน้ำเงิน (แดง+เหลือง) = 5 + 2 = 7 ลูก จากทั้งหมด 10 ลูก → 7/10" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "ข้อมูล 5 จำนวน มีค่าเฉลี่ยเลขคณิตเท่ากับ 20 ถ้าตัดข้อมูลออก 1 จำนวน ค่าเฉลี่ยของข้อมูลที่เหลือเป็น 18 ข้อมูลที่ตัดออกมีค่าเท่าใด?", options: ["A) 24", "B) 26", "C) 28", "D) 30"], correctIndex: 2, explain: "ผลรวมเดิม 5×20 = 100, ผลรวมใหม่ 4×18 = 72 → ข้อมูลที่ตัดออก = 100 - 72 = 28" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "แผนภาพกล่องแสดงค่าควอร์ไทล์ Q1 = 20, Q2 = 32, Q3 = 45 ค่าพิสัยควอร์ไทล์ (IQR) เท่ากับเท่าใด?", options: ["A) 12", "B) 13", "C) 25", "D) 32"], correctIndex: 2, explain: "IQR = Q3 - Q1 = 45 - 20 = 25" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "สุ่มเลือกตัวอักษร 1 ตัว จากคำว่า 'MATHEMATICS' ความน่าจะเป็นที่จะได้สระเท่ากับเท่าใด?", options: ["A) 3/11", "B) 4/11", "C) 5/11", "D) 6/11"], correctIndex: 1, explain: "ตัวอักษรทั้งหมด 11 ตัว สระมี A, E, A, I รวม 4 ตัว → ความน่าจะเป็น = 4/11" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "ถ้าส่วนเบี่ยงเบนมาตรฐาน (SD) ของข้อมูลชุดหนึ่งเท่ากับ 6 ความแปรปรวนของข้อมูลชุดนี้เท่ากับเท่าใด?", options: ["A) 12", "B) 18", "C) 36", "D) 64"], correctIndex: 2, explain: "ความแปรปรวน = SD² = 6² = 36" },
+      { chapterId: 5, chapterName: "หมวด 5: สถิติและความน่าจะเป็น", title: "สุ่มเลือกตัวเลข 1 ตัว จาก 10 ถึง 30 ความน่าจะเป็นที่จะได้จำนวนเฉพาะเท่ากับเท่าใด?", options: ["A) 5/21", "B) 6/21", "C) 2/7", "D) 1/3"], correctIndex: 1, explain: "จำนวนตั้งแต่ 10 ถึง 30 มี 21 ตัว จำนวนเฉพาะคือ {11, 13, 17, 19, 23, 29} มี 6 ตัว → ความน่าจะเป็น = 6/21" }
+    ];
+
+    let currentQuestion = null;
+    let selectedOptionIndex = null;
+    let totalScore = 0;
+    let isChecked = false;
+    let currentIndexNum = 1;
+
+    function loadRandomQuestion() {
+      const selectedChapter = document.getElementById('chapter-select').value;
+      let availableQuestions = questionBank;
+
+      if (selectedChapter !== 'all') {
+        availableQuestions = questionBank.filter(q => q.chapterId == selectedChapter);
+      }
+
+      if (availableQuestions.length === 0) {
+        alert("ไม่พบโจทย์ในหมวดหมู่นี้");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      currentQuestion = availableQuestions[randomIndex];
+
+      selectedOptionIndex = null;
+      isChecked = false;
+
+      document.getElementById('question-chapter').innerText = currentQuestion.chapterName;
+      document.getElementById('question-title').innerText = `${currentIndexNum}. ${currentQuestion.title}`;
+      document.getElementById('question-status').innerText = 'ยังไม่ได้ตอบ';
+      document.getElementById('question-status').style.backgroundColor = '#f1f5f9';
+      document.getElementById('question-status').style.color = '#64748b';
+
+      document.getElementById('btn-explain').style.display = 'none';
+      document.getElementById('explanation-box').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((optText, index) => {
+        const item = document.createElement('label');
+        item.className = 'option-item';
+        item.onclick = () => selectOption(index);
+        item.innerHTML = `
+          <span class="option-text">${optText}</span>
+          <div class="radio-circle"></div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectOption(index) {
+      if (isChecked) return;
+      selectedOptionIndex = index;
+      const items = document.querySelectorAll('.option-item');
+      items.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+      document.getElementById('question-status').innerText = 'ตอบแล้ว';
+      document.getElementById('question-status').style.backgroundColor = '#e0f2fe';
+      document.getElementById('question-status').style.color = '#0369a1';
+    }
+
+    function checkAnswer() {
+      if (selectedOptionIndex === null) {
+        alert("กรุณาเลือกคำตอบก่อนกดตรวจครับ!");
+        return;
+      }
+
+      if (isChecked) return;
+      isChecked = true;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.add('disabled'));
+
+      const isCorrect = (selectedOptionIndex === currentQuestion.correctIndex);
+
+      if (isCorrect) {
+        items[selectedOptionIndex].classList.add('correct');
+        totalScore += 1;
+        document.getElementById('score-count').innerText = totalScore;
+        document.getElementById('question-status').innerText = 'ถูกต้อง! (+1)';
+        document.getElementById('question-status').style.backgroundColor = '#dcfce7';
+        document.getElementById('question-status').style.color = '#166534';
+      } else {
+        items[selectedOptionIndex].classList.add('wrong');
+        items[currentQuestion.correctIndex].classList.add('correct');
+        document.getElementById('question-status').innerText = 'ตอบผิด';
+        document.getElementById('question-status').style.backgroundColor = '#fee2e2';
+        document.getElementById('question-status').style.color = '#991b1b';
+      }
+
+      document.getElementById('btn-explain').style.display = 'inline-flex';
+      document.getElementById('explanation-text').innerHTML = currentQuestion.explain;
+
+      currentIndexNum = (currentIndexNum % 50) + 1;
+      document.getElementById('current-index').innerText = currentIndexNum;
+      document.getElementById('progress-bar').style.width = `${(currentIndexNum / 50) * 100}%`;
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation-box');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function filterQuestions() {
+      loadRandomQuestion();
+    }
+
+    window.onload = loadRandomQuestion;
+  </script>
+</body>
+
+</html>
