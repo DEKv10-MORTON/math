@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แนวข้อสอบคณิตศาสตร์ ม.2 เทอม 2 (50 ข้อ)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      color: #1e293b;
+      padding-bottom: 50px;
+    }
+
+    .main-header {
+      background-color: #00a66c;
+      color: #ffffff;
+      padding: 14px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #00a66c;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .yt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #dc2626;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .yt-button:hover {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .yt-button svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .control-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .select-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-value span {
+      color: #00a66c;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      width: 1px;
+      height: 32px;
+      background-color: #e2e8f0;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 2%;
+      background-color: #00a66c;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .chapter-tag {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+    .option-item:hover {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.selected {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #15803d;
+    }
+
+    .option-item.wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #b91c1c;
+    }
+
+    .option-item.disabled {
+      pointer-events: none;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .radio-circle {
+      border-color: #00a66c;
+      border-width: 6px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit {
+      background-color: #00a66c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #008f5d;
+    }
+
+    .btn-random {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-random:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-explain {
+      background-color: #f59e0b;
+      color: white;
+      display: none;
+    }
+
+    .btn-explain:hover {
+      background-color: #d97706;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">แนวข้อสอบคณิตศาสตร์ ม.2 เทอม 2</h1>
+          <p class="header-subtitle">ระบบฝึกทำข้อสอบ Interactive 50 ข้อ พร้อมเฉลยรายละเอียด</p>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/watch?v=K1s7huLrNIw" target="_blank" rel="noopener noreferrer" class="yt-button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>ดูติวเตอร์</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="control-card">
+      <div class="select-group">
+        <div class="select-label">เลือกบทเรียนที่ต้องการทำ:</div>
+        <select class="custom-select" id="chapter-select" onchange="filterQuestions()">
+          <option value="all">ทำข้อสอบทั้งหมด (คละบทเรียน 50 ข้อ)</option>
+          <option value="1">บทที่ 1 สถิติ (2)</option>
+          <option value="2">บทที่ 2 ความเท่ากันทุกประการ</option>
+          <option value="3">บทที่ 3 เส้นขนาน</option>
+          <option value="4">บทที่ 4 การให้เหตุผลทางเรขาคณิต</option>
+          <option value="5">บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง</option>
+        </select>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-label">ข้อที่</div>
+          <div class="stat-value"><span id="current-index">1</span> / <span id="total-count">50</span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <div class="stat-label">คะแนนรวม</div>
+          <div class="stat-value"><span id="score-count">0</span> คะแนน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="chapter-tag" id="question-chapter">บทเรียน</span>
+        <span class="status-tag" id="question-status">ยังไม่ได้ตอบ</span>
+      </div>
+
+      <h2 class="question-text" id="question-title">กำลังโหลดโจทย์...</h2>
+      <div class="options-list" id="options-container"></div>
+
+      <div class="action-group">
+        <button class="btn btn-submit" onclick="checkAnswer()">Check ตรวจคำตอบ</button>
+        <button class="btn btn-random" onclick="loadRandomQuestion()">🎲 สุ่มโจทย์ข้อใหม่</button>
+        <button class="btn btn-explain" id="btn-explain" onclick="toggleExplanation()">💡 ดูเฉลยรายละเอียด</button>
+      </div>
+
+      <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">📌 เฉลยและวิธีทำอย่างละเอียด:</div>
+        <div class="explanation-text" id="explanation-text"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // คลังข้อสอบ ม.2 เทอม 2 ครบทั้ง 5 บทเรียน จำนวน 50 ข้อ
+    const questionBank = [
+      // --- บทที่ 1 สถิติ (2) (ข้อ 1-10) ---
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "แผนภาพต้น-ใบ (Stem-and-Leaf Plot) เหมาะสำหรับการนำเสนอข้อมูลประเภทใดมากที่สุด?", options: ["A) ข้อมูลเชิงคุณภาพ", "B) ข้อมูลเชิงปริมาณที่มีจำนวนไม่มากเกินไป", "C) ข้อมูลที่มีการเปรียบเทียบเชิงพื้นที่", "D) ข้อมูลยอดขายรายปี"], correctIndex: 1, explain: "แผนภาพต้น-ใบช่วยรักษาข้อมูลดิบไว้ครบถ้วน เหมาะกับข้อมูลเชิงปริมาณขนาดเล็กถึงปานกลาง" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "แผนภาพกล่อง (Box Plot) ใช้วัดตำแหน่งของข้อมูลโดยแบ่งข้อมูลออกเป็นกี่ส่วนเท่าๆ กัน?", options: ["A) 2 ส่วน", "B) 3 ส่วน", "C) 4 ส่วน", "D) 10 ส่วน"], correctIndex: 2, explain: "แผนภาพกล่องอาศัยค่าควอร์ไทล์ (Q1, Q2, Q3) แบ่งข้อมูลออกเป็น 4 ส่วนเท่ากัน ส่วนละ 25%" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "ตำแหน่งของมัธยฐานในแผนภาพกล่องตรงกับค่าใด?", options: ["A) Q1", "B) Q2", "C) Q3", "D) ค่าต่ำสุด (Min)"], correctIndex: 1, explain: "มัธยฐานคือค่ากลางของข้อมูล ซึ่งตรงกับควอร์ไทล์ที่ 2 (Q2)" },
+      { chapterId: 2, chapterName: "บทที่ 1 สถิติ (2)", title: "พิสัยควอร์ไทล์ (Interquartile Range: IQR) คำนวณได้จากสูตรใด?", options: ["A) Max - Min", "B) Q3 - Q1", "C) Q3 - Q2", "D) Q2 - Q1"], correctIndex: 1, explain: "พิสัยควอร์ไทล์ (IQR) หาได้จากผลต่างระหว่างควอร์ไทล์ที่ 3 กับควอร์ไทล์ที่ 1 (Q3 - Q1)" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "ถ้าข้อมูลมีชุดหนึ่งเรียงจากน้อยไปมาก: 3, 5, 7, 9, 11, 13, 15, 17 ค่า Q1 ตรงกับข้อใด?", options: ["A) 5", "B) 6", "C) 7", "D) 8"], correctIndex: 1, explain: "ข้อมูลมี 8 ตัว ครึ่งแรกคือ 3, 5, 7, 9 → ค่าเฉลี่ยของ 5 กับ 7 คือ (5+7)/2 = 6" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "ข้อใด ไม่ใช่ ค่าสถิติที่ใช้ในการสร้างแผนภาพกล่อง?", options: ["A) ค่าต่ำสุด (Min)", "B) ฐานนิยม (Mode)", "C) ควอร์ไทล์ที่ 1 (Q1)", "D) ค่าสูงสุด (Max)"], correctIndex: 1, explain: "แผนภาพกล่องใช้ 5 ตัวเลขหลักคือ Min, Q1, Q2 (มัธยฐาน), Q3, Max ไม่ได้ใช้ฐานนิยม" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "ในฮิสโทแกรม (Histogram) ความสูงของแต่ละแท่งสี่เหลี่ยมแทนสิ่งใด?", options: ["A) ขอบบน", "B) ความกว้างของอันตรภาคชั้น", "C) ความถี่ของข้อมูล", "D) จุดกลางชั้น"], correctIndex: 2, explain: "ความสูงของแต่ละแท่งในฮิสโทแกรมจะแปรผันตามความถี่ (Frequency) ของข้อมูลช่วงนั้นๆ" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "แผนภาพกล่องที่มีกล่องฝั่งขวายาวกว่าฝั่งซ้าย แสดงว่าข้อมูลมีลักษณะกระจายแบบใด?", options: ["A) กระจายเท่ากัน", "B) เบ้ขวา", "C) เบ้ซ้าย", "D) โค้งสมมาตร"], correctIndex: 1, explain: "ถ้าความยาวกล่องหรือหนวดแมวฝั่งขวายาวกว่า จะแสดงถึงข้อมูลที่กระจายตัวเบ้ไปทางขวา" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "การหาค่าตำแหน่ง Q3 ของข้อมูล N ตัวที่ไม่แจกแจงความถี่ ใช้สูตรตำแหน่งตรงกับข้อใด?", options: ["A) 3(N)/4", "B) 3(N+1)/4", "C) (N+1)/3", "D) 3(N-1)/4"], correctIndex: 1, explain: "สูตรตำแหน่งควอร์ไทล์ที่ r คือ Pos(Qr) = r(N+1)/4 ดังนั้น Q3 คือ 3(N+1)/4" },
+      { chapterId: 1, chapterName: "บทที่ 1 สถิติ (2)", title: "ข้อมูลชุดหนึ่งมี Q1 = 12, Q3 = 28 ค่า IQR มีค่าเท่าใด?", options: ["A) 16", "B) 20", "C) 40", "D) 14"], correctIndex: 0, explain: "IQR = Q3 - Q1 = 28 - 12 = 16" },
+
+      // --- บทที่ 2 ความเท่ากันทุกประการ (ข้อ 11-20) ---
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "สามเหลี่ยมสองรูปที่มีด้านยาวเท่ากันสามคู่ จะมีความสัมพันธ์แบบใด?", options: ["A) ด้าน-มุม-ด้าน (ด.ม.ด.)", "B) มุม-ด้าน-มุม (ม.ด.ม.)", "C) ด้าน-ด้าน-ด้าน (ด.ด.ด.)", "D) ฉาก-ด้าน-ด้าน (ฉ.ด.ด.)"], correctIndex: 2, explain: "เมื่อด้านยาวเท่ากันคู่ต่อคู่ครบทั้ง 3 ด้าน จะสัมพันธ์แบบ ด้าน-ด้าน-ด้าน (ด.ด.ด.)" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "ความสัมพันธ์แบบ ด้าน-มุม-ด้าน (ด.ม.ด.) มุมที่เท่ากันต้องมีลักษณะอย่างไร?", options: ["A) เป็นมุมแหลมเสมอ", "B) เป็นมุมที่อยู่ระหว่างด้านที่ยาวเท่ากันทั้งสองด้าน", "C) เป็นมุมฉากเท่านั้น", "D) เป็นมุมใดก็ได้ในสามเหลี่ยม"], correctIndex: 1, explain: "มุมที่เท่ากันต้องเป็น 'มุมในระหว่าง' (Included angle) ด้านคู่ที่ยาวเท่ากัน" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "สามเหลี่ยมสองรูปมีมุมเท่ากัน 3 คู่ (ม.ม.ม.) สรุปได้ว่าอย่างไร?", options: ["A) เท่ากันทุกประการเสมอ", "B) คล้ายกัน แต่ไม่จำเป็นต้องเท่ากันทุกประการ", "C) มีพื้นที่เท่ากันเสมอ", "D) มีความยาวรอบรูปเท่ากัน"], correctIndex: 1, explain: "ม.ม.ม. ยืนยันว่ารูปคล้ายกัน แต่ไม่สามารถสรุปว่าเท่ากันทุกประการได้เพราะขนาดอาจต่างกัน" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "สามเหลี่ยมมุมฉากสองรูปที่ด้านตรงข้ามมุมฉากยาวเท่ากัน และมีด้านประกอบมุมฉากยาวเท่ากันอีกหนึ่งคู่ สัมพันธ์แบบใด?", options: ["A) ด.ม.ด.", "B) ม.ด.ม.", "C) ฉ.ด.ด. (ฉาก-ด้าน-ด้าน)", "D) ด.ด.ด."], correctIndex: 2, explain: "คือความสัมพันธ์ ฉาก-ด้าน-ด้าน (Hypotenuse-Leg: HL / ฉ.ด.ด.)" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "ถ้ารูปสามเหลี่ยม ABC เท่ากันทุกประการกับรูปสามเหลี่ยม DEF (ΔABC ≅ ΔDEF) แล้วด้าน AB จะยาวเท่ากับด้านใด?", options: ["A) DE", "B) EF", "C) DF", "D) BC"], correctIndex: 0, explain: "สมนัยตามลำดับตัวอักษร AB สมนัยกับ DE" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "ถ้ารูปสามเหลี่ยมสองรูปเท่ากันทุกประการ ข้อใดต่อไปนี้ถูกต้อง?", options: ["A) มีพื้นที่เท่ากัน", "B) มีความยาวรอบรูปเท่ากัน", "C) มุมที่สมนัยกันมีขนาดเท่ากัน", "D) ถูกต้องทุกข้อ"], correctIndex: 3, explain: "รูปที่เท่ากันทุกประการจะมีทับกันได้สนิท ทำให้พื้นที่ ความยาวรอบรูป และมุมสมนัยกันเท่ากันทั้งหมด" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "รูปสามเหลี่ยมหน้าจั่วมีสมบัติเรื่องความเท่ากันทุกประการตามข้อใด?", options: ["A) มุมที่ฐานมีขนาดเท่ากัน", "B) ด้านข้างยาวเท่ากันสองด้าน", "C) เส้นแบ่งครึ่งมุมยอดจะแบ่งสามเหลี่ยมออกเป็นสองรูปที่เท่ากันทุกประการ", "D) ถูกทุกข้อ"], correctIndex: 3, explain: "รูปสามเหลี่ยมหน้าจั่วมีสมบัติตามที่กล่าวมาถูกต้องทุกประการ" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "สี่เหลี่ยมผืนผ้าเมื่อลากเส้นทแยงมุม 1 เส้น จะแบ่งสี่เหลี่ยมออกเป็นสามเหลี่ยมสองรูปที่มีความสัมพันธ์แบบใด?", options: ["A) ด.ด.ด.", "B) ด.ม.ด.", "C) ม.ด.ม.", "D) ถูกทั้ง A, B และ C"], correctIndex: 3, explain: "สามารถพิสูจน์ได้หลายรูปแบบ ทั้ง ด.ด.ด. (ใช้เส้นทแยงมุมเป็นด้านร่วม) หรือ ด.ม.ด. หรือ ม.ด.ม." },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "ข้อใด ไม่ใช่ ความสัมพันธ์ที่ทำให้สามเหลี่ยมสองรูปเท่ากันทุกประการ?", options: ["A) ม.ด.ม.", "B) ด.ม.ด.", "C) ด.ด.ม.", "D) ด.ด.ด."], correctIndex: 2, explain: "ด้าน-ด้าน-มุม (ด.ด.ม.) ไม่ใช่ความสัมพันธ์ที่ยืนยันการเท่ากันทุกประการ (เว้นแต่เป็นมุมฉาก)" },
+      { chapterId: 2, chapterName: "บทที่ 2 ความเท่ากันทุกประการ", title: "ความสัมพันธ์แบบ มุม-มุม-ด้าน (ม.ม.ด.) แตกต่างจาก มุม-ด้าน-มุม (ม.ด.ม.) อย่างไร?", options: ["A) ม.ม.ด. ด้านไม่ได้อยู่ระหว่างมุมทั้งสอง", "B) ม.ด.ม. ไม่ใช่ความสัมพันธ์จริง", "C) เหมือนกันทุกประการไม่มีข้อต่าง", "D) ม.ม.ด. ใช้กับสามเหลี่ยมมุมฉากเท่านั้น"], correctIndex: 0, explain: "ม.ด.ม. ด้านจะอยู่ตรงกลางระหว่างมุมทั้งสอง ส่วน ม.ม.ด. ด้านจะเป็นด้านที่อยู่ตรงข้ามมุมใดมุมหนึ่ง" },
+
+      // --- บทที่ 3 เส้นขนาน (ข้อ 21-30) ---
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "ถ้าเส้นตรงสองเส้นขนานกัน และมีเส้นตัด ข้อใดถูกต้อง?", options: ["A) มุมแย้งมีขนาดเท่ากัน", "B) มุมภายในที่อยู่บนข้างเดียวกันของเส้นตัดรวมกันได้ 180°", "C) มุมภายนอกและมุมภายในที่อยู่ตรงข้ามบนข้างเดียวกันของเส้นตัดมีขนาดเท่ากัน", "D) ถูกทุกข้อ"], correctIndex: 3, explain: "ทฤษฎีบทของเส้นขนานรองรับทั้ง 3 ข้อข้างต้นถูกต้องทั้งหมด" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "เส้นตรง AB ขนานกับ CD มีเส้นตัดEF ทำใหเกิดมุมภายในบนข้างเดียวกันเป็น 2x และ 3x - 20° ค่า x เท่ากับเท่าใด?", options: ["A) 35°", "B) 40°", "C) 50°", "D) 60°"], correctIndex: 1, explain: "มุมภายในบนข้างเดียวกันรวมกันได้ 180° → 2x + 3x - 20 = 180 → 5x = 200 → x = 40" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "มุมแย้งภายใน (Alternate Interior Angles) เกิดขึ้นเมื่อใด?", options: ["A) เมื่อเส้นตรงสองเส้นตัดกัน", "B) เมื่อมีเส้นตัด ตัดเส้นตรงคู่หนึ่ง โดยมุมอยู่คนละข้างของเส้นตัดและอยู่ระหว่างเส้นคู่ประขนาน", "C) เมื่อมุมสองมุมรวมกันได้ 90°", "D) เมื่อมุมสองมุมประชิดกัน"], correctIndex: 1, explain: "มุมแย้งคือมุมภายในที่อยู่คนละฝั่งของเส้นตัดตัดผ่านเส้นตรงคู่นั้น" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "ผลบวกขนาดของมุมภายในของรูปสามเหลี่ยมใดๆ มีค่าเท่ากับกี่องศา?", options: ["A) 90°", "B) 180°", "C) 270°", "D) 360°"], correctIndex: 1, explain: "มุมภายในของรูปสามเหลี่ยมรวมกันได้ 180 องศาเสมอ (พิสูจน์โดยใช้เส้นขนาน)" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "มุมภายนอกของรูปสามเหลี่ยมจะมีขนาดเท่ากับข้อใด?", options: ["A) เท่ากับมุมภายในที่อยู่ติดกัน", "B) เท่ากับผลบวกของมุมภายในตรงข้ามสองมุม", "C) เท่ากับ 180 องศาเสมอ", "D) เท่ากับมุมฉาก"], correctIndex: 1, explain: "ขนาดของมุมภายนอกสามเหลี่ยม = ผลบวกของขนาดมุมภายในที่ไม่ใช่มุมประชิดของมุมภายนอกนั้น" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "ผลบวกขนาดของมุมภายในของรูปสี่เหลี่ยมใดๆ มีค่าเท่ากับกี่องศา?", options: ["A) 180°", "B) 360°", "C) 540°", "D) 720°"], correctIndex: 1, explain: "รูปสี่เหลี่ยมแบ่งเป็นสามเหลี่ยมได้ 2 รูป มุมภายในจึงรวมกันได้ 2 × 180° = 360°" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "สูตรหาผลบวกมุมภายในของรูป n เหลี่ยม คือข้อใด?", options: ["A) (n - 2) × 180°", "B) (n + 2) × 180°", "C) n × 180°", "D) (n - 1) × 360°"], correctIndex: 0, explain: "ผลบวกมุมภายในรูป n เหลี่ยม = (n - 2) × 180 องศา" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "รูปหกเหลี่ยมด้านเท่ามุมเท่า มีขนาดของมุมภายในแต่ละมุมกี่องศา?", options: ["A) 108°", "B) 120°", "C) 135°", "D) 140°"], correctIndex: 1, explain: "ผลบวกมุม = (6-2)×180 = 720° → แต่ละมุม = 720/6 = 120 องศา" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "ถ้า L1 // L2 มีมุมแย้งคู่หนึ่งกาง x + 15° และ 2x - 30° ค่า x คือข้อใด?", options: ["A) 15°", "B) 30°", "C) 45°", "D) 60°"], correctIndex: 2, explain: "เส้นขนานทำใหมุ้มแย้งเท่ากัน → x + 15 = 2x - 30 → x = 45" },
+      { chapterId: 3, chapterName: "บทที่ 3 เส้นขนาน", title: "ถ้าเส้นตรงสองเส้นถูกตัดโดยเส้นตัด แล้วมุมภายนอกและมุมภายในที่อยู่ตรงข้ามบนข้างเดียวกันของเส้นตัดเท่ากัน สรุปได้ว่าอย่างไร?", options: ["A) เส้นตรงคู่นั้นขนานกัน", "B) เส้นตรงคู่นั้นตั้งฉากกัน", "C) เส้นตรงคู่นั้นตัดกันเป็นมุมฉาก", "D) เส้นตรงคู่นั้นยาวเท่ากัน"], correctIndex: 0, explain: "เป็นเงื่อนไขบทกลับที่ใช้พิสูจน์ว่าเส้นตรงสองเส้นขนานกัน" },
+
+      // --- บทที่ 4 การให้เหตุผลทางเรขาคณิต (ข้อ 31-40) ---
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "ข้อความที่ยอมรับว่าเป็นจริงโดยไม่ต้องพิสูจน์ เรียกว่าอะไร?", options: ["A) ทฤษฎีบท (Theorem)", "B) สัจพจน์ (Axiom/Postulate)", "C) บทนิยาม (Definition)", "D) ข้อความตรรกศาสตร์"], correctIndex: 1, explain: "สัจพจน์ (Axiom/Postulate) คือข้อความพื้นฐานที่ยอมรับว่าเป็นจริงโดยไม่ต้องพิสูจน์" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "ข้อความที่พิสูจน์แล้วว่าเป็นจริง และสามารถนำไปอ้างอิงในการพิสูจน์ข้อความอื่นได้ เรียกว่าอะไร?", options: ["A) ทฤษฎีบท", "B) สัจพจน์", "C) โจทย์คำถาม", "D) สมมติฐาน"], correctIndex: 0, explain: "ทฤษฎีบท (Theorem) คือข้อความที่ต้องผ่านการพิสูจน์อย่างเป็นระบบและเป็นจริงเสมอ" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "ถ้ารูปประโยค 'ถ้า P แล้ว Q' เป็นจริง ประโยคบทกลับ (Converse) คือข้อความใด?", options: ["A) ถ้า ไม่ P แล้ว ไม่ Q", "B) ถ้า Q แล้ว P", "C) ถ้า ไม่ Q แล้ว ไม่ P", "D) P ก็ต่อเมื่อ Q"], correctIndex: 1, explain: "บทกลับของประโยค 'ถ้า P แล้ว Q' คือ 'ถ้า Q แล้ว P'" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "เส้นตรงสองเส้นตัดกัน แล้วมุมตรงข้ามจะมีขนาดเป็นอย่างไร?", options: ["A) รวมกันได้ 90°", "B) รวมกันได้ 180°", "C) เท่ากัน", "D) ไม่แน่นอน"], correctIndex: 2, explain: "ทฤษฎีบทเรขาคณิตพื้นฐาน: เส้นตรงสองเส้นตัดกัน มุมตรงข้ามย่อมมีขนาดเท่ากัน" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "การพิสูจน์แบบอ้อม (Indirect Proof) มีลักษณะอย่างไร?", options: ["A) สมมติให้สิ่งที่จะพิสูจน์เป็นเท็จ แล้วหาข้อขัดแย้ง", "B) อ้างอิงทฤษฎีบทโดยตรง", "C) ใช้การวัดด้วยไม้บรรทัด", "D) การคำนวณทางตัวเลข"], correctIndex: 0, explain: "การพิสูจน์แบบอ้อมจะสมมติสิ่งตรงข้ามกับผลลัพธ์เพื่อนำไปสู่ข้อขัดแย้ง (Contradiction)" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "มุมประชิดบนเส้นตรงเดียวกันรวมกันได้กี่องศา?", options: ["A) 90°", "B) 180°", "C) 270°", "D) 360°"], correctIndex: 1, explain: "มุมบนเส้นตรงเดียวกัน (มุมตรง) มีขนาด 180 องศา" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "การอ้างเหตุผลในเรขาคณิตมักประกอบด้วยโครงสร้างสำคัญใด?", options: ["A) สิ่งที่กำหนดให้", "B) สิ่งที่ต้องการพิสูจน์", "C) ข้อความแสดงการพิสูจน์พร้อมเหตุผล", "D) ถูกทุกข้อ"], correctIndex: 3, explain: "การพิสูจน์ทางเรขาคณิตต้องมีครบทั้ง เหตุ (สิ่งที่กำหนดให้), ผล (ที่จะพิสูจน์) และ ขั้นตอนพร้อมเหตุผล" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "ถ้าสามเหลี่ยม ABC มีด้าน AB = AC แล้วมุม B กับมุม C จะมีความสัมพันธ์อย่างไร?", options: ["A) มุม B + มุม C = 90°", "B) มุม B = มุม C", "C) มุม B > มุม C", "D) มุม B < มุม C"], correctIndex: 1, explain: "ทฤษฎีบทสามเหลี่ยมหน้าจั่ว: มุมที่ฐานตรงข้ามกับด้านที่ยาวเท่ากันจะมีขนาดเท่ากัน" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "เส้นแบ่งครึ่งและตั้งฉากกับส่วนของเส้นตรง มีสมบัติอย่างไร?", options: ["A) จุดทุกจุดบนเส้นนี้จะอยู่ห่างจากจุดปลายทั้งสองของส่วนของเส้นตรงเป็นระยะเท่ากัน", "B) ขนานกับส่วนของเส้นตรงเดิม", "C) ทำมุม 45 องศา", "D) ยาวเป็นสองเท่า"], correctIndex: 0, explain: "จุดใดๆ บนเส้นตรงที่แบ่งครึ่งและตั้งฉากกับส่วนของเส้นตรง จะอยู่ห่างจากจุดปลายทั้งสองเท่ากันเสมอ" },
+      { chapterId: 4, chapterName: "บทที่ 4 การให้เหตุผลทางเรขาคณิต", title: "ข้อใดเป็นประโยค 'ก็ต่อเมื่อ' (If and only if)?", options: ["A) ประโยคที่เชื่อมด้วย และ", "B) ประโยคเงื่อนไขที่เป็นจริงทั้งประโยคเดิมและประโยคบทกลับ", "C) ประโยคที่มีคำว่า หรือ", "D) ประโยคปฏิเสธ"], correctIndex: 1, explain: "ประโยค 'P ก็ต่อเมื่อ Q' หมายถึง 'ถ้า P แล้ว Q' และ 'ถ้า Q แล้ว P' เป็นจริงทั้งคู่" },
+
+      // --- บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง (ข้อ 41-50) ---
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "การแยกตัวประกอบของ 5x² - 15x โดยใช้สมบัติการแจกแจง ได้ผลลัพธ์ตรงกับข้อใด?", options: ["A) 5(x² - 3)", "B) 5x(x - 3)", "C) 15x(x - 1)", "D) x(5x - 3)"], correctIndex: 1, explain: "ดึงตัวร่วม 5x ออกมา จะได้ 5x(x - 3)" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "แยกตัวประกอบของ x² - 9 ได้ตรงกับข้อใด?", options: ["A) (x - 3)²", "B) (x + 3)³", "C) (x - 3)(x + 3)", "D) (x - 9)(x + 1)"], correctIndex: 2, explain: "ใช้สูตรผลต่างกำลังสอง A² - B² = (A - B)(A + B) → x² - 3² = (x - 3)(x + 3)" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "แยกตัวประกอบของ x² - 7x + 12 ได้ผลลัพธ์เท่าใด?", options: ["A) (x - 3)(x - 4)", "B) (x + 3)(x + 4)", "C) (x - 2)(x - 6)", "D) (x - 1)(x - 12)"], correctIndex: 0, explain: "หาจำนวนสองจำนวนที่คูณกันได้ 12 และบวกกันได้ -7 คือ -3 และ -4 → (x - 3)(x - 4)" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "แยกตัวประกอบของ x² + 2x - 15 ได้ผลลัพธ์ตรงกับข้อใด?", options: ["A) (x - 3)(x + 5)", "B) (x + 3)(x - 5)", "C) (x - 1)(x + 15)", "D) (x + 1)(x - 15)"], correctIndex: 0, explain: "คูณกันได้ -15 บวกกันได้ 2 คือ 5 และ -3 → (x - 3)(x + 5)" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "สูตรกำลังสองสมบูรณ์ (A + B)² เท่ากับข้อใด?", options: ["A) A² + B²", "B) A² + AB + B²", "C) A² + 2AB + B²", "D) 2A + 2B"], correctIndex: 2, explain: "สูตรกำลังสองสมบูรณ์: น² + 2นล + ล² = (น + ล)²" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "พหุนาม x² + 10x + 25 เขียนให้อยู่ในรูปกำลังสองสมบูรณ์ได้ตรงกับข้อใด?", options: ["A) (x + 5)²", "B) (x - 5)²", "C) (x + 10)²", "D) (x + 25)²"], correctIndex: 0, explain: "x² + 2(5)x + 5² = (x + 5)²" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "แยกตัวประกอบของ 2x² + 5x + 3 ได้ผลลัพธ์ตรงกับข้อใด?", options: ["A) (2x + 1)(x + 3)", "B) (2x + 3)(x + 1)", "C) (2x - 3)(x - 1)", "D) (x + 2)(2x + 3)"], correctIndex: 1, explain: "ตรวจสอบคูณกระจาย: (2x + 3)(x + 1) = 2x² + 2x + 3x + 3 = 2x² + 5x + 3" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "แยกตัวประกอบของ 4x² - 25 ได้ตรงกับข้อใด?", options: ["A) (2x - 5)²", "B) (2x + 5)²", "C) (2x - 5)(2x + 5)", "D) (4x - 5)(x + 5)"], correctIndex: 2, explain: "(2x)² - 5² = (2x - 5)(2x + 5)" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "ถ้า x² + bx + 16 เป็นพหุนามกำลังสองสมบูรณ์ แล้ว b สามารถมีค่าเท่าใดได้บ้าง?", options: ["A) 4 เท่านั้น", "B) 8 เท่านั้น", "C) 8 หรือ -8", "D) 16 หรือ -16"], correctIndex: 2, explain: "จาก (x ± 4)² = x² ± 8x + 16 ดังนั้น b สามารถเป็น 8 หรือ -8 ได้" },
+      { chapterId: 5, chapterName: "บทที่ 5 การแยกตัวประกอบของพหุนามดีกรีสอง", title: "รากของสมการ x² - 5x + 6 = 0 มีค่าตรงกับข้อใด?", options: ["A) x = 1 และ x = 6", "B) x = -1 และ x = -6", "C) x = 2 และ x = 3", "D) x = -2 และ x = -3"], correctIndex: 2, explain: "แยกตัวประกอบได้ (x - 2)(x - 3) = 0 ดังนั้น x = 2 หรือ x = 3" }
+    ];
+
+    let currentQuestion = null;
+    let selectedOptionIndex = null;
+    let totalScore = 0;
+    let isChecked = false;
+    let currentIndexNum = 1;
+
+    function loadRandomQuestion() {
+      const selectedChapter = document.getElementById('chapter-select').value;
+      let availableQuestions = questionBank;
+
+      if (selectedChapter !== 'all') {
+        availableQuestions = questionBank.filter(q => q.chapterId == selectedChapter);
+      }
+
+      if (availableQuestions.length === 0) {
+        alert("ไม่พบโจทย์ในบทเรียนนี้");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      currentQuestion = availableQuestions[randomIndex];
+
+      selectedOptionIndex = null;
+      isChecked = false;
+
+      document.getElementById('question-chapter').innerText = currentQuestion.chapterName;
+      document.getElementById('question-title').innerText = `${currentIndexNum}. ${currentQuestion.title}`;
+      document.getElementById('question-status').innerText = 'ยังไม่ได้ตอบ';
+      document.getElementById('question-status').style.backgroundColor = '#f1f5f9';
+      document.getElementById('question-status').style.color = '#64748b';
+
+      document.getElementById('btn-explain').style.display = 'none';
+      document.getElementById('explanation-box').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((optText, index) => {
+        const item = document.createElement('label');
+        item.className = 'option-item';
+        item.onclick = () => selectOption(index);
+        item.innerHTML = `
+          <span class="option-text">${optText}</span>
+          <div class="radio-circle"></div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectOption(index) {
+      if (isChecked) return;
+      selectedOptionIndex = index;
+      const items = document.querySelectorAll('.option-item');
+      items.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+      document.getElementById('question-status').innerText = 'ตอบแล้ว';
+      document.getElementById('question-status').style.backgroundColor = '#e0f2fe';
+      document.getElementById('question-status').style.color = '#0369a1';
+    }
+
+    function checkAnswer() {
+      if (selectedOptionIndex === null) {
+        alert("กรุณาเลือกคำตอบก่อนกดตรวจครับ!");
+        return;
+      }
+
+      if (isChecked) return;
+      isChecked = true;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.add('disabled'));
+
+      const isCorrect = (selectedOptionIndex === currentQuestion.correctIndex);
+
+      if (isCorrect) {
+        items[selectedOptionIndex].classList.add('correct');
+        totalScore += 1;
+        document.getElementById('score-count').innerText = totalScore;
+        document.getElementById('question-status').innerText = 'ถูกต้อง! (+1)';
+        document.getElementById('question-status').style.backgroundColor = '#dcfce7';
+        document.getElementById('question-status').style.color = '#166534';
+      } else {
+        items[selectedOptionIndex].classList.add('wrong');
+        items[currentQuestion.correctIndex].classList.add('correct');
+        document.getElementById('question-status').innerText = 'ตอบผิด';
+        document.getElementById('question-status').style.backgroundColor = '#fee2e2';
+        document.getElementById('question-status').style.color = '#991b1b';
+      }
+
+      document.getElementById('btn-explain').style.display = 'inline-flex';
+      document.getElementById('explanation-text').innerHTML = currentQuestion.explain;
+
+      currentIndexNum = (currentIndexNum % 50) + 1;
+      document.getElementById('current-index').innerText = currentIndexNum;
+      document.getElementById('progress-bar').style.width = `${(currentIndexNum / 50) * 100}%`;
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation-box');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function filterQuestions() {
+      loadRandomQuestion();
+    }
+
+    window.onload = loadRandomQuestion;
+  </script>
+</body>
+
+</html>
