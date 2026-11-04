@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แนวข้อสอบคณิตศาสตร์ ม.1 เทอม 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      color: #1e293b;
+      padding-bottom: 50px;
+    }
+
+    /* Header */
+    .main-header {
+      background-color: #00a66c;
+      color: #ffffff;
+      padding: 14px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #00a66c;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .yt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #dc2626;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .yt-button:hover {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .yt-button svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .control-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .select-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-value span {
+      color: #00a66c;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      width: 1px;
+      height: 32px;
+      background-color: #e2e8f0;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 2%;
+      background-color: #00a66c;
+      transition: width 0.3s ease;
+    }
+
+    /* Question Card */
+    .question-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .chapter-tag {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+    .option-item:hover {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.selected {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #15803d;
+    }
+
+    .option-item.wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #b91c1c;
+    }
+
+    .option-item.disabled {
+      pointer-events: none;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .radio-circle {
+      border-color: #00a66c;
+      border-width: 6px;
+    }
+
+    /* Action Buttons Area */
+    .action-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit {
+      background-color: #00a66c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #008f5d;
+    }
+
+    .btn-random {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-random:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-explain {
+      background-color: #f59e0b;
+      color: white;
+      display: none;
+    }
+
+    .btn-explain:hover {
+      background-color: #d97706;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">แนวข้อสอบคณิตศาสตร์ ม.1 เทอม 1</h1>
+          <p class="header-subtitle">ระบบฝึกทำข้อสอบ Interactive 50 ข้อ พร้อมเฉลยรายละเอียด</p>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/watch?v=h5F3WFJ-cho" target="_blank" rel="noopener noreferrer" class="yt-button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>ดูติวเตอร์</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="control-card">
+      <div class="select-group">
+        <div class="select-label">เลือกบทเรียนที่ต้องการทำ:</div>
+        <select class="custom-select" id="chapter-select" onchange="filterQuestions()">
+          <option value="all">ทำข้อสอบทั้งหมด (ทุกบท ม.1 เทอม 1)</option>
+          <option value="1">บทที่ 1 จำนวนเต็ม</option>
+          <option value="2">บทที่ 2 การสร้างทางเรขาคณิต</option>
+          <option value="3">บทที่ 3 เลขยกกำลัง</option>
+          <option value="4">บทที่ 4 ทศนิยมและเศษส่วน</option>
+          <option value="5">บทที่ 5 รูปเรขาคณิต 2 มิติและ 3 มิติ</option>
+        </select>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-label">ข้อที่</div>
+          <div class="stat-value"><span id="current-index">1</span> / <span id="total-count">50</span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <div class="stat-label">คะแนนรวม</div>
+          <div class="stat-value"><span id="score-count">0</span> คะแนน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card">
+      <div class="question-header">
+        <span class="chapter-tag" id="question-chapter">บทที่ 1 จำนวนเต็ม</span>
+        <span class="status-tag" id="question-status">ยังไม่ได้ตอบ</span>
+      </div>
+
+      <h2 class="question-text" id="question-title">กำลังโหลดโจทย์...</h2>
+
+      <div class="options-list" id="options-container"></div>
+
+      <!-- Action Buttons -->
+      <div class="action-group">
+        <button class="btn btn-submit" onclick="checkAnswer()">Check ตรวจคำตอบ</button>
+        <button class="btn btn-random" onclick="loadRandomQuestion()">🎲 สุ่มโจทย์ข้อใหม่</button>
+        <button class="btn btn-explain" id="btn-explain" onclick="toggleExplanation()">💡 ดูเฉลยละเอียด</button>
+      </div>
+
+      <!-- Explanation Box -->
+      <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">📌 เฉลยและวิธีทำอย่างละเอียด:</div>
+        <div class="explanation-text" id="explanation-text"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // คลังข้อสอบ ม.1 เทอม 1 ครบทั้ง 5 บท
+    const questionBank = [
+      // บทที่ 1 จำนวนเต็ม
+      {
+        chapterId: 1,
+        chapterName: "บทที่ 1 จำนวนเต็ม",
+        title: "ผลลัพธ์ของ (-12) + 25 มีค่าเท่ากับข้อใด?",
+        options: ["A) -13", "B) 13", "C) -37", "D) 37"],
+        correctIndex: 1,
+        explain: "การบวกจำนวนเต็มต่างเครื่องกันให้นำค่าสัมบูรณ์มาลบกัน แล้วตอบตามเครื่องหมายของจำนวนที่มีค่าสัมบูรณ์มากกว่า<br>จะได้ |25| - |-12| = 25 - 12 = 13 และตอบเป็นบวกตาม 25"
+      },
+      {
+        chapterId: 1,
+        chapterName: "บทที่ 1 จำนวนเต็ม",
+        title: "ผลลัพธ์ของ (-8) × (-6) ตรงกับข้อใด?",
+        options: ["A) -48", "B) 48", "C) -14", "D) 14"],
+        correctIndex: 1,
+        explain: "การคูณจำนวนเต็มลบด้วยจำนวนเต็มลบจะได้ผลลัพธ์เป็นจำนวนเต็มบวก<br>ดังนั้น (-8) × (-6) = 48"
+      },
+
+      // บทที่ 2 การสร้างทางเรขาคณิต
+      {
+        chapterId: 2,
+        chapterName: "บทที่ 2 การสร้างทางเรขาคณิต",
+        title: "เครื่องมือเรขาคณิตในข้อใดที่ใช้สำหรับการแบ่งครึ่งมุมโดยไม่จำเป็นต้องวัดขนาดของมุม?",
+        options: ["A) ไม้บรรทัด", "B) วงเวียนและสันตรง", "C) ไม้โพรแทรกเตอร์", "D) ฉากสามเหลี่ยม"],
+        correctIndex: 1,
+        explain: "การสร้างทางเรขาคณิตพื้นฐาน เช่น การแบ่งครึ่งมุม หรือการสร้างเส้นตั้งฉาก จะใช้ 'วงเวียนและสันตรง' เป็นหลัก"
+      },
+      {
+        chapterId: 2,
+        chapterName: "บทที่ 2 การสร้างทางเรขาคณิต",
+        title: "มุมที่มีขนาด 60 องศา สามารถสร้างได้จากการแบ่งครึ่งมุมในข้อใด?",
+        options: ["A) มุมตรง (180°)", "B) มุมฉาก (90°)", "C) มุมรอบจุด (360°)", "D) สร้างมุม 60 องศาได้โดยตรงจากการสร้างรูปสามเหลี่ยมด้านเท่า"],
+        correctIndex: 3,
+        explain: "การสร้างมุม 60 องศาทำได้โดยการสร้างรูปสามเหลี่ยมด้านเท่า หรือใช้หลักการกางวงเวียนเท่ากับรัศมีเดิมตัดส่วนโค้ง"
+      },
+
+      // บทที่ 3 เลขยกกำลัง
+      {
+        chapterId: 3,
+        chapterName: "บทที่ 3 เลขยกกำลัง",
+        title: "ค่าของ 2⁵ มีค่าตรงกับข้อใด?",
+        options: ["A) 10", "B) 16", "C) 32", "D) 64"],
+        correctIndex: 2,
+        explain: "2⁵ หมายถึง 2 คูณกัน 5 ตัว<br>2 × 2 × 2 × 2 × 2 = 32"
+      },
+      {
+        chapterId: 3,
+        chapterName: "บทที่ 3 เลขยกกำลัง",
+        title: "ผลลัพธ์ของ 3³ × 3² มีค่าเท่ากับข้อใด?",
+        options: ["A) 3⁵", "B) 3⁶", "C) 9⁵", "D) 27²"],
+        correctIndex: 0,
+        explain: "สมบัติของเลขยกกำลัง: a^m × a^n = a^(m+n)<br>ดังนั้น 3³ × 3² = 3^(3+2) = 3⁵"
+      },
+
+      // บทที่ 4 ทศนิยมและเศษส่วน
+      {
+        chapterId: 4,
+        chapterName: "บทที่ 4 ทศนิยมและเศษส่วน",
+        title: "ผลลัพธ์ของ 3.5 + 1.25 มีค่าตรงกับข้อใด?",
+        options: ["A) 1.60", "B) 4.75", "C) 4.25", "D) 5.75"],
+        correctIndex: 1,
+        explain: "ตั้งหลักทศนิยมให้ตรงกันแล้วบวกกัน: 3.50 + 1.25 = 4.75"
+      },
+      {
+        chapterId: 4,
+        chapterName: "บทที่ 4 ทศนิยมและเศษส่วน",
+        title: "ผลลัพธ์ของ (2/3) ÷ (4/9) มีค่าเท่ากับเท่าใด?",
+        options: ["A) 3/2", "B) 8/27", "C) 2/3", "D) 9/8"],
+        correctIndex: 0,
+        explain: "การหารเศษส่วนทำได้โดยเปลี่ยนหารเป็นคูณ แล้วกลับเศษเป็นส่วนของตัวหาร<br>(2/3) × (9/4) = 18/12 = 3/2"
+      },
+
+      // บทที่ 5 รูปเรขาคณิต 2 มิติและ 3 มิติ
+      {
+        chapterId: 5,
+        chapterName: "บทที่ 5 รูปเรขาคณิต 2 มิติและ 3 มิติ",
+        title: "รูปคลี่ (Net) ของทรงกระบอก ประกอบด้วยรูปเรขาคณิต 2 มิติชนิดใดบ้าง?",
+        options: ["A) วงกลม 2 รูป และสี่เหลี่ยมผืนผ้า 1 รูป", "B) วงกลม 1 รูป และสี่เหลี่ยมจัตุรัส 2 รูป", "C) สามเหลี่ยม 2 รูป และสี่เหลี่ยม 3 รูป", "D) วงกลม 2 รูป และสามเหลี่ยม 1 รูป"],
+        correctIndex: 0,
+        explain: "ทรงกระบอกเมื่อคลี่ออกจะประกอบด้วยหน้าตัดฐานที่เป็นวงกลม 2 รูป และพื้นผิวข้างที่เป็นรูปสี่เหลี่ยมผืนผ้า"
+      },
+      {
+        chapterId: 5,
+        chapterName: "บทที่ 5 รูปเรขาคณิต 2 มิติและ 3 มิติ",
+        title: "ภาพ 2 มิติที่ได้จากการมองด้านหน้า (Front view) ของทรงกลม คือรูปเรขาคณิตในข้อใด?",
+        options: ["A) รูปสี่เหลี่ยม", "B) รูปวงกลม", "C) รูปสามเหลี่ยม", "D) รูปรี"],
+        correctIndex: 1,
+        explain: "ไม่ว่าจะมองจากมุมไหน (ด้านหน้า ด้านข้าง หรือด้านบน) ทรงกลมจะมีภาพ 2 มิติเป็น 'รูปวงกลม' เสมอ"
+      }
+    ];
+
+    let currentQuestion = null;
+    let selectedOptionIndex = null;
+    let totalScore = 0;
+    let isChecked = false;
+    let currentIndexNum = 1;
+
+    function loadRandomQuestion() {
+      const selectedChapter = document.getElementById('chapter-select').value;
+      let availableQuestions = questionBank;
+
+      if (selectedChapter !== 'all') {
+        availableQuestions = questionBank.filter(q => q.chapterId == selectedChapter);
+      }
+
+      if (availableQuestions.length === 0) {
+        alert("ไม่พบโจทย์ในบทเรียนนี้");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      currentQuestion = availableQuestions[randomIndex];
+
+      selectedOptionIndex = null;
+      isChecked = false;
+
+      document.getElementById('question-chapter').innerText = currentQuestion.chapterName;
+      document.getElementById('question-title').innerText = `${currentIndexNum}. ${currentQuestion.title}`;
+      document.getElementById('question-status').innerText = 'ยังไม่ได้ตอบ';
+      document.getElementById('question-status').style.backgroundColor = '#f1f5f9';
+      document.getElementById('question-status').style.color = '#64748b';
+
+      document.getElementById('btn-explain').style.display = 'none';
+      document.getElementById('explanation-box').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((optText, index) => {
+        const item = document.createElement('label');
+        item.className = 'option-item';
+        item.onclick = () => selectOption(index);
+        item.innerHTML = `
+          <span class="option-text">${optText}</span>
+          <div class="radio-circle"></div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectOption(index) {
+      if (isChecked) return;
+
+      selectedOptionIndex = index;
+      const items = document.querySelectorAll('.option-item');
+      items.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+
+      document.getElementById('question-status').innerText = 'ตอบแล้ว';
+      document.getElementById('question-status').style.backgroundColor = '#e0f2fe';
+      document.getElementById('question-status').style.color = '#0369a1';
+    }
+
+    function checkAnswer() {
+      if (selectedOptionIndex === null) {
+        alert("กรุณาเลือกคำตอบก่อนกดตรวจครับ!");
+        return;
+      }
+
+      if (isChecked) return;
+      isChecked = true;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.add('disabled'));
+
+      const isCorrect = (selectedOptionIndex === currentQuestion.correctIndex);
+
+      if (isCorrect) {
+        items[selectedOptionIndex].classList.add('correct');
+        totalScore += 1;
+        document.getElementById('score-count').innerText = totalScore;
+        document.getElementById('question-status').innerText = 'ถูกต้อง! (+1)';
+        document.getElementById('question-status').style.backgroundColor = '#dcfce7';
+        document.getElementById('question-status').style.color = '#166534';
+      } else {
+        items[selectedOptionIndex].classList.add('wrong');
+        items[currentQuestion.correctIndex].classList.add('correct');
+        document.getElementById('question-status').innerText = 'ตอบผิด';
+        document.getElementById('question-status').style.backgroundColor = '#fee2e2';
+        document.getElementById('question-status').style.color = '#991b1b';
+      }
+
+      document.getElementById('btn-explain').style.display = 'inline-flex';
+      document.getElementById('explanation-text').innerHTML = currentQuestion.explain;
+
+      currentIndexNum = (currentIndexNum % 50) + 1;
+      document.getElementById('current-index').innerText = currentIndexNum;
+      document.getElementById('progress-bar').style.width = `${(currentIndexNum / 50) * 100}%`;
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation-box');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function filterQuestions() {
+      loadRandomQuestion();
+    }
+
+    window.onload = loadRandomQuestion;
+  </script>
+</body>
+
+</html>
