@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนวข้อสอบคณิตศาสตร์ ม.3 เทอม 2 - DEK MORTON STUDIO</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome สำหรับไอคอน YouTube -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="card">
+        <!-- ปุ่มติวเตอร์ YouTube ลอยอยู่มุมขวาบน -->
+        <a href="https://www.youtube.com/watch?v=BLZvs4FDQVk" target="_blank" class="yt-btn-corner">
+            <i class="fa-brands fa-youtube" style="font-size: 16px;"></i>
+            <span>ติวเตอร์ YouTube</span>
+        </a>
+
+        <div class="title">📐 แนวข้อสอบคณิตศาสตร์ ม.3 เทอม 2</div>
+        <div class="brand">DEK MORTON STUDIO • คลังข้อสอบมาตรฐาน</div>
+
+        <!-- สรุปหัวข้อสำคัญ -->
+        <div class="summary-box">
+            <div class="summary-title">📌 ครอบคลุม 5 หัวข้อหลัก:</div>
+            <div class="summary-tags">
+                <span>ระบบสมการสองตัวแปร</span>
+                <span>วงกลม (คอร์ด/มุมในส่วนโค้ง)</span>
+                <span>พีระมิด กรวย ทรงกลม</span>
+                <span>ความน่าจะเป็น</span>
+                <span>อัตราส่วนตรีโกณมิติ</span>
+            </div>
+        </div>
+
+        <div class="question-box" id="questionText">กำลังโหลดโจทย์...</div>
+
+        <div class="btn-grid" id="btnGroup"></div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="actions">
+            <button class="btn-next" onclick="generateRandomQuestion()">สุ่มโจทย์ข้อถัดไป 🎲</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
