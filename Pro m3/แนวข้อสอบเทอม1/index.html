@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แนวข้อสอบคณิตศาสตร์ ม.3 เทอม 1 (50 ข้อ)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      color: #1e293b;
+      padding-bottom: 50px;
+    }
+
+    .main-header {
+      background-color: #00a66c;
+      color: #ffffff;
+      padding: 14px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #00a66c;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .yt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #dc2626;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .yt-button:hover {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .yt-button svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .control-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .select-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-value span {
+      color: #00a66c;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      width: 1px;
+      height: 32px;
+      background-color: #e2e8f0;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 2%;
+      background-color: #00a66c;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .chapter-tag {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+    .option-item:hover {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.selected {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #15803d;
+    }
+
+    .option-item.wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #b91c1c;
+    }
+
+    .option-item.disabled {
+      pointer-events: none;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .radio-circle {
+      border-color: #00a66c;
+      border-width: 6px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit {
+      background-color: #00a66c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #008f5d;
+    }
+
+    .btn-random {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-random:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-explain {
+      background-color: #f59e0b;
+      color: white;
+      display: none;
+    }
+
+    .btn-explain:hover {
+      background-color: #d97706;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">แนวข้อสอบคณิตศาสตร์ ม.3 เทอม 1</h1>
+          <p class="header-subtitle">ระบบฝึกทำข้อสอบ Interactive 50 ข้อ พร้อมเฉลยรายละเอียด</p>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/watch?v=nGa9ujbq-UU" target="_blank" rel="noopener noreferrer" class="yt-button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>ดูติวเตอร์</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="control-card">
+      <div class="select-group">
+        <div class="select-label">เลือกบทเรียนที่ต้องการทำ:</div>
+        <select class="custom-select" id="chapter-select" onchange="filterQuestions()">
+          <option value="all">ทำข้อสอบทั้งหมด (คละบทเรียน 50 ข้อ)</option>
+          <option value="1">บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว</option>
+          <option value="2">บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง</option>
+          <option value="3">บทที่ 3 สมการกำลังสองตัวแปรเดียว</option>
+          <option value="4">บทที่ 4 ความคล้าย</option>
+          <option value="5">บทที่ 5 กราฟของฟังก์ชันกำลังสอง</option>
+          <option value="6">บทที่ 6 สถิติ (3)</option>
+        </select>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-label">ข้อที่</div>
+          <div class="stat-value"><span id="current-index">1</span> / <span id="total-count">50</span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <div class="stat-label">คะแนนรวม</div>
+          <div class="stat-value"><span id="score-count">0</span> คะแนน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="chapter-tag" id="question-chapter">บทเรียน</span>
+        <span class="status-tag" id="question-status">ยังไม่ได้ตอบ</span>
+      </div>
+
+      <h2 class="question-text" id="question-title">กำลังโหลดโจทย์...</h2>
+      <div class="options-list" id="options-container"></div>
+
+      <div class="action-group">
+        <button class="btn btn-submit" onclick="checkAnswer()">Check ตรวจคำตอบ</button>
+        <button class="btn btn-random" onclick="loadRandomQuestion()">🎲 สุ่มโจทย์ข้อใหม่</button>
+        <button class="btn btn-explain" id="btn-explain" onclick="toggleExplanation()">💡 ดูเฉลยรายละเอียด</button>
+      </div>
+
+      <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">📌 เฉลยและวิธีทำอย่างละเอียด:</div>
+        <div class="explanation-text" id="explanation-text"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // คลังข้อสอบ ม.3 เทอม 1 ครบทั้ง 6 บทเรียน จำนวน 50 ข้อ
+    const questionBank = [
+      // --- บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว (ข้อ 1-8) ---
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "แก้อสมการ 3x - 5 > 7 ได้คำตอบตรงกับข้อใด?", options: ["A) x > 4", "B) x < 4", "C) x > 2", "D) x < 2"], correctIndex: 0, explain: "3x > 7 + 5 → 3x > 12 → x > 4" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "คำตอบของอสมการ -2x ≤ 8 คือข้อใด?", options: ["A) x ≤ -4", "B) x ≥ -4", "C) x ≤ 4", "D) x ≥ 4"], correctIndex: 1, explain: "เมื่อนำจำนวนลบ (-2) ไปหารทั้งสองข้าง เครื่องหมายอสมการจะกลับทิศทาง: x ≥ 8/(-2) → x ≥ -4" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "กราฟคำตอบที่มี 'จุดโปร่ง' ที่เลข 3 และลูกศรชี้ไปทางขวา หมายถึงข้อใด?", options: ["A) x ≥ 3", "B) x > 3", "C) x ≤ 3", "D) x < 3"], correctIndex: 1, explain: "จุดโปร่งแสดงว่าไม่รวมเลข 3 และลูกศรไปทางขวาหมายถึงมากกว่า 3 (x > 3)" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "แก้อสมการ 5(x - 2) ≤ 3x + 4 ได้คำตอบคือข้อใด?", options: ["A) x ≤ 7", "B) x ≥ 7", "C) x ≤ 3", "D) x ≥ 3"], correctIndex: 0, explain: "5x - 10 ≤ 3x + 4 → 2x ≤ 14 → x ≤ 7" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "สามเท่าของจำนวนจำนวนหนึ่งรวมกับ 4 มีค่าน้อยกว่า 25 จำนวนเต็มบวกที่มากที่สุดคือเท่าใด?", options: ["A) 5", "B) 6", "C) 7", "D) 8"], correctIndex: 1, explain: "3x + 4 < 25 → 3x < 21 → x < 7 จำนวนเต็มบวกที่มากที่สุดแต่น้อยกว่า 7 คือ 6" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "ข้อใด ไม่ใช่ เครื่องหมายที่ใช้นิยามอสมการ?", options: ["A) >", "B) ≤", "C) =", "D) ≠"], correctIndex: 2, explain: "เครื่องหมายเท่ากับ (=) ใช้สำหรับสมการ ส่วนอสมการจะใช้ >, <, ≥, ≤, ≠" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "แก้อสมการ (x + 1)/2 > (x - 3)/3 ได้คำตอบเท่าใด?", options: ["A) x > -9", "B) x < -9", "C) x > 9", "D) x < 9"], correctIndex: 0, explain: "คูณรวบด้วย 6 ทั้งสองข้าง: 3(x + 1) > 2(x - 3) → 3x + 3 > 2x - 6 → x > -9" },
+      { chapterId: 1, chapterName: "บทที่ 1 อสมการเชิงเส้นตัวแปรเดียว", title: "ถ้า a > b แล้วข้อใดต่อไปนี้เป็นจริงเสมอ?", options: ["A) a + c > b + c", "B) ac > bc", "C) -a > -b", "D) 1/a > 1/b"], correctIndex: 0, explain: "การบวกจำนวนเดิมทั้งสองข้าง ไม่ทำให้ทิศทางอสมการเปลี่ยนแปลง (a + c > b + c เสมอ)" },
+
+      // --- บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง (ข้อ 9-16) ---
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "สูตรผลบวกกำลังสาม A³ + B³ ตรงกับข้อใด?", options: ["A) (A + B)(A² - AB + B²)", "B) (A + B)(A² + AB + B²)", "C) (A - B)(A² + AB + B²)", "D) (A + B)³"], correctIndex: 0, explain: "สูตรผลบวกกำลังสาม: A³ + B³ = (A + B)(A² - AB + B²)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "สูตรผลต่างกำลังสาม A³ - B³ ตรงกับข้อใด?", options: ["A) (A - B)(A² - AB + B²)", "B) (A - B)(A² + AB + B²)", "C) (A + B)(A² - AB + B²)", "D) (A - B)³"], correctIndex: 1, explain: "สูตรผลต่างกำลังสาม: A³ - B³ = (A - B)(A² + AB + B²)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "แยกตัวประกอบของ x³ - 8 ได้ตรงกับข้อใด?", options: ["A) (x - 2)(x² + 2x + 4)", "B) (x - 2)(x² - 2x + 4)", "C) (x + 2)(x² - 2x + 4)", "D) (x - 2)³"], correctIndex: 0, explain: "x³ - 2³ = (x - 2)(x² + (x)(2) + 2²) = (x - 2)(x² + 2x + 4)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "แยกตัวประกอบของ x³ + 27 ได้ตรงกับข้อใด?", options: ["A) (x + 3)(x² - 3x + 9)", "B) (x + 3)(x² + 3x + 9)", "C) (x - 3)(x² + 3x + 9)", "D) (x + 3)³"], correctIndex: 0, explain: "x³ + 3³ = (x + 3)(x² - 3x + 3²) = (x + 3)(x² - 3x + 9)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "แยกตัวประกอบของ 8x³ - 125 ได้ตรงกับข้อใด?", options: ["A) (2x - 5)(4x² + 10x + 25)", "B) (2x - 5)(4x² - 10x + 25)", "C) (2x + 5)(4x² - 10x + 25)", "D) (2x - 5)³"], correctIndex: 0, explain: "(2x)³ - 5³ = (2x - 5)((2x)² + (2x)(5) + 5²) = (2x - 5)(4x² + 10x + 25)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "แยกตัวประกอบของ x⁴ - 16 ได้ตรงกับข้อใด?", options: ["A) (x² - 4)(x² + 4)", "B) (x - 2)(x + 2)(x² + 4)", "C) (x - 2)²(x + 2)²", "D) (x⁴ - 16) แยกอีกไม่ได้"], correctIndex: 1, explain: "(x²)² - 4² = (x² - 4)(x² + 4) แล้วแยก x² - 4 ได้เป็น (x - 2)(x + 2)(x² + 4)" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "แยกตัวประกอบของ x⁶ - y⁶ โดยเริ่มจากผลต่างกำลังสอง ได้ผลลัพธ์กี่วงเล็บย่อย?", options: ["A) 2 วงเล็บ", "B) 3 วงเล็บ", "C) 4 วงเล็บ", "D) 6 วงเล็บ"], correctIndex: 2, explain: "(x³)² - (y³)² = (x³ - y³)(x³ + y³) = (x - y)(x² + xy + y²)(x + y)(x² - xy + y²) รวม 4 วงเล็บ" },
+      { chapterId: 2, chapterName: "บทที่ 2 การแยกตัวประกอบของพหุนามที่มีดีกรีสูงกว่าสอง", title: "พหุนาม 27x³ + 64y³ มีค่า A และ B ในสูตร A³ + B³ คือเท่าใด?", options: ["A) A = 27x, B = 64y", "B) A = 3x, B = 4y", "C) A = 9x, B = 16y", "D) A = 3x², B = 4y²"], correctIndex: 1, explain: "27x³ = (3x)³ และ 64y³ = (4y)³ ดังนั้น A = 3x และ B = 4y" },
+
+      // --- บทที่ 3 สมการกำลังสองตัวแปรเดียว (ข้อ 17-25) ---
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "รากของสมการ x² - 5x + 6 = 0 มีค่าตรงกับข้อใด?", options: ["A) x = 1, 6", "B) x = -2, -3", "C) x = 2, 3", "D) x = -1, -6"], correctIndex: 2, explain: "แยกตัวประกอบได้ (x - 2)(x - 3) = 0 ดังคำตอบ x = 2 หรือ x = 3" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "สมการ ax² + bx + c = 0 จะไม่มีคำตอบเป็นจำนวนจริงเมื่อใด?", options: ["A) b² - 4ac > 0", "B) b² - 4ac = 0", "C) b² - 4ac < 0", "D) b² - 4ac ≥ 0"], correctIndex: 2, explain: "ดิสคริมิแนนต์ (Discriminant) b² - 4ac < 0 จะทำให้ถอดรากที่สองเป็นลบไม่ได้ จึงไม่มีคำตอบจริง" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "จากสูตร x = (-b ± √(b² - 4ac)) / (2a) สมการ 2x² - 3x - 5 = 0 มีค่า b² - 4ac เท่าใด?", options: ["A) 49", "B) 31", "C) -31", "D) 1"], correctIndex: 0, explain: "a = 2, b = -3, c = -5 → b² - 4ac = (-3)² - 4(2)(-5) = 9 + 40 = 49" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "รากของสมการ 4x² - 12x + 9 = 0 มีกี่คำตอบ?", options: ["A) คำตอบเดียว (คำตอบซ้ำ)", "B) สองคำตอบที่แตกต่างกัน", "C) ไม่มีคำตอบจริง", "D) มีคำตอบไม่จำกัด"], correctIndex: 0, explain: "(2x - 3)² = 0 → b² - 4ac = 144 - 144 = 0 มีคำตอบเดียวคือ x = 3/2" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "แก้สมการ x² - 16 = 0 ได้คำตอบเท่าใด?", options: ["A) 4 เท่านั้น", "B) -4 เท่านั้น", "C) ±4", "D) 16"], correctIndex: 2, explain: "x² = 16 → x = ±√16 = ±4" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "ผลบวกของคำตอบของสมการ x² - 7x + 10 = 0 มีค่าเท่าใด?", options: ["A) 7", "B) -7", "C) 10", "D) -10"], correctIndex: 0, explain: "คำตอบคือ x = 2 และ x = 5 (เนื่องจาก (x-2)(x-5)=0) ผลบวกคำตอบ = 2 + 5 = 7 (หรือใช้สูตร -b/a = -(-7)/1 = 7)" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "ผลคูณของคำตอบของสมการ 3x² + 6x - 9 = 0 มีค่าเท่าใด?", options: ["A) -3", "B) 3", "C) -9", "D) 2"], correctIndex: 0, explain: "สูตรผลคูณคำตอบ = c/a = -9/3 = -3" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "จัดสมการ 3x(x - 2) = 5 ให้อยู่ในรูปทั่วไป ax² + bx + c = 0 ค่า a, b, c คือข้อใด?", options: ["A) a = 3, b = -6, c = -5", "B) a = 3, b = -2, c = -5", "C) a = 3, b = 6, c = 5", "D) a = 3, b = -6, c = 5"], correctIndex: 0, explain: "คูณกระจาย: 3x² - 6x = 5 → 3x² - 6x - 5 = 0 จะได้ a = 3, b = -6, c = -5" },
+      { chapterId: 3, chapterName: "บทที่ 3 สมการกำลังสองตัวแปรเดียว", title: "สี่เหลี่ยมผืนผ้ามีพื้นที่ 48 ตร.ซม. ความยาวมากกว่าความกว้าง 2 ซม. สี่เหลี่ยมนี้ยาวกี่เซนติเมตร?", options: ["A) 6", "B) 8", "C) 10", "D) 12"], correctIndex: 1, explain: "ให้กว้าง x ยาว x+2 → x(x+2) = 48 → x² + 2x - 48 = 0 → (x+8)(x-6) = 0 → กว้าง 6 ซม. ยาว 8 ซม." },
+
+      // --- บทที่ 4 ความคล้าย (ข้อ 26-34) ---
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "รูปสามเหลี่ยมสองรูปจะคล้ายกันเมื่อใด?", options: ["A) มีมุมเท่ากันคู่ต่อคู่ 3 คู่", "B) อัตราส่วนของความยาวด้านคู่ที่สมนัยกันเท่ากันทุกคู่", "C) มีพื้นที่เท่ากัน", "D) ถูกทั้ง A และ B"], correctIndex: 3, explain: "การคล้ายกันของสามเหลี่ยมพิจารณาจากมุมเท่ากัน 3 คู่ (ม.ม.ม.) หรืออัตราส่วนด้านสมนัยกันเท่ากันทุกคู่" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "ถ้า ΔABC ~ ΔDEF ข้อใดถูกต้อง?", options: ["A) AB/DE = BC/EF = AC/DF", "B) AB = DE", "C) พื้นที่ ΔABC = พื้นที่ ΔDEF", "D) AB + BC = DE + EF"], correctIndex: 0, explain: "รูปสามเหลี่ยมที่คล้ายกันจะมีอัตราส่วนความยาวด้านคู่ที่สมนัยกันเท่ากันทุกคู่" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "สามเหลี่ยมรูปหนึ่งมีด้านยาว 3, 4, 5 อีกรูปคล้ายกันมีด้านยาวที่สุด 15 ด้านที่เหลือยาวเท่าใด?", options: ["A) 6, 8", "B) 9, 12", "C) 8, 10", "D) 10, 12"], correctIndex: 1, explain: "อัตราส่วนขยายคือ 15/5 = 3 เท่า ด้านที่เหลือคือ 3×3 = 9 และ 4×3 = 12" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "เสาไฟสูง H เมตร ทอดเงายาว 8 เมตร ในเวลาเดียวกันคนสูง 1.5 เมตร ทอดเงายาว 2 เมตร เสาไฟสูงกี่เมตร?", options: ["A) 4.5", "B) 6", "C) 7.5", "D) 8"], correctIndex: 1, explain: "ใช้อัตราส่วนสามเหลี่ยมคล้าย: H / 1.5 = 8 / 2 → H / 1.5 = 4 → H = 4 × 1.5 = 6 เมตร" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "รูปสี่เหลี่ยมจัตุรัสสองรูปใดๆ จะเป็นรูปที่คล้ายกันเสมอหรือไม่?", options: ["A) คล้ายกันเสมอ", "B) ไม่คล้ายกันเสมอ", "C) คล้ายเฉพาะที่มีขนาดเท่ากัน", "D) สรุปไม่ได้"], correctIndex: 0, explain: "สี่เหลี่ยมจัตุรัสทุกรูปมีมุมทุกมุมเป็น 90° และอัตราส่วนด้านเท่ากันทุกด้าน จึงคล้ายกันเสมอ" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "ถ้าอัตราส่วนความยาวด้านของสามเหลี่ยมคล้ายสองรูปเป็น 2 : 3 อัตราส่วนพื้นที่ของสามเหลี่ยมสองรูปนั้นเป็นเท่าใด?", options: ["A) 2 : 3", "B) 4 : 6", "C) 4 : 9", "D) 8 : 27"], correctIndex: 2, explain: "อัตราส่วนพื้นที่ของรูปที่คล้ายกันจะเท่ากับ อัตราส่วนความยาวด้านยกกำลังสอง คือ 2² : 3² = 4 : 9" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "ถ้ารูปสามเหลี่ยมสองรูปเท่ากันทุกประการ สรุปเรื่องความคล้ายได้อย่างไร?", options: ["A) ไม่คล้ายกัน", "B) คล้ายกันด้วยอัตราส่วน 1 : 1", "C) คล้ายกันเฉพาะบางกรณี", "D) สรุปไม่ได้"], correctIndex: 1, explain: "รูปที่เท่ากันทุกประการจัดเป็นกรณีพิเศษของรูปคล้ายกันที่มีอัตราส่วนส่วนของเส้นตรงเท่ากับ 1" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "สัญลักษณ์ที่ใช้แทนความคล้ายคือสัญลักษณ์ใด?", options: ["A) ≅", "B) ~", "C) ≡", "D) ≈"], correctIndex: 1, explain: "สัญลักษณ์ ~ ใช้แทนการคล้ายกัน (ส่วน ≅ ใช้แทนความเท่ากันทุกประการ)" },
+      { chapterId: 4, chapterName: "บทที่ 4 ความคล้าย", title: "เงื่อนไข ม.ม.ม. ในเรื่องสามเหลี่ยมคล้าย หมายถึงข้อใด?", options: ["A) มีมุมขนาดเท่ากันสามคู่", "B) มีมุมฉากสามมุม", "C) มีความยาวด้านเท่ากันสามด้าน", "D) มีความยาวรอบรูปเท่ากัน"], correctIndex: 0, explain: "ม.ม.ม. หมายถึง รูปสามเหลี่ยมสองรูปมีมุมที่มีขนาดเท่ากันเป็นคู่ๆ สามคู่" },
+
+      // --- บทที่ 5 กราฟของฟังก์ชันกำลังสอง (ข้อ 35-42) ---
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "กราฟของฟังก์ชันกำลังสอง y = ax² + bx + c มีชื่อเรียกว่าอะไร?", options: ["A) เส้นตรง", "B) วงกลม", "C) พาราโบลา", "D) วงรี"], correctIndex: 2, explain: "กราฟของฟังก์ชันกำลังสองจะมีลักษณะโค้ง เรียกว่า 'พาราโบลา' (Parabola)" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "พาราโบลา y = ax² + bx + c จะเป็นพาราโบลาหงายเมื่อใด?", options: ["A) a > 0", "B) a < 0", "C) a = 0", "D) b > 0"], correctIndex: 0, explain: "ถ้าสัมประสิทธิ์หน้า x² (ค่า a) เป็นบวก (a > 0) กราฟจะเป็นพาราโบลาหงาย" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "จุดยอด (Vertex) ของพาราโบลา y = (x - 3)² + 4 คือจุดใด?", options: ["A) (-3, 4)", "B) (3, 4)", "C) (3, -4)", "D) (-3, -4)"], correctIndex: 1, explain: "จากรูปมาตรฐาน y = a(x - h)² + k จุดยอดคือ (h, k) ดังนั้น h = 3, k = 4 ได้จุด (3, 4)" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "กราฟ y = -2(x + 1)² - 5 ให้ค่าสูงสุดหรือต่ำสุดเท่าใด?", options: ["A) ค่าต่ำสุดเท่ากับ -5", "B) ค่าสูงสุดเท่ากับ -5", "C) ค่าต่ำสุดเท่ากับ -1", "D) ค่าสูงสุดเท่ากับ -1"], correctIndex: 1, explain: "a = -2 (< 0) เป็นพาราโบลาคว่ำ ให้ 'ค่าสูงสุด' เท่ากับ k ซึ่งก็คือ -5" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "แกนสมมติ (แกนสมมาตร) ของพาราโบลา y = 3(x - 2)² + 1 คือเส้นตรงใด?", options: ["A) x = 2", "B) x = -2", "C) y = 1", "D) y = -1"], correctIndex: 0, explain: "แกนสมมาตรของพาราโบลาแนวตั้งคือเส้นตรง x = h ดังนั้น x = 2" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "กราฟ y = x² - 6x + 8 ตัดแกน Y ที่จุดใด?", options: ["A) (0, 8)", "B) (8, 0)", "C) (0, -6)", "D) (0, 0)"], correctIndex: 0, explain: "จุดตัดแกน Y ให้แทน x = 0 จะได้ y = 0² - 6(0) + 8 = 8 ได้จุด (0, 8)" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "กราฟ y = x² - 4 ตัดแกน X ที่จุดใดบ้าง?", options: ["A) (2, 0) เท่านั้น", "B) (-2, 0) เท่านั้น", "C) (2, 0) และ (-2, 0)", "D) (0, -4)"], correctIndex: 2, explain: "จุดตัดแกน X ให้ y = 0 → x² - 4 = 0 → x = ±2 ได้จุด (2, 0) และ (-2, 0)" },
+      { chapterId: 5, chapterName: "บทที่ 5 กราฟของฟังก์ชันกำลังสอง", title: "เปรียบเทียบกราฟ y = 2x² กับ y = 5x² กราฟใดมีความบานมากกว่ากัน?", options: ["A) y = 5x² บานมากกว่า", "B) y = 2x² บานมากกว่า", "C) บานเท่ากัน", "D) สรุปไม่ได้"], correctIndex: 1, explain: "ยิ่งค่า |a| น้อย กราฟยิ่งอ้ากว้าง (บานมาก) ดังนั้น y = 2x² บานมากกว่า y = 5x²" },
+
+      // --- บทที่ 6 สถิติ (3) (ข้อ 43-50) ---
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "แผนภาพจุด (Dot Plot) มีจุดเด่นในเรื่องใด?", options: ["A) เห็นการกระจายและค่าของข้อมูลแต่ละตัวอย่างชัดเจน", "B) ใช้กับข้อมูลขนาดหลายล้านตัวได้ดีที่สุด", "C) คำนวณความแปรปรวนอัตโนมัติ", "D) ซ่อนค่าข้อมูลที่ผิดปกติ"], correctIndex: 0, explain: "แผนภาพจุดลงจุดตามค่าจริง ทำให้เห็นการกระจาย ความถี่ และค่าเดี่ยวของข้อมูลได้ง่าย" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ค่าความแปรปรวน (Variance) หาได้จากสิ่งใด?", options: ["A) ส่วนเบี่ยงเบนมาตรฐานยกกำลังสอง", "B) รากที่สองของส่วนเบี่ยงเบนมาตรฐาน", "C) พิสัยหารด้วยสอง", "D) ผลบวกของข้อมูลทั้งหมด"], correctIndex: 0, explain: "ความแปรปรวน (s²) = (ส่วนเบี่ยงเบนมาตรฐาน: s)²" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ถ้าส่วนเบี่ยงเบนมาตรฐานของคะแนนสอบเท่ากับ 4 ค่าความแปรปรวนจะมีค่าเท่าใด?", options: ["A) 2", "B) 8", "C) 16", "D) 64"], correctIndex: 2, explain: "ความแปรปรวน = s² = 4² = 16" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "การวัดการกระจายของข้อมูลแบ่งออกเป็นกี่ประเภทหลัก?", options: ["A) 2 ประเภท (สัมบูรณ์ และ สัมพัทธ์)", "B) 3 ประเภท", "C) 4 ประเภท", "D) 5 ประเภท"], correctIndex: 0, explain: "การวัดการกระจายแบ่งเป็น 1. การวัดการกระจายสัมบูรณ์ (เช่น พิสัย, SD) และ 2. การวัดการกระจายสัมพัทธ์ (เช่น สัมประสิทธิ์การแปรผัน)" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ข้อใด ไม่ใช่ การวัดการกระจายสัมบูรณ์?", options: ["A) พิสัย", "B) ส่วนเบี่ยงเบนมาตรฐาน", "C) สัมประสิทธิ์การแปรผัน", "D) พิสัยควอร์ไทล์"], correctIndex: 2, explain: "สัมประสิทธิ์การแปรผัน (CV) เป็นการวัดการกระจายสัมพัทธ์ที่ไม่มีหน่วย ใช้เปรียบเทียบข้อมูลคนละชุด" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ถ้าข้อมูลทุกตัวในชุดข้อมูลมีค่าเท่ากันทั้งหมด (เช่น 5, 5, 5, 5) ค่าส่วนเบี่ยงเบนมาตรฐานจะเป็นเท่าใด?", options: ["A) 0", "B) 1", "C) 5", "D) หาค่าไม่ได้"], correctIndex: 0, explain: "เมื่อข้อมูลไม่มีการกระจายตัวเลย ทุกค่าเท่ากันหมด ค่าส่วนเบี่ยงเบนมาตรฐาน (SD) จะเท่ากับ 0" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ถ้าบวกข้อมูลทุกตัวในชุดข้อมูลเพิ่มขึ้นตัวละ 3 เท่ากันหมด ค่าส่วนเบี่ยงเบนมาตรฐานจะเปลี่ยนแปลงอย่างไร?", options: ["A) เพิ่มขึ้น 3", "B) เท่าเดิม", "C) เพิ่มขึ้น 9", "D) ลดลง 3"], correctIndex: 1, explain: "การบวกหรือลบด้วยค่าคงที่เท่ากันทุกตัว ไม่ได้ทำให้ระยะห่างระหว่างข้อมูลเปลี่ยนไป SD จึงเท่าเดิม" },
+      { chapterId: 6, chapterName: "บทที่ 6 สถิติ (3)", title: "ค่านอกเกณฑ์ (Outlier) คืออะไร?", options: ["A) ข้อมูลที่มีค่ามากกว่าหรือน้อยกว่าข้อมูลส่วนใหญ่มากอย่างผิดปกติ", "B) ค่าเฉลี่ยของข้อมูล", "C) ฐานนิยมของข้อมูล", "D) ข้อมูลที่อยู่ตรงกลาง"], correctIndex: 0, explain: "ค่านอกเกณฑ์ (Outlier) คือข้อมูลที่มีค่าโดดออกไปจากกลุ่มมากผิดปกติ ซึ่งส่งผลต่อค่าเฉลี่ยเลขคณิต" }
+    ];
+
+    let currentQuestion = null;
+    let selectedOptionIndex = null;
+    let totalScore = 0;
+    let isChecked = false;
+    let currentIndexNum = 1;
+
+    function loadRandomQuestion() {
+      const selectedChapter = document.getElementById('chapter-select').value;
+      let availableQuestions = questionBank;
+
+      if (selectedChapter !== 'all') {
+        availableQuestions = questionBank.filter(q => q.chapterId == selectedChapter);
+      }
+
+      if (availableQuestions.length === 0) {
+        alert("ไม่พบโจทย์ในบทเรียนนี้");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      currentQuestion = availableQuestions[randomIndex];
+
+      selectedOptionIndex = null;
+      isChecked = false;
+
+      document.getElementById('question-chapter').innerText = currentQuestion.chapterName;
+      document.getElementById('question-title').innerText = `${currentIndexNum}. ${currentQuestion.title}`;
+      document.getElementById('question-status').innerText = 'ยังไม่ได้ตอบ';
+      document.getElementById('question-status').style.backgroundColor = '#f1f5f9';
+      document.getElementById('question-status').style.color = '#64748b';
+
+      document.getElementById('btn-explain').style.display = 'none';
+      document.getElementById('explanation-box').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((optText, index) => {
+        const item = document.createElement('label');
+        item.className = 'option-item';
+        item.onclick = () => selectOption(index);
+        item.innerHTML = `
+          <span class="option-text">${optText}</span>
+          <div class="radio-circle"></div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectOption(index) {
+      if (isChecked) return;
+      selectedOptionIndex = index;
+      const items = document.querySelectorAll('.option-item');
+      items.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+      document.getElementById('question-status').innerText = 'ตอบแล้ว';
+      document.getElementById('question-status').style.backgroundColor = '#e0f2fe';
+      document.getElementById('question-status').style.color = '#0369a1';
+    }
+
+    function checkAnswer() {
+      if (selectedOptionIndex === null) {
+        alert("กรุณาเลือกคำตอบก่อนกดตรวจครับ!");
+        return;
+      }
+
+      if (isChecked) return;
+      isChecked = true;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.add('disabled'));
+
+      const isCorrect = (selectedOptionIndex === currentQuestion.correctIndex);
+
+      if (isCorrect) {
+        items[selectedOptionIndex].classList.add('correct');
+        totalScore += 1;
+        document.getElementById('score-count').innerText = totalScore;
+        document.getElementById('question-status').innerText = 'ถูกต้อง! (+1)';
+        document.getElementById('question-status').style.backgroundColor = '#dcfce7';
+        document.getElementById('question-status').style.color = '#166534';
+      } else {
+        items[selectedOptionIndex].classList.add('wrong');
+        items[currentQuestion.correctIndex].classList.add('correct');
+        document.getElementById('question-status').innerText = 'ตอบผิด';
+        document.getElementById('question-status').style.backgroundColor = '#fee2e2';
+        document.getElementById('question-status').style.color = '#991b1b';
+      }
+
+      document.getElementById('btn-explain').style.display = 'inline-flex';
+      document.getElementById('explanation-text').innerHTML = currentQuestion.explain;
+
+      currentIndexNum = (currentIndexNum % 50) + 1;
+      document.getElementById('current-index').innerText = currentIndexNum;
+      document.getElementById('progress-bar').style.width = `${(currentIndexNum / 50) * 100}%`;
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation-box');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function filterQuestions() {
+      loadRandomQuestion();
+    }
+
+    window.onload = loadRandomQuestion;
+  </script>
+</body>
+
+</html>
