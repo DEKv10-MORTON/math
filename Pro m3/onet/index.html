@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แนวข้อสอบ O-NET คณิตศาสตร์ ม.3 (50 ข้อ)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      background-color: #f0fdf4;
+      color: #1e293b;
+      padding-bottom: 50px;
+    }
+
+    .main-header {
+      background-color: #00a66c;
+      color: #ffffff;
+      padding: 14px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #00a66c;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .yt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ffffff;
+      color: #dc2626;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .yt-button:hover {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .yt-button svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+
+    .control-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .select-group {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .select-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .stat-value span {
+      color: #00a66c;
+      font-size: 1.3rem;
+    }
+
+    .divider {
+      width: 1px;
+      height: 32px;
+      background-color: #e2e8f0;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 2%;
+      background-color: #00a66c;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .chapter-tag {
+      background-color: #dcfce7;
+      color: #166534;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+    .option-item:hover {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.selected {
+      border-color: #00a66c;
+      background-color: #f0fdf4;
+    }
+
+    .option-item.correct {
+      border-color: #16a34a !important;
+      background-color: #dcfce7 !important;
+      color: #15803d;
+    }
+
+    .option-item.wrong {
+      border-color: #dc2626 !important;
+      background-color: #fee2e2 !important;
+      color: #b91c1c;
+    }
+
+    .option-item.disabled {
+      pointer-events: none;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .radio-circle {
+      border-color: #00a66c;
+      border-width: 6px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit {
+      background-color: #00a66c;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #008f5d;
+    }
+
+    .btn-random {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-random:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-explain {
+      background-color: #f59e0b;
+      color: white;
+      display: none;
+    }
+
+    .btn-explain:hover {
+      background-color: #d97706;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 6px;
+    }
+
+    .explanation-text {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">แนวข้อสอบ O-NET คณิตศาสตร์ ม.3</h1>
+          <p class="header-subtitle">ระบบฝึกทำข้อสอบ Interactive 50 ข้อ พร้อมเฉลยละเอียด</p>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/watch?v=jO-4wGcQSGs" target="_blank" rel="noopener noreferrer" class="yt-button">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.816zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>ดูติวเตอร์</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="control-card">
+      <div class="select-group">
+        <div class="select-label">เลือกหมวดหมู่เนื้อหา O-NET:</div>
+        <select class="custom-select" id="chapter-select" onchange="filterQuestions()">
+          <option value="all">คละทุกหมวดหมู่ (50 ข้อ)</option>
+          <option value="1">หมวด 1: จำนวนและพีชคณิต (สมการ/อสมการ/เลขยกกำลัง)</option>
+          <option value="2">หมวด 2: การวัดและเรขาคณิต (พีทาโกรัส/พื้นที่ผิว/ปริมาตร/วงกลม)</option>
+          <option value="3">หมวด 3: ฟังก์ชันและกราฟ (เส้นตรง/พาราโบลา/ตรีโกณ)</option>
+          <option value="4">หมวด 4: สถิติและความน่าจะเป็น</option>
+        </select>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-label">ข้อที่</div>
+          <div class="stat-value"><span id="current-index">1</span> / <span id="total-count">50</span></div>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <div class="stat-label">คะแนนรวม</div>
+          <div class="stat-value"><span id="score-count">0</span> คะแนน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="chapter-tag" id="question-chapter">หมวดหมู่</span>
+        <span class="status-tag" id="question-status">ยังไม่ได้ตอบ</span>
+      </div>
+
+      <h2 class="question-text" id="question-title">กำลังโหลดโจทย์...</h2>
+      <div class="options-list" id="options-container"></div>
+
+      <div class="action-group">
+        <button class="btn btn-submit" onclick="checkAnswer()">Check ตรวจคำตอบ</button>
+        <button class="btn btn-random" onclick="loadRandomQuestion()">🎲 สุ่มโจทย์ข้อใหม่</button>
+        <button class="btn btn-explain" id="btn-explain" onclick="toggleExplanation()">💡 ดูเฉลยรายละเอียด</button>
+      </div>
+
+      <div class="explanation-box" id="explanation-box">
+        <div class="explanation-title">📌 เฉลยและวิธีทำอย่างละเอียด:</div>
+        <div class="explanation-text" id="explanation-text"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // คลังข้อสอบแนว O-NET ม.3 ครบทั้ง 50 ข้อ
+    const questionBank = [
+      // --- หมวด 1: จำนวนและพีชคณิต (ข้อ 1-13) ---
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ผลลัพธ์ของ (2.4 × 10⁵) ÷ (8.0 × 10⁻²) เขียนในรูปสัญกรณ์วิทยาศาสตร์ได้อย่างไร?", options: ["A) 3.0 × 10⁶", "B) 3.0 × 10⁷", "C) 3.0 × 10³", "D) 0.3 × 10⁷"], correctIndex: 0, explain: "(2.4 / 8.0) × 10^(5 - (-2)) = 0.3 × 10⁷ = 3.0 × 10⁶" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "รากของสมการ x² - 8x + 15 = 0 มีค่าตรงกับข้อใด?", options: ["A) x = 3, 5", "B) x = -3, -5", "C) x = 1, 15", "D) x = -1, -15"], correctIndex: 0, explain: "(x - 3)(x - 5) = 0 ดังนั้น x = 3 หรือ x = 5" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "จำนวนเต็มบวก x ที่น้อยที่สุดที่สอดคล้องกับอสมการ 2x - 7 > 5 คือจำนวนใด?", options: ["A) 6", "B) 7", "C) 8", "D) 9"], correctIndex: 1, explain: "2x > 12 → x > 6 จำนวนเต็มบวกที่น้อยที่สุดแต่มันมากกว่า 6 คือ 7" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "คำตอบของระบบสมการ 3x + 2y = 13 และ x - y = 1 คือข้อใด?", options: ["A) (3, 2)", "B) (4, 3)", "C) (5, 4)", "D) (2, 1)"], correctIndex: 0, explain: "จาก x = y + 1 แทนใน 3(y+1) + 2y = 13 → 5y = 10 → y = 2, x = 3 ได้ (3, 2)" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ถ้า a = √5 และ b = √20 แล้ว a × b มีค่าเท่าใด?", options: ["A) 5", "B) 10", "C) 20", "D) 100"], correctIndex: 1, explain: "a × b = √(5 × 20) = √100 = 10" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "แยกตัวประกอบของ 9x² - 16y² ได้ตรงกับข้อใด?", options: ["A) (3x - 4y)²", "B) (3x + 4y)²", "C) (3x - 4y)(3x + 4y)", "D) (9x - 16y)(x + y)"], correctIndex: 2, explain: "ใช้สูตรผลต่างกำลังสอง: (3x)² - (4y)² = (3x - 4y)(3x + 4y)" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "แยกตัวประกอบของ x³ - 64 ได้ตรงกับข้อใด?", options: ["A) (x - 4)(x² + 4x + 16)", "B) (x - 4)(x² - 4x + 16)", "C) (x + 4)(x² - 4x + 16)", "D) (x - 4)³"], correctIndex: 0, explain: "x³ - 4³ = (x - 4)(x² + 4x + 16)" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ถ้าสองเท่าของจำนวนจำนวนหนึ่งรวมกับ 15 ได้ผลลัพธ์มากกว่า 35 จำนวนนั้นมีค่าตรงกับอสมการใด?", options: ["A) x > 10", "B) x < 10", "C) x > 25", "D) x < 25"], correctIndex: 0, explain: "2x + 15 > 35 → 2x > 20 → x > 10" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "สมุด 5 เล่ม ดินสอ 3 แท่ง ราคา 110 บาท สมุด 2 เล่ม ดินสอ 3 แท่ง ราคา 50 บาท สมุดราคาเล่มละกี่บาท?", options: ["A) 10 บาท", "B) 15 บาท", "C) 20 บาท", "D) 25 บาท"], correctIndex: 2, explain: "(5สมุด + 3ดินสอ) - (2สมุด + 3ดินสอ) = 110 - 50 → 3สมุด = 60 → สมุด = 20 บาท" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ผลบวกของคำตอบทั้งหมดของสมการ x² - 6x + 9 = 0 มีค่าเท่าใด?", options: ["A) 3", "B) 6", "C) 9", "D) 0"], correctIndex: 0, explain: "(x - 3)² = 0 มีคำตอบซ้ำเพียงคำตอบเดียวคือ x = 3" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ค่าของ (2⁻³) × 2⁵ ÷ 2² ตรงกับข้อใด?", options: ["A) 1", "B) 2", "C) 4", "D) 8"], correctIndex: 0, explain: "2^(-3 + 5 - 2) = 2⁰ = 1" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "เศษจากการหารพหุนาม x³ - 2x² + 3x - 5 ด้วย x - 1 เท่ากับเท่าใด?", options: ["A) -3", "B) -1", "C) 0", "D) 3"], correctIndex: 0, explain: "ทฤษฎีบทเศษเหลือ: แทน x = 1 จะได้ 1³ - 2(1)² + 3(1) - 5 = 1 - 2 + 3 - 5 = -3" },
+      { chapterId: 1, chapterName: "หมวด 1: จำนวนและพีชคณิต", title: "ทศนิยมซ้ำ 0.454545... เขียนเป็นเศษส่วนอย่างต่ำได้ตรงกับข้อใด?", options: ["A) 5/11", "B) 45/100", "C) 9/20", "D) 4/9"], correctIndex: 0, explain: "0.4545... = 45/99 = 5/11" },
+
+      // --- หมวด 2: การวัดและเรขาคณิต (ข้อ 14-26) ---
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "สามเหลี่ยมมุมฉากมีด้านประกอบมุมฉากยาว 9 และ 12 ซม. ด้านตรงข้ามมุมฉากยาวเท่าใด?", options: ["A) 13 ซม.", "B) 15 ซม.", "C) 17 ซม.", "D) 20 ซม."], correctIndex: 1, explain: "c² = 9² + 12² = 81 + 144 = 225 → c = 15" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "ทรงกระบอกมีรัศมีฐาน 7 ซม. สูง 10 ซม. มีปริมาตรกี่ลูกบาศก์เซนติเมตร? (π ≈ 22/7)", options: ["A) 1,540", "B) 440", "C) 770", "D) 1,230"], correctIndex: 0, explain: "V = πr²h = (22/7) × 7 × 7 × 10 = 1,540" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "กรวยกลมมีรัศมีฐาน 3 ซม. สูงตรง 4 ซม. มีพื้นที่ผิวข้างกี่ตารางเซนติเมตร? (ติดค่า π)", options: ["A) 12π", "B) 15π", "C) 20π", "D) 24π"], correctIndex: 1, explain: "สูงเอียง l = √(3²+4²) = 5 → พื้นที่ผิวข้าง = πrl = π × 3 × 5 = 15π" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "ทรงกลมรัศมี 6 ซม. มีปริมาตรกี่ลูกบาศก์เซนติเมตร? (ติดค่า π)", options: ["A) 144π", "B) 288π", "C) 576π", "D) 72π"], correctIndex: 1, explain: "V = (4/3)πr³ = (4/3) × π × 6³ = (4/3) × 216 × π = 288π" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "มุมในครึ่งวงกลมมีขนาดกี่องศา?", options: ["A) 45°", "B) 60°", "C) 90°", "D) 180°"], correctIndex: 2, explain: "มุมในครึ่งวงกลมย่อมเป็นมุมฉาก (90°) เสมอ" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "ถ้ามุมที่จุดศูนย์กลางกาง 140° มุมในส่วนโค้งที่รองรับด้วยส่วนโค้งเดียวกันจะกางกี่องศา?", options: ["A) 70°", "B) 140°", "C) 280°", "D) 90°"], correctIndex: 0, explain: "มุมในส่วนโค้งเป็นครึ่งหนึ่งของมุมที่จุดศูนย์กลาง: 140° / 2 = 70°" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "พีระมิดฐานสี่เหลี่ยมจัตุรัสยาวด้านละ 10 ซม. สูงตรง 12 ซม. มีปริมาตรกี่ลูกบาศก์เซนติเมตร?", options: ["A) 400", "B) 600", "C) 1,200", "D) 200"], correctIndex: 0, explain: "V = (1/3) × พื้นที่ฐาน × สูง = (1/3) × (10×10) × 12 = 400" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "สามเหลี่ยมคล้ายรูปหนึ่งมีด้านยาว 5, 7, 9 อีกรูปมีด้านยาวที่สุด 27 ด้านที่สั้นที่สุดของรูปหลังยาวเท่าใด?", options: ["A) 10", "B) 15", "C) 18", "D) 21"], correctIndex: 1, explain: "อัตราส่วนขยาย = 27/9 = 3 เท่า ด้านที่สั้นที่สุด = 5 × 3 = 15" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "เส้นรอบวงของวงกลมที่มีพื้นที่ 154 ตารางเซนติเมตร เท่ากับกี่เซนติเมตร? (π ≈ 22/7)", options: ["A) 22", "B) 44", "C) 88", "D) 66"], correctIndex: 1, explain: "πr² = 154 → r = 7 → เส้นรอบวง = 2πr = 2 × (22/7) × 7 = 44" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "รูปแปดเหลี่ยมด้านเท่ามุมเท่า มีมุมภายในแต่ละมุมกี่องศา?", options: ["A) 108°", "B) 120°", "C) 135°", "D) 144°"], correctIndex: 2, explain: "มุมภายในรวม = (8-2)×180 = 1080° → แต่ละมุม = 1080/8 = 135°" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "ผลบวกของขนาดของมุมตรงข้ามของรูปสี่เหลี่ยมที่แนบในวงกลมเท่ากับกี่องศา?", options: ["A) 90°", "B) 180°", "C) 270°", "D) 360°"], correctIndex: 1, explain: "มุมตรงข้ามของสี่เหลี่ยมแนบในวงกลมรวมกันได้ 180 องศาเสมอ" },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "ลูกบาศก์มีปริมาตร 216 ลูกบาศก์เซนติเมตร จะมีพื้นที่ผิวทั้งหมดกี่ตารางเซนติเมตร?", options: ["A) 36", "B) 144", "C) 216", "D) 256"], correctIndex: 2, explain: "ด้าน a = ∛216 = 6 ซม. → พื้นที่ผิว = 6 × a² = 6 × 6² = 216 ตร.ซม." },
+      { chapterId: 2, chapterName: "หมวด 2: การวัดและเรขาคณิต", title: "เส้นสัมผัสวงกลมจะทำมุมกี่องศากับรัศมี ณ จุดสัมผัส?", options: ["A) 45°", "B) 60°", "C) 90°", "D) 180°"], correctIndex: 2, explain: "เส้นสัมผัสตั้งฉาก (90°) กับรัศมี ณ จุดสัมผัสเสมอ" },
+
+      // --- หมวด 3: ฟังก์ชันและกราฟ (ข้อ 27-38) ---
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "จุดยอดของพาราโบลา y = (x - 4)² + 3 คือจุดใด?", options: ["A) (-4, 3)", "B) (4, 3)", "C) (4, -3)", "D) (-4, -3)"], correctIndex: 1, explain: "จากรูปมาตรฐาน y = a(x - h)² + k ได้จุดยอด (h, k) = (4, 3)" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "กราฟของฟังก์ชัน y = -3(x + 2)² - 5 ให้ค่าสูงสุดหรือต่ำสุดเท่าใด?", options: ["A) ค่าต่ำสุดเท่ากับ -5", "B) ค่าสูงสุดเท่ากับ -5", "C) ค่าต่ำสุดเท่ากับ -2", "D) ค่าสูงสุดเท่ากับ -2"], correctIndex: 1, explain: "สัมประสิทธิ์เป็นลบ (-3) กราฟคว่ำ จึงให้ค่าสูงสุดเท่ากับ k ซึ่งก็คือ -5" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "แกนสมมาตรของพาราโบลา y = 2x² - 8x + 5 คือเส้นตรงใด?", options: ["A) x = 2", "B) x = -2", "C) x = 4", "D) x = -4"], correctIndex: 0, explain: "x = -b / (2a) = -(-8) / (2×2) = 8 / 4 = 2" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "กราฟเส้นตรง 3x - 4y = 12 ตัดแกน Y ที่จุดใด?", options: ["A) (4, 0)", "B) (0, -3)", "C) (-3, 0)", "D) (0, 4)"], correctIndex: 1, explain: "จุดตัดแกน Y ให้ x = 0 → -4y = 12 → y = -3 ได้จุด (0, -3)" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ความชัน (m) ของเส้นตรงที่ผ่านจุด (2, 5) และ (6, 13) เท่ากับเท่าใด?", options: ["A) 2", "B) 3", "C) 4", "D) 8"], correctIndex: 0, explain: "m = (y₂ - y₁) / (x₂ - x₁) = (13 - 5) / (6 - 2) = 8 / 4 = 2" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ค่าของ sin 30° + cos 60° เท่ากับข้อใด?", options: ["A) 1/2", "B) 1", "C) √3", "D) 2"], correctIndex: 1, explain: "sin 30° = 1/2 และ cos 60° = 1/2 → 1/2 + 1/2 = 1" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ถ้า tan A = 3/4 แล้ว cos A เท่ากับเท่าใด?", options: ["A) 3/5", "B) 4/5", "C) 5/4", "D) 4/3"], correctIndex: 1, explain: "ข้าม=3, ชิด=4 → ฉาก=√(3²+4²)=5 → cos A = ชิด/ฉาก = 4/5" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ยืนห่างจากเสาไฟ 15 เมตร มองยอดเสาไฟเป็นมุมเงย 45° เสาไฟสูงกี่เมตร?", options: ["A) 7.5", "B) 15", "C) 15√3", "D) 30"], correctIndex: 1, explain: "tan 45° = สูง / 15 → 1 = สูง / 15 → เสาไฟสูง 15 เมตร" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "กราฟพาราโบลา y = x² - 9 ตัดแกน X ที่จุดใดบ้าง?", options: ["A) (3, 0) เท่านั้น", "B) (3, 0) และ (-3, 0)", "C) (0, -9)", "D) (9, 0) และ (-9, 0)"], correctIndex: 1, explain: "ให้ y = 0 → x² - 9 = 0 → x = ±3 ได้จุด (3, 0) และ (-3, 0)" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "เส้นตรงสองเส้นขนานกัน เมื่อค่าใดของเส้นตรงทั้งสองเท่ากัน?", options: ["A) ระยะตัดแกน X", "B) ระยะตัดแกน Y", "C) ความชัน (m)", "D) ความยาวเส้นตรง"], correctIndex: 2, explain: "เส้นตรงสองเส้นจะขนานกันก็ต่อเมื่อมีความชัน (m) เท่ากัน" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ค่าของ tan 60° × sin 60° เท่ากับข้อใด?", options: ["A) 3/2", "B) 1/2", "C) √3/2", "D) 3"], correctIndex: 0, explain: "tan 60° = √3 และ sin 60° = √3/2 → √3 × (√3/2) = 3/2" },
+      { chapterId: 3, chapterName: "หมวด 3: ฟังก์ชันและกราฟ", title: "ถ้า (sin A)² + (cos A)² = x แล้วค่า x คือข้อใด?", options: ["A) 0", "B) 1", "C) 2", "D) ขึ้นอยู่กับมุม A"], correctIndex: 1, explain: "เอกลักษณ์ตรีโกณมิติพื้นฐาน sin²A + cos²A = 1 เสมอ" },
+
+      // --- หมวด 4: สถิติและความน่าจะเป็น (ข้อ 39-50) ---
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ข้อมูล 5, 8, 12, 15, 20 ค่าเฉลี่ยเลขคณิตเท่ากับเท่าใด?", options: ["A) 11", "B) 12", "C) 13", "D) 15"], correctIndex: 1, explain: "ผลรวม = 5+8+12+15+20 = 60 → ค่าเฉลี่ย = 60 / 5 = 12" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "มัธยฐานของข้อมูล 4, 9, 2, 14, 7, 11 เท่ากับเท่าใด?", options: ["A) 7", "B) 8", "C) 9", "D) 9.5"], correctIndex: 1, explain: "เรียงข้อมูล: 2, 4, 7, 9, 11, 14 → ค่ากลางสองตัวคือ 7 กับ 9 → มัธยฐาน = (7+9)/2 = 8" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ฐานนิยมของข้อมูล 3, 5, 5, 6, 8, 8, 8, 10 เท่ากับเท่าใด?", options: ["A) 5", "B) 6", "C) 8", "D) 10"], correctIndex: 2, explain: "8 มีความถี่มากที่สุด (3 ตัว) จึงเป็นฐานนิยม" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ทอดลูกเต๋า 1 ลูก 1 ครั้ง ความน่าจะเป็นที่จะได้แต้มมากกว่า 4 เท่ากับเท่าใด?", options: ["A) 1/6", "B) 1/3", "C) 1/2", "D) 2/3"], correctIndex: 1, explain: "แต้มที่มากกว่า 4 คือ {5, 6} รวม 2 แบบ ความน่าจะเป็น = 2/6 = 1/3" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "โยนเหรียญ 2 เหรียญพร้อมกัน 1 ครั้ง ความน่าจะเป็นที่จะออกหัวอย่างน้อย 1 เหรียญเท่ากับเท่าใด?", options: ["A) 1/4", "B) 1/2", "C) 3/4", "D) 1"], correctIndex: 2, explain: "Sample Space = {HH, HT, TH, TT} มีหัวอย่างน้อย 1 เหรียญคือ {HH, HT, TH} รวม 3 แบบ → 3/4" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ถุงมีลูกบอลสีแดง 4 ลูก สีดำ 6 ลูก สุ่มหยิบ 1 ลูก ความน่าจะเป็นที่จะได้สีดำเท่ากับเท่าใด?", options: ["A) 2/5", "B) 3/5", "C) 1/2", "D) 4/5"], correctIndex: 1, explain: "ความน่าจะเป็น = 6 / (4+6) = 6/10 = 3/5" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "แผนภาพกล่องแสดงค่าสถิติใดตรงกับค่ากลางส่วนครึ่งของข้อมูล?", options: ["A) Q1", "B) Q2 (มัธยฐาน)", "C) Q3", "D) พิสัย"], correctIndex: 1, explain: "Q2 คือมัธยฐานซึ่งเป็นค่ากลางของชุดข้อมูล" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ถ้าพิสัยควอร์ไทล์ (IQR) = Q3 - Q1 ข้อมูลที่มี Q1 = 15 และ Q3 = 35 จะมี IQR เท่าใด?", options: ["A) 10", "B) 20", "C) 25", "D) 50"], correctIndex: 1, explain: "IQR = 35 - 15 = 20" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "สุ่มเลือกตัวเลข 1 ตัวจาก 1 ถึง 20 ความน่าจะเป็นที่จะได้จำนวนหารด้วย 5 ลงตัวเท่ากับเท่าใด?", options: ["A) 1/5", "B) 1/4", "C) 3/20", "D) 1/10"], correctIndex: 0, explain: "เลขที่ 5 หารลงตัวมี {5, 10, 15, 20} รวม 4 ตัว → ความน่าจะเป็น = 4/20 = 1/5" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ถ้าส่วนเบี่ยงเบนมาตรฐาน (SD) ของคะแนนสอบเท่ากับ 5 ค่าความแปรปรวนเท่ากับเท่าใด?", options: ["A) 10", "B) 15", "C) 25", "D) 50"], correctIndex: 2, explain: "ความแปรปรวน = SD² = 5² = 25" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "ข้อมูล 10 จำนวน มีค่าเฉลี่ย 15 ถ้าเพิ่มข้อมูลอีก 1 จำนวนคือ 37 ค่าเฉลี่ยใหม่จะเป็นเท่าใด?", options: ["A) 16", "B) 17", "C) 18", "D) 20"], correctIndex: 1, explain: "ผลรวมเดิม = 10×15 = 150 → ผลรวมใหม่ = 150 + 37 = 187 → ค่าเฉลี่ยใหม่ = 187 / 11 = 17" },
+      { chapterId: 4, chapterName: "หมวด 4: สถิติและความน่าจะเป็น", title: "เหตุการณ์ที่มีโอกาสเกิดขึ้นแน่นอน มีค่าความน่าจะเป็นเท่ากับเท่าใด?", options: ["A) 0", "B) 0.5", "C) 1", "D) 100"], correctIndex: 2, explain: "เหตุการณ์ที่เกิดขึ้นแน่นอนจะมีความน่าจะเป็นเท่ากับ 1 เสมอ" }
+    ];
+
+    let currentQuestion = null;
+    let selectedOptionIndex = null;
+    let totalScore = 0;
+    let isChecked = false;
+    let currentIndexNum = 1;
+
+    function loadRandomQuestion() {
+      const selectedChapter = document.getElementById('chapter-select').value;
+      let availableQuestions = questionBank;
+
+      if (selectedChapter !== 'all') {
+        availableQuestions = questionBank.filter(q => q.chapterId == selectedChapter);
+      }
+
+      if (availableQuestions.length === 0) {
+        alert("ไม่พบโจทย์ในหมวดหมู่นี้");
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      currentQuestion = availableQuestions[randomIndex];
+
+      selectedOptionIndex = null;
+      isChecked = false;
+
+      document.getElementById('question-chapter').innerText = currentQuestion.chapterName;
+      document.getElementById('question-title').innerText = `${currentIndexNum}. ${currentQuestion.title}`;
+      document.getElementById('question-status').innerText = 'ยังไม่ได้ตอบ';
+      document.getElementById('question-status').style.backgroundColor = '#f1f5f9';
+      document.getElementById('question-status').style.color = '#64748b';
+
+      document.getElementById('btn-explain').style.display = 'none';
+      document.getElementById('explanation-box').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((optText, index) => {
+        const item = document.createElement('label');
+        item.className = 'option-item';
+        item.onclick = () => selectOption(index);
+        item.innerHTML = `
+          <span class="option-text">${optText}</span>
+          <div class="radio-circle"></div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectOption(index) {
+      if (isChecked) return;
+      selectedOptionIndex = index;
+      const items = document.querySelectorAll('.option-item');
+      items.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+      document.getElementById('question-status').innerText = 'ตอบแล้ว';
+      document.getElementById('question-status').style.backgroundColor = '#e0f2fe';
+      document.getElementById('question-status').style.color = '#0369a1';
+    }
+
+    function checkAnswer() {
+      if (selectedOptionIndex === null) {
+        alert("กรุณาเลือกคำตอบก่อนกดตรวจครับ!");
+        return;
+      }
+
+      if (isChecked) return;
+      isChecked = true;
+
+      const items = document.querySelectorAll('.option-item');
+      items.forEach(item => item.classList.add('disabled'));
+
+      const isCorrect = (selectedOptionIndex === currentQuestion.correctIndex);
+
+      if (isCorrect) {
+        items[selectedOptionIndex].classList.add('correct');
+        totalScore += 1;
+        document.getElementById('score-count').innerText = totalScore;
+        document.getElementById('question-status').innerText = 'ถูกต้อง! (+1)';
+        document.getElementById('question-status').style.backgroundColor = '#dcfce7';
+        document.getElementById('question-status').style.color = '#166534';
+      } else {
+        items[selectedOptionIndex].classList.add('wrong');
+        items[currentQuestion.correctIndex].classList.add('correct');
+        document.getElementById('question-status').innerText = 'ตอบผิด';
+        document.getElementById('question-status').style.backgroundColor = '#fee2e2';
+        document.getElementById('question-status').style.color = '#991b1b';
+      }
+
+      document.getElementById('btn-explain').style.display = 'inline-flex';
+      document.getElementById('explanation-text').innerHTML = currentQuestion.explain;
+
+      currentIndexNum = (currentIndexNum % 50) + 1;
+      document.getElementById('current-index').innerText = currentIndexNum;
+      document.getElementById('progress-bar').style.width = `${(currentIndexNum / 50) * 100}%`;
+    }
+
+    function toggleExplanation() {
+      const box = document.getElementById('explanation-box');
+      box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function filterQuestions() {
+      loadRandomQuestion();
+    }
+
+    window.onload = loadRandomQuestion;
+  </script>
+</body>
+
+</html>
