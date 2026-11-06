@@ -1,0 +1,88 @@
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg: #030712;
+    --card-bg: #0f172a;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --accent: #38bdf8;
+    --warning: #f59e0b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kanit', system-ui, sans-serif; }
+body { background-color: var(--bg); color: var(--text); padding: 20px; min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; }
+
+/* ปุ่ม YouTube มุมขวาบนด้านนอก container แบบเรืองแสงวูบวาบ */
+@keyframes ytGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.9), 0 0 50px rgba(239, 68, 68, 0.6);
+        transform: scale(1.05);
+    }
+}
+.yt-btn-corner {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #dc2626, #e11d48);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid rgba(248, 113, 113, 0.5);
+    animation: ytGlow 2s infinite ease-in-out;
+    z-index: 10;
+    transition: 0.2s;
+}
+.yt-btn-corner:hover { opacity: 0.9; }
+
+.container { width: 100%; max-width: 800px; background: var(--card-bg); border-radius: 16px; padding: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); border: 1px solid #334155; }
+
+.header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 16px; }
+.header h1 { color: var(--accent); font-size: 1.4rem; margin-bottom: 6px; }
+.brand { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 2px; font-weight: bold; }
+
+.info-box { background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--accent); padding: 12px 16px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; color: #e2e8f0; line-height: 1.5; }
+
+.question-box { background: #1e293b; border: 1px solid #475569; padding: 20px; border-radius: 12px; margin-bottom: 16px; text-align: center; }
+.question-title { font-weight: bold; margin-bottom: 16px; color: #f8fafc; font-size: 1.1rem; line-height: 1.6; text-align: left; }
+
+/* กล่องจำลองภาพคลี่ (Net Visual) */
+.net-visual { display: inline-grid; grid-template-columns: repeat(4, 45px); grid-template-rows: repeat(3, 45px); gap: 4px; margin: 15px auto; background: #0f172a; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
+.net-cell { background: #334155; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; color: #f8fafc; border-radius: 4px; }
+.net-cell.active { background: var(--primary); color: white; border: 1px solid #818cf8; }
+
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+@media (max-width: 600px) { .options { grid-template-columns: 1fr; } }
+
+.option-btn { background: #334155; color: white; border: none; padding: 14px 16px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s; font-size: 1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; min-height: 50px; }
+.option-btn:hover { background: #475569; }
+.option-btn.correct { background: var(--success); }
+.option-btn.incorrect { background: var(--danger); }
+
+.solution-box { display: none; background: #030712; border: 1px solid var(--warning); padding: 16px; border-radius: 10px; margin-top: 16px; color: #e2e8f0; line-height: 1.8; text-align: left; }
+.solution-title { font-weight: bold; color: var(--warning); margin-bottom: 8px; font-size: 1.05rem; }
+
+.actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+.btn { padding: 10px 24px; font-size: 1rem; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-warning { background: var(--warning); color: #030712; display: none; }
+.btn-warning:hover { background: #d97706; }
+
+.feedback { text-align: center; font-size: 1.1rem; min-height: 28px; margin-top: 14px; font-weight: bold; }
+
+@media (max-width: 750px) {
+    body { align-items: flex-start; padding-top: 60px; }
+    .yt-btn-corner { top: 15px; right: 15px; }
+}

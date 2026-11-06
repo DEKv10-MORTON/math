@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฝึกมิติสัมพันธ์: ภาพคลี่กล่องและการพับ - DEK MORTON STUDIO</title>
+    <!-- Font Awesome สำหรับไอคอน YouTube -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ปุ่ม YouTube ติวเตอร์ มุมขวาบน ด้านนอก container -->
+    <a href="https://www.youtube.com/watch?v=lXdGCl7LR6U" target="_blank" class="yt-btn-corner">
+        <i class="fa-brands fa-youtube" style="font-size: 16px;"></i>
+        <span>ติวเตอร์ YouTube</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>📦 มิติสัมพันธ์: ภาพคลี่กล่องและการพับ</h1>
+            <div class="brand">DEK MORTON STUDIO • เตรียมพร้อมล่วงหน้าสไตล์ ม.ต้น</div>
+        </div>
+
+        <div class="info-box">
+            💡 <b>แนวข้อสอบ TCAS (TGAT2 / TPAT3 / TPAT4):</b> การฝึกมองภาพ 2 มิติ ให้กลายเป็น 3 มิติ
+            ช่วยพัฒนาสมองซีกขวาและการคิดเชิงตรรกะได้อย่างยอดเยี่ยม!
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="questionText">กำลังโหลดโจทย์...</div>
+
+            <!-- จำลองภาพคลี่กล่องด้วยตาราง Grid -->
+            <div class="net-visual" id="netVisual"></div>
+
+            <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="solution-box" id="solutionBox">
+            <div class="solution-title">💡 เฉลยวิธีคิดแบบจับจุดสังเกต:</div>
+            <div id="solutionText"></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-warning" id="btnSolution" onclick="toggleSolution()">💡 ดูวิธีคิด</button>
+            <button class="btn btn-primary" onclick="generateNewProblem()">สุ่มโจทย์ใหม่ 🎲</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
