@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบทดสอบออนไลน์ - Dek Morton Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- MathJax สำหรับแสดงสมการคณิตศาสตร์/ฟิสิกส์ -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header แสดงชื่อแบบทดสอบ และสถิติคะแนน -->
+    <header class="quiz-header">
+      <div class="header-title">
+        <h1 id="quiz-title">ชุดแบบทดสอบออนไลน์</h1>
+        <span id="quiz-subtitle" class="subtitle">ระบบจำลองการทำข้อสอบ</span>
+      </div>
+      <div class="header-actions">
+        <div class="score-badge">
+          <span class="badge incorrect"><span id="score-wrong">✕ 0</span></span>
+          <span class="badge correct"><span id="score-right">✓ 0</span></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Progress Bar แสดงความคืบหน้า -->
+    <div class="progress-section">
+      <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill"></div>
+      </div>
+      <div class="progress-text">
+        <span id="current-question-num">1</span>/<span id="total-questions-num">70</span>
+      </div>
+    </div>
+
+    <!-- Main Quiz Area -->
+    <main class="quiz-body">
+      <!-- Card แสดงโจทย์ -->
+      <div id="quiz-card" class="quiz-card">
+        <div class="question-title" id="question-text">
+          กำลังโหลดโจทย์...
+        </div>
+
+        <!-- ตัวเลือก ก ข ค ง -->
+        <div class="options-container" id="options-container">
+          <!-- JS จะสร้างปุ่มตัวเลือกมาใส่ตรงนี้ -->
+        </div>
+
+        <!-- กล่องเฉลยคำตอบ (จะแสดงเมื่อตอบแล้ว) -->
+        <div id="explanation-box" class="explanation-box hidden">
+          <div class="explanation-title" id="explanation-title">เฉลยและคำอธิบาย</div>
+          <div class="explanation-text" id="explanation-text"></div>
+        </div>
+      </div>
+
+      <!-- หน้าสรุปผลคะแนนเมื่อทำครบทุกข้อ -->
+      <div id="result-card" class="result-card hidden">
+        <h2>🎉 ทำแบบทดสอบเสร็จสิ้น!</h2>
+        <div class="final-score">
+          คะแนนของคุณ: <span id="final-score-text">0</span> / <span id="final-total-text">70</span>
+        </div>
+        <div class="percentage-badge" id="percentage-badge">0%</div>
+        <button class="btn btn-primary" id="btn-restart">ทำแบบทดสอบอีกครั้ง</button>
+      </div>
+    </main>
+
+    <!-- Footer ปุ่มกด ถอยหลัง / ถัดไป -->
+    <footer class="quiz-footer">
+      <button class="btn btn-secondary" id="btn-prev" disabled>กลับ</button>
+      <button class="btn btn-primary" id="btn-next">ถัดไป</button>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
